@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "photoshare-app"
+version = "0.1.0"
+description = ""
+authors = ["Bohdan Boiprav <122865615+bohdanboiprav@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.108.0"
+sqlalchemy = "^2.0.25"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
