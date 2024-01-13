@@ -2,9 +2,7 @@ import contextlib
 
 from sqlalchemy.ext.asyncio import AsyncEngine, async_sessionmaker, create_async_engine
 
-from src.conf.config import settings
-
-DB_URL = settings.SQLALCHEMY_DATABASE_URL
+DB_URL = "postgresql+asyncpg://postgres:567234@localhost:5432/rest_app"
 
 
 class DatabaseSessionManager:
