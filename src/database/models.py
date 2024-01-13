@@ -29,6 +29,7 @@ class User(Base):
     refresh_token: Mapped[str] = mapped_column(String(255), nullable=True)
     confirmed: Mapped[bool] = mapped_column(Boolean, default=False, nullable=True)
     user_type_id: Mapped[int] = mapped_column(Integer, ForeignKey('user_type.id'), nullable=False)
+    user_type: Mapped["UserType"] = relationship("UserType", backref="users", lazy="joined")
 
 
 class Post(Base):
@@ -41,14 +42,14 @@ class Post(Base):
     image: Mapped[str] = mapped_column(String(255), nullable=True)
     user_id: Mapped[uuid] = mapped_column(UUID, ForeignKey('users.id'), nullable=False)
     user: Mapped["User"] = relationship("User", backref="posts", lazy="joined")
-    tags_to_posts: Mapped[List["TagToPost"]] = relationship("TagToPost", backref="post", lazy="joined")
+    # tags_to_posts: Mapped["TagToPost"] = relationship("TagToPost", backref="post", lazy="joined")
 
 
 class Tag(Base):
     __tablename__ = 'tags'
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(50), nullable=False)
-    tags_to_posts: Mapped[List["TagToPost"]] = relationship("TagToPost", backref="tag", lazy="joined")
+    # tags_to_posts: Mapped["TagToPost"] = relationship("TagToPost", backref="tag", lazy="joined")
 
 
 class TagToPost(Base):
@@ -56,5 +57,5 @@ class TagToPost(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     post_id: Mapped[int] = mapped_column(Integer, ForeignKey('posts.id'), nullable=False)
     tag_id: Mapped[int] = mapped_column(Integer, ForeignKey('tags.id'), nullable=False)
-    post: Mapped["Post"] = relationship("Post", backref="tags_to_posts", lazy="joined")
-    tag: Mapped["Tag"] = relationship("Tag", backref="tags_to_posts", lazy="joined")
+    # post: Mapped["Post"] = relationship("Post", backref="tags_to_posts", lazy="joined")
+    # tag: Mapped["Tag"] = relationship("Tag", backref="tags_to_posts", lazy="joined")
