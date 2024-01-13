@@ -9,9 +9,9 @@ from src.schemas.user import UserResponse
 
 
 class PostModel(BaseModel):
-    name: str = Field(max_length=200)
-    content: str = Field(max_length=5000)
-    image: str = Field(max_length=255)
+    name: str | None = Field(max_length=200)
+    content: str | None = Field(max_length=5000)
+    image: str | None = Field(max_length=255)
 
 
 class PostResponse(BaseModel):

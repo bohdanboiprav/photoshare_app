@@ -21,7 +21,7 @@ class User(Base):
     __tablename__ = 'users'
     id: Mapped[uuid] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     username: Mapped[str] = mapped_column(String(50))
-    email: Mapped[str] = mapped_column(String(50), unique=True, index=True, nullable=False)
+    email: Mapped[str] = mapped_column(String(150), unique=True, index=True, nullable=False)
     password: Mapped[str] = mapped_column(String(500), nullable=False)
     avatar: Mapped[str] = mapped_column(String(255), nullable=True)
     created_at: Mapped[date] = mapped_column('created_at', DateTime, default=func.now())
@@ -35,12 +35,12 @@ class User(Base):
 class Post(Base):
     __tablename__ = 'posts'
     id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] = mapped_column(String(200))
-    content: Mapped[str] = mapped_column(String(5000))
+    name: Mapped[str] = mapped_column(String(200), nullable=True)
+    content: Mapped[str] = mapped_column(String(5000), nullable=True)
     created_at: Mapped[date] = mapped_column('created_at', DateTime, default=func.now())
     updated_at: Mapped[date] = mapped_column('updated_at', DateTime, default=func.now(), onupdate=func.now())
     image: Mapped[str] = mapped_column(String(255), nullable=True)
-    user_id: Mapped[uuid] = mapped_column(UUID, ForeignKey('users.id'), nullable=False)
+    user_id: Mapped[uuid] = mapped_column(UUID, ForeignKey('users.id'), nullable=True)
     user: Mapped["User"] = relationship("User", backref="posts", lazy="joined")
     tags: Mapped[List["Tag"]] = relationship("TagToPost", backref="post", lazy="selectin")
 

@@ -12,7 +12,7 @@ async def get_post(post_id: int, current_user: User, db: AsyncSession):
 
 
 async def create_post(body: PostModel, current_user: User, db: AsyncSession):
-    post = Post(name=body.name, content=body.content, image=body.image, user=current_user)
+    post = Post(name=body["name"], content=body['content'], image=body['image'], user=current_user)
     db.add(post)
     await db.commit()
     await db.refresh(post)
