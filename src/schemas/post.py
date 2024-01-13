@@ -22,5 +22,6 @@ class PostResponse(BaseModel):
     updated_at: datetime
     image: str = Field(max_length=255)
     user: UserResponse
+    tags: list
 
     model_config = ConfigDict(from_attributes=True)

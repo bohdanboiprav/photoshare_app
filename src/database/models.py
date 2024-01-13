@@ -42,14 +42,14 @@ class Post(Base):
     image: Mapped[str] = mapped_column(String(255), nullable=True)
     user_id: Mapped[uuid] = mapped_column(UUID, ForeignKey('users.id'), nullable=False)
     user: Mapped["User"] = relationship("User", backref="posts", lazy="joined")
-    # tags_to_posts: Mapped["TagToPost"] = relationship("TagToPost", backref="post", lazy="joined")
+    tags: Mapped[List["Tag"]] = relationship("TagToPost", backref="post", lazy="selectin")
 
 
 class Tag(Base):
     __tablename__ = 'tags'
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(50), nullable=False)
-    # tags_to_posts: Mapped["TagToPost"] = relationship("TagToPost", backref="tag", lazy="joined")
+    posts: Mapped[List["Post"]] = relationship("TagToPost", backref="tag", lazy="selectin")
 
 
 class TagToPost(Base):
