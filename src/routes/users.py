@@ -1,9 +1,7 @@
-from fastapi import APIRouter, HTTPException, Depends, status, Path
+from fastapi import APIRouter, Depends, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.database.db import get_db
-from src.database.models import User
-from src.schemas.post import PostModel, PostResponse
 from src.repository import users as repository_users
 from src.schemas.user import UserModel, UserResponse
 

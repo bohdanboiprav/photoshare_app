@@ -1,7 +1,7 @@
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.database.models import Post, User
+from src.entity.models import Post, User
 from src.schemas.post import PostModel
 
 
@@ -11,8 +11,8 @@ async def get_post(post_id: int, current_user: User, db: AsyncSession):
     return post.scalar_one_or_none()
 
 
-async def create_post(body: PostModel, current_user: User, db: AsyncSession):
-    post = Post(name=body["name"], content=body['content'], image=body['image'], user=current_user)
+async def create_post(body: PostModel, image_url: str, current_user: User, db: AsyncSession):
+    post = Post(name=body.name, content=body.content, image=image_url, user=current_user)
     db.add(post)
     await db.commit()
     await db.refresh(post)

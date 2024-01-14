@@ -20,7 +20,7 @@ class UserType(Base):
 class User(Base):
     __tablename__ = 'users'
     id: Mapped[uuid] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    username: Mapped[str] = mapped_column(String(50))
+    username: Mapped[str] = mapped_column(String(50), unique=True, index=True, nullable=False)
     email: Mapped[str] = mapped_column(String(150), unique=True, index=True, nullable=False)
     password: Mapped[str] = mapped_column(String(500), nullable=False)
     avatar: Mapped[str] = mapped_column(String(255), nullable=True)
@@ -40,7 +40,7 @@ class Post(Base):
     created_at: Mapped[date] = mapped_column('created_at', DateTime, default=func.now())
     updated_at: Mapped[date] = mapped_column('updated_at', DateTime, default=func.now(), onupdate=func.now())
     image: Mapped[str] = mapped_column(String(255), nullable=True)
-    user_id: Mapped[uuid] = mapped_column(UUID, ForeignKey('users.id'), nullable=True)
+    user_id: Mapped[uuid] = mapped_column(UUID(as_uuid=True), ForeignKey('users.id'), nullable=True)
     user: Mapped["User"] = relationship("User", backref="posts", lazy="joined")
     tags: Mapped[List["Tag"]] = relationship("TagToPost", backref="post", lazy="selectin")
 
@@ -57,5 +57,3 @@ class TagToPost(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     post_id: Mapped[int] = mapped_column(Integer, ForeignKey('posts.id'), nullable=False)
     tag_id: Mapped[int] = mapped_column(Integer, ForeignKey('tags.id'), nullable=False)
-    # post: Mapped["Post"] = relationship("Post", backref="tags_to_posts", lazy="joined")
-    # tag: Mapped["Tag"] = relationship("Tag", backref="tags_to_posts", lazy="joined")
