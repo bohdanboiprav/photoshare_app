@@ -31,7 +31,6 @@ async def update_post(post_id: int, body: PostModel, current_user: User, db: Asy
 
 
 async def remove_post(post_id: int, current_user: User, db: AsyncSession):
-    # post = await get_post(post_id, current_user, db)
     post = select(Post).filter_by(user=current_user).filter(Post.id == post_id)
     result = await db.execute(post)
     post = result.scalar_one_or_none()
