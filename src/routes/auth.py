@@ -187,28 +187,28 @@ async def request_email(
     return {"message": "Check your email for confirmation."}
 
 
-@router.get("/{username}", response_model=UserResponse)
-async def request_email(
-    username: str, response: Response, db: AsyncSession = Depends(get_db)
-):
-    """
-    The request_email function is called when the user clicks on the &quot;Verify Email&quot; button.
-    It sends a verification email to the user's email address, and returns an image that says
-    &quot;Check your inbox for a verification link.&quot; The image is displayed in place of the &quot;Verify Email&quot; button.
-
-
-    :param username: str: Get the username from the url
-    :param response: Response: Return the response to the user
-    :param db: AsyncSession: Pass a database session to the function
-    :return: A fileresponse object
-    :doc-author: Trelent
-    """
-    print(f"================== {username} Open verify email ===================")
-    return FileResponse(
-        "src/static/open_check.png",
-        media_type="image/png",
-        content_disposition_type="inline",
-    )
+# @router.get("/{username}", response_model=UserResponse)
+# async def request_email(
+#     username: str, response: Response, db: AsyncSession = Depends(get_db)
+# ):
+#     """
+#     The request_email function is called when the user clicks on the &quot;Verify Email&quot; button.
+#     It sends a verification email to the user's email address, and returns an image that says
+#     &quot;Check your inbox for a verification link.&quot; The image is displayed in place of the &quot;Verify Email&quot; button.
+#
+#
+#     :param username: str: Get the username from the url
+#     :param response: Response: Return the response to the user
+#     :param db: AsyncSession: Pass a database session to the function
+#     :return: A fileresponse object
+#     :doc-author: Trelent
+#     """
+#     print(f"================== {username} Open verify email ===================")
+#     return FileResponse(
+#         "src/static/open_check.png",
+#         media_type="image/png",
+#         content_disposition_type="inline",
+#     )
 
 
 @router.post("/reset_password")

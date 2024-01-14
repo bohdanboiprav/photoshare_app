@@ -24,6 +24,7 @@ class Settings(BaseSettings):
     CLOUDINARY_API_KEY: str
     CLOUDINARY_API_SECRET: str
     APP_ENV: str
+    ADMIN_PASSWORD: str
 
     model_config = ConfigDict(extra='ignore', env_file=".env", env_file_encoding="utf-8") # noqa
 

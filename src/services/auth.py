@@ -126,7 +126,6 @@ class Auth:
         expire = datetime.utcnow() + timedelta(days=7)
         to_encode.update({"iat": datetime.utcnow(), "exp": expire})
         token = jwt.encode(to_encode, self.SECRET_KEY, algorithm=self.ALGORITHM)
-        print(token)
         return token
 
     async def get_email_from_token(self, token: str):

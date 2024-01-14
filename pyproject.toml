@@ -26,6 +26,7 @@ fastapi-asyncpg = "^1.0.1"
 python-multipart = "^0.0.6"
 cloudinary = "^1.38.0"
 bcrypt = "^4.1.2"
+uuid = "^1.30"
 
 
 [build-system]

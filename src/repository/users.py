@@ -33,14 +33,14 @@ async def create_user(body: UserSchema, db: AsyncSession = Depends(get_db)):
     :return: The newly created user object
     :doc-author: Trelent
     """
-    avatar = "None"
+    avatar = 'https://asset.cloudinary.com/dkprmxdfc/cbcb3e506c226483c2be7155f6e3ff7c'
     try:
         g = Gravatar(body.email)
         avatar = g.get_image()
     except Exception as err:
         print(err)
 
-    new_user = User(**body.model_dump(), avatar=avatar)
+    new_user = User(**body.model_dump(), avatar=avatar, user_type_id=1)
     db.add(new_user)
     await db.commit()
     await db.refresh(new_user)
