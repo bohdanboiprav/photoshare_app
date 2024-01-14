@@ -10,6 +10,7 @@ from src.database.db import get_db
 from src.repository.users import get_user
 from src.schemas.post import PostModel, PostResponse
 from src.repository import posts as repository_posts
+from src.schemas.tag import TagUpdate, TagResponse
 
 # from src.services.auth import auth_service
 
@@ -36,11 +37,17 @@ async def create_post(body: PostModel = Depends(), file: UploadFile = File(),
         api_secret=settings.CLOUDINARY_API_SECRET,
         secure=True
     )
-    unuque_path = uuid.uuid4()
-    r = cloudinary.uploader.upload(file.file, public_id=f'Photoshare_app/{new_user.username}/{unuque_path}')
-    src_url = cloudinary.CloudinaryImage(f'Photoshare_app/{new_user.username}/{unuque_path}') \
+    unique_path = uuid.uuid4()
+    r = cloudinary.uploader.upload(file.file, public_id=f'Photoshare_app/{new_user.username}/{unique_path}')
+    src_url = cloudinary.CloudinaryImage(f'Photoshare_app/{new_user.username}/{unique_path}') \
         .build_url(width=250, height=250, crop='fill', version=r.get('version'))
     return await repository_posts.create_post(body, src_url, new_user, db)
+
+
+@router.post("/add_tags", response_model=TagResponse)
+async def add_tags_to_post(body: TagUpdate, db: AsyncSession = Depends(get_db)):
+    tag = await repository_posts.add_tag_to_post(body, db)
+    return tag
 
 
 @router.put("/{post_id}", response_model=PostResponse)
