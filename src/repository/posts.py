@@ -13,10 +13,10 @@ async def create_post(body: PostModel, db: AsyncSession) -> Post:
     post = await db.execute(select(Post).where(Post.name == body.name))
     post = post.scalar()
     if post:
-        raise HTTPException(status_code=400, detail="Post with this name already exists")
-    new_post = Post(
-        name=body.name,
-        content=body.content)
+        raise HTTPException(
+            status_code=400, detail="Post with this name already exists"
+        )
+    new_post = Post(name=body.name, content=body.content)
     db.add(new_post)
     await db.commit()
     await db.refresh(new_post)
@@ -43,10 +43,13 @@ async def add_tag_to_post(body: TagUpdate, db: AsyncSession) -> Post:
             continue
         if len(set(post_names + body_names)) > 5:
             quantity = 5 - len(post.tags)
-            raise HTTPException(status_code=400, detail=f"Post can consists maximum 5 tags. You can add: {quantity}")
+            raise HTTPException(
+                status_code=400,
+                detail=f"Post can consists maximum 5 tags. You can add: {quantity}",
+            )
         tag = await get_or_create_tag_by_name(tag_name, db)
         tag_to_post = TagToPost(post_id=post__id, tag_id=tag.id)
         db.add(tag_to_post)
     await db.commit()
-    await db.refresh(post)
+    await db.refresh(post)  # skip
     return post
