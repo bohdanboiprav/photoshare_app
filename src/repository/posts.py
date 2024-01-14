@@ -51,5 +51,5 @@ async def add_tag_to_post(body: TagUpdate, db: AsyncSession) -> Post:
         tag_to_post = TagToPost(post_id=post__id, tag_id=tag.id)
         db.add(tag_to_post)
     await db.commit()
-    await db.refresh(post)  # ...
+    await db.refresh(post)  # ....
     return post
