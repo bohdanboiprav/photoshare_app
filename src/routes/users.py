@@ -9,7 +9,6 @@ from src.schemas.user import UserModel, UserResponse
 
 router = APIRouter(prefix='/users', tags=["users"])
 
-#upd
 
 @router.post("/signup", status_code=status.HTTP_201_CREATED)
 async def sign_up(body: UserModel, db: AsyncSession = Depends(get_db)):
