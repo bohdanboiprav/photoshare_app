@@ -1,4 +1,5 @@
 from pathlib import Path
+from src.conf import messages
 
 import redis.asyncio as redis
 from typing import Callable
@@ -34,10 +35,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-parent = Path(__file__).parent
-# directory = parent.joinpath("src").joinpath("static")
-# app.mount("/static", StaticFiles(directory=directory), name="static")
-
 app.include_router(auth.router, prefix="/api")
 app.include_router(users.router, prefix="/api")
 
@@ -58,7 +55,7 @@ async def ban_ips(request: Request, call_next: Callable):
         ip = ip_address(request.client.host)
         if ip in banned_ips:
             return JSONResponse(
-                status_code=status.HTTP_403_FORBIDDEN, content={"detail": "You are banned"}
+                status_code=status.HTTP_403_FORBIDDEN, content={"detail": messages.MAIN_IP_BANNED}
             )
     response = await call_next(request)
     return response
@@ -86,25 +83,6 @@ async def startup():
 templates = Jinja2Templates(directory="src/templates")
 
 
-# @app.get("/", response_class=HTMLResponse)
-# def index(request: Request):
-#     """
-#     The index function is executed when someone visits the root URL of our site:
-#     http://localhost:8000/
-#     It returns a TemplateResponse, which contains both a template and data to be used by that template.
-#     The first argument to the TemplateResponse constructor is the name of the template file we want to use.
-#     In this case, it's index.html in our templates directory.
-#
-#     :param request: Request: Pass the request object to the template
-#     :return: A templateresponse object
-#     :doc-author: Trelent
-#     """
-#
-#     return templates.TemplateResponse(
-#         "index.html", {"request": request, "our": "Build group WebPython #16"}
-#     )
-
-
 @app.get("/api/healthchecker")
 async def healthchecker(db: AsyncSession = Depends(get_db)):
     """
@@ -122,9 +100,9 @@ async def healthchecker(db: AsyncSession = Depends(get_db)):
         result = result.fetchone()
         if result is None:
             raise HTTPException(
-                status_code=500, detail="Database is not configured correctly"
+                status_code=500, detail=messages.MAIN_DB_NOT_CONFIGURED
             )
-        return {"message": "Welcome to Killer Instagram!"}
+        return {"message": messages.WELCOME_MESSAGE}
     except Exception as e:
         print(e)
-        raise HTTPException(status_code=500, detail="Error connection to database")
+        raise HTTPException(status_code=500, detail=messages.MAIN_DB_ERROR_CONNECTION)

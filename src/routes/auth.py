@@ -23,6 +23,7 @@ from src.schemas.user import UserSchema, TokenSchema, UserResponse, RequestEmail
 from src.services.auth import auth_service
 from src.services.email import send_email
 
+
 router = APIRouter(prefix="/auth", tags=["auth"])
 get_refresh_token = HTTPBearer()
 
@@ -73,7 +74,7 @@ async def login(
     user = await repository_users.get_user_by_email(body.username, db)
     if user is None:
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid email"
+            status_code=status.HTTP_401_UNAUTHORIZED, detail=messages.AUTH_INVALID_EMAIL
         )
     if not user.confirmed:
         raise HTTPException(
@@ -82,7 +83,7 @@ async def login(
         )
     if not auth_service.verify_password(body.password, user.password):
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid password"
+            status_code=status.HTTP_401_UNAUTHORIZED, detail=messages.AUTH_INVALID_PASSWORD
         )
     # Generate JWT
     access_token = await auth_service.create_access_token(data={"sub": user.email})
@@ -119,7 +120,7 @@ async def refresh_token(
     if user.refresh_token != token:
         await repository_users.update_token(user, None, db)
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid refresh token"
+            status_code=status.HTTP_401_UNAUTHORIZED, detail=messages.AUTH_INVALID_REFRESH_TOKEN
         )
 
     access_token = await auth_service.create_access_token(data={"sub": email})
@@ -146,7 +147,7 @@ async def confirmed_email(token: str, db: AsyncSession = Depends(get_db)):
     user = await repository_users.get_user_by_email(email, db)
     if user is None:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="Verification error"
+            status_code=status.HTTP_400_BAD_REQUEST, detail=messages.AUTH_VERIFICATION_ERROR
         )
     if user.confirmed:
         return {"message": "Your email is already confirmed"}
@@ -187,30 +188,6 @@ async def request_email(
     return {"message": "Check your email for confirmation."}
 
 
-# @router.get("/{username}", response_model=UserResponse)
-# async def request_email(
-#     username: str, response: Response, db: AsyncSession = Depends(get_db)
-# ):
-#     """
-#     The request_email function is called when the user clicks on the &quot;Verify Email&quot; button.
-#     It sends a verification email to the user's email address, and returns an image that says
-#     &quot;Check your inbox for a verification link.&quot; The image is displayed in place of the &quot;Verify Email&quot; button.
-#
-#
-#     :param username: str: Get the username from the url
-#     :param response: Response: Return the response to the user
-#     :param db: AsyncSession: Pass a database session to the function
-#     :return: A fileresponse object
-#     :doc-author: Trelent
-#     """
-#     print(f"================== {username} Open verify email ===================")
-#     return FileResponse(
-#         "src/static/open_check.png",
-#         media_type="image/png",
-#         content_disposition_type="inline",
-#     )
-
-
 @router.post("/reset_password")
 async def reset_password(
     body: RequestEmail,
@@ -233,7 +210,7 @@ async def reset_password(
 
     if not user:
         raise HTTPException(
-            status_code=status.HTTP_409_CONFLICT, detail="Account already exists"
+            status_code=status.HTTP_409_CONFLICT, detail=messages.AUTH_ALREADY_EXISTS
         )
     bt.add_task(
         send_email,
@@ -242,7 +219,7 @@ async def reset_password(
         str(request.base_url),
         type="reset_password",
     )
-    return {"message": "Check your email for confirmation."}
+    return {"message": messages.AUTH_CHECK_EMAIL}
 
 
 @router.get("/confirmed_reset_password/{token}")
@@ -268,7 +245,7 @@ async def confirmed_reset_password(
     if password1 != password2:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Your passwords are not the same",
+            detail=messages.AUTH_PASSWORD_NOT_SAME,
         )
     email = await auth_service.get_email_from_token(token)
     user = await repository_users.get_user_by_email(email, db)

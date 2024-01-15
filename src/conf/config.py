@@ -3,11 +3,6 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    POSTGRES_HOST: str
-    POSTGRES_USER: str
-    POSTGRES_PORT: int
-    POSTGRES_PASSWORD: str
-    DATABASE_NAME: str
     SQLALCHEMY_DATABASE_URL: str
     SECRET_KEY_JWT: str
     ALGORITHM: str
