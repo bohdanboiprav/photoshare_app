@@ -1,6 +1,8 @@
 import uuid
 
-from fastapi import APIRouter, HTTPException, Depends, status, Path, UploadFile, File
+from fastapi import APIRouter, HTTPException, Depends, status, Path, UploadFile, File, Form
+from fastapi.encoders import jsonable_encoder
+from pydantic import ValidationError
 from sqlalchemy.ext.asyncio import AsyncSession
 import cloudinary
 import cloudinary.uploader
@@ -27,8 +29,21 @@ async def get_post(post_id: int = Path(ge=1),
     return post
 
 
+def checker(data: str = Form(...)):
+    try:
+        return PostModel.model_validate_json(data)
+    except ValidationError as e:
+        raise HTTPException(
+            detail=jsonable_encoder(e.errors()),
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+        )
+
+
+test = {"name": "string2", "content": "string", "tags": ["string1", "string2"]}
+
+
 @router.post("/create")
-async def create_post(body: PostModel = Depends(), file: UploadFile = File(),
+async def create_post(body: PostModel = Depends(checker), file: UploadFile = File(),
                       db: AsyncSession = Depends(get_db)):
     new_user = await get_user("string", db)
     cloudinary.config(

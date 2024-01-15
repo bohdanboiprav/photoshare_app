@@ -25,10 +25,13 @@ async def create_post(body: PostModel, image_url: str, current_user: User, db: A
     db.add(post)
     await db.commit()
     await db.refresh(post)
+    post_id = post.id
     for tag_name in body.tags:
         tag = await get_or_create_tag_by_name(tag_name, db)
-        tag_to_post = TagToPost(post_id=post.id, tag_id=tag.id)
+        tag_to_post = TagToPost(post_id=post_id, tag_id=tag.id)
         db.add(tag_to_post)
+    await db.commit()
+    await db.refresh(post)
     return post
 
 
