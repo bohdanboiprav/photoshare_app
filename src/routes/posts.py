@@ -42,7 +42,7 @@ def checker(data: str = Form(...)):
 test = {"name": "string2", "content": "string", "tags": ["string1", "string2"]}
 
 
-@router.post("/create")
+@router.post("/create", response_model=PostResponse)
 async def create_post(body: PostModel = Depends(checker), file: UploadFile = File(),
                       db: AsyncSession = Depends(get_db)):
     new_user = await get_user("string", db)

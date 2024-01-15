@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Optional, List
 from pydantic import BaseModel, Field, EmailStr, PastDate, ConfigDict, field_validator
 
-from src.schemas.tag import TagModel
+from src.schemas.tag import TagModel, TagResponse
 from src.schemas.user import UserResponse
 
 
@@ -23,12 +23,12 @@ class PostModel(BaseModel):
 
 class PostResponse(BaseModel):
     id: int
-    name: str = Field(max_length=200)
-    content: str = Field(max_length=5000)
+    name: str
+    content: str
     created_at: datetime
     updated_at: datetime
-    image: str = Field(max_length=255)
+    image: str
     user: UserResponse
-    tags: List[TagModel] | None
+    tags: List[TagResponse] | None
 
     model_config = ConfigDict(from_attributes=True)

@@ -12,13 +12,13 @@ from src.schemas.tag import TagUpdate
 async def get_post(post_id: int, current_user: User, db: AsyncSession):
     post = select(Post).filter_by(user=current_user).filter(Post.id == post_id)
     post = await db.execute(post)
-    return post.scalar_one_or_none()
+    return post.scalars().first()
 
 
 async def create_post(body: PostModel, image_url: str, current_user: User, db: AsyncSession):
     post = select(Post).filter_by(user=current_user).filter(Post.name == body.name)
     post = await db.execute(post)
-    post = post.scalar_one_or_none()
+    post = post.scalars().first()
     if post:
         raise HTTPException(status_code=400, detail="Post with this name already exists")
     post = Post(name=body.name, content=body.content, image=image_url, user=current_user)

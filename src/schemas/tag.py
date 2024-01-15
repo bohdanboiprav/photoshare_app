@@ -21,4 +21,4 @@ class TagResponse(TagModel):
     id: int
     name: str
 
-    ConfigDict(from_attributes=True)
+    model_config = ConfigDict(from_attributes=True)
