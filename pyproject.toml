@@ -16,6 +16,7 @@ greenlet = "^3.0.3"
 uvicorn = {extras = ["standard"], version = "^0.25.0"}
 qrcode = {extras = ["pil"], version = "^7.4.2"}
 cloudinary = "^1.38.0"
+python-multipart = "^0.0.6"
 
 
 [build-system]
