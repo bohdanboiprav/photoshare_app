@@ -73,4 +73,3 @@ async def get_current_user(
     )
     user = await repository_users.update_avatar_url(user.email, res_url, db)
     return user
-
