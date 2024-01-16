@@ -102,3 +102,4 @@ mapper_registry.configure()
 #     id: Mapped[int] = mapped_column(primary_key=True)
 #     post_id: Mapped[int] = mapped_column(Integer, ForeignKey('posts.id'), nullable=False)
 #     tag_id: Mapped[int] = mapped_column(Integer, ForeignKey('tags.id'), nullable=False)
+
