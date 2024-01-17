@@ -19,14 +19,14 @@ from fastapi import (
     UploadFile,
     File,
 )
-from src.conf.config import config
+from src.conf.config import settings
 from sqlalchemy.ext.asyncio import AsyncSession
 
 router = APIRouter(prefix="/photo_url_qr", tags=["photo_url_qr"])
 cloudinary.config(
-    cloud_name=config.CLD_NAME,
-    api_key=config.CLD_API_KEY,
-    api_secret=config.CLD_API_SECRET,
+    cloud_name=settings.CLOUDINARY_NAME,
+    api_key=settings.CLOUDINARY_API_KEY,
+    api_secret=settings.CLOUDINARY_API_SECRET,
     secure=True,
 )
 
