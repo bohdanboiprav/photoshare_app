@@ -30,14 +30,17 @@ async def create_post(body: PostModel, db: AsyncSession) -> Post:
     return new_post
 
 
-async def add_tag_to_post(body: TagUpdate, db: AsyncSession) -> Post:
+async def add_tag_to_post(body: TagUpdate, current_user: User, db: AsyncSession) -> Post:
     post = await db.execute(select(Post).where(Post.name == body.name))
     post = post.scalar()
     if not post:
         raise HTTPException(status_code=400, detail="Post with this name doesn't exist")
-    post_names = [tags.name for tags in post.tags]
+    if post.user_id != current_user.id:
+        raise HTTPException(status_code=403, detail="You can add tags only for self posts")
     body_names = [bod for bod in body.tags]
+    post_names = [tags.name for tags in post.tags]
     post__id = post.id
+
     for tag_name in body.tags:
         if tag_name in post_names:
             continue

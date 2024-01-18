@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="6d857a90-bfed-4baa-826c-a4ec1dc0f34d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/photoshare_app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/photoshare_app.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/versions/04d2ebe2d8a7_init.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/versions/050d66cc381d_init.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/versions/09868c6cd902_init.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/versions/0f4245f77a68_init.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/versions/1adda4154790_init.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/versions/24551f7f7139_init.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/versions/24eef7241543_init.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/versions/3a30dc20d94e_init.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/versions/3d7d3d46e78b_init.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/versions/3f632ba11468_init.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/versions/40ff7dcb9d7b_init.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/versions/4fd0dbb838a3_init.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/versions/5fb0e6394d98_init.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/versions/6a48e953ba86_init.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/versions/6ea3142fde9c_init.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/versions/713e80d2342e_init.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/versions/7344bbe48e9b_init.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/versions/7497704715ec_init.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/versions/7ecb60eeaf00_init.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/versions/8329775059b0_init.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/versions/8b233d965362_init.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/versions/9c62be9ed259_init.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/versions/a20bbee003b0_init.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/versions/a5b9b5df9913_init.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/versions/b049f9875e73_init.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/versions/bc5f09e65a65_init.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/versions/c62b18db795a_init.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/versions/d75879e1b356_init.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/versions/d902660087d1_init.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/versions/f3213d4f6513_init.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/versions/f75ad03eb224_init.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/poetry.lock" beforeDir="false" afterPath="$PROJECT_DIR$/poetry.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pyproject.toml" beforeDir="false" afterPath="$PROJECT_DIR$/pyproject.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/conf/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/conf/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entity/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/repository/posts.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/repository/posts.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/repository/tags.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/repository/tags.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/posts.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/posts.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/tags.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/tags.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2b6JHRQg4KtRAMp7Q1IzbZUz4v6" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;dev__new&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.appearance&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Admin\Desktop\Reposit\photoshare_app" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6d857a90-bfed-4baa-826c-a4ec1dc0f34d" name="Changes" comment="" />
+      <created>1705529507249</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1705529507249</updated>
+    </task>
+    <servers />
+  </component>
+</project>

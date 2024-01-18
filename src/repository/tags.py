@@ -25,6 +25,12 @@ async def get_all_tags(limit, offset, db: AsyncSession) -> List[Tag]:
     return result.scalars().unique().all()
 
 
+async def get_tag(tag_name, db: AsyncSession) -> Tag:
+    stmt = select(Tag).filter_by(name=tag_name)
+    tag = await db.execute(stmt)
+    return tag.scalars().unique().first()
+
+
 async def get_or_create_tag_by_name(tag_name: str, db: AsyncSession) -> Tag:
     tag = await db.execute(select(Tag).where(Tag.name == tag_name))
     tag = tag.scalars().first()
@@ -39,3 +45,11 @@ async def get_or_create_tag_by_name(tag_name: str, db: AsyncSession) -> Tag:
         await db.refresh(new_tag)
         return new_tag
 
+<<<<<<< Updated upstream
+=======
+
+async def remove_tag(tag: Tag, db: AsyncSession):
+    await db.delete(tag)
+    await db.commit()
+    return tag
+>>>>>>> Stashed changes

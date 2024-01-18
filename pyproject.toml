@@ -2,11 +2,12 @@
 name = "photoshare-app"
 version = "0.1.0"
 description = ""
-authors = ["Bohdan Boiprav <122865615+bohdanboiprav@users.noreply.github.com>"]
+authors = ["F1r3n25 <dimalikegtr@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
+<<<<<<< Updated upstream
 fastapi = "^0.108.0"
 sqlalchemy = "^2.0.25"
 pydantic-settings = "^2.1.0"
@@ -15,6 +16,26 @@ asyncpg = "^0.29.0"
 greenlet = "^3.0.3"
 aiosqlite = "^0.19.0"
 uvicorn = {extras = ["standard"], version = "^0.25.0"}
+=======
+redis = "^5.0.1"
+fastapi = "^0.109.0"
+sqlalchemy = "^2.0.25"
+uvicorn = {extras = ["standard"], version = "^0.26.0"}
+pydantic = {extras = ["email"], version = "^2.5.3"}
+pydantic-settings = "^2.1.0"
+python-multipart = "^0.0.6"
+cloudinary = "^1.38.0"
+greenlet = "^3.0.3"
+qrcode = "^7.4.2"
+pillow = "^10.2.0"
+uuid = "^1.30"
+alembic = "^1.13.1"
+asyncpg = "^0.29.0"
+gravatar = "^0.1"
+libgravatar = "^1.0.4"
+python-jose = {extras = ["cryptography"], version = "^3.3.0"}
+fastapi-limiter = "^0.1.6"
+>>>>>>> Stashed changes
 
 
 [build-system]

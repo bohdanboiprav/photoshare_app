@@ -61,7 +61,7 @@ class Tag(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(50), nullable=False, unique=True)
     tags_to_posts: Mapped[List["TagToPost"]] = relationship("TagToPost", back_populates="tag", lazy="joined",
-                                                            overlaps="posts,tags")
+                                                            overlaps="posts,tags", cascade="all, delete-orphan")
     posts: Mapped[List["Post"]] = relationship("Post", secondary="tags_to_posts", back_populates="tags", lazy="joined",
                                                overlaps="tags_to_posts")
 
