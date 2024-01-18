@@ -9,8 +9,14 @@ from src.repository.tags import get_or_create_tag_by_name
 from src.schemas.tag import TagUpdate
 
 
-async def get_post(post_id: int, current_user: User, db: AsyncSession):
-    post = select(Post).filter_by(user=current_user).filter(Post.id == post_id)
+async def get_post(post_id: int, db: AsyncSession):
+    post = select(Post).filter(Post.id == post_id)
+    post = await db.execute(post)
+    return post.scalars().first()
+
+
+async def get_user_post(post_id: int, current_user: User, db: AsyncSession):
+    post = select(Post).filter(Post.id == post_id).filter_by(user=current_user)
     post = await db.execute(post)
     return post.scalars().first()
 
@@ -36,7 +42,7 @@ async def create_post(body: PostModel, image_url: str, current_user: User, db: A
 
 
 async def update_post(post_id: int, body: PostModel, current_user: User, db: AsyncSession):
-    post = await get_post(post_id, current_user, db)
+    post = get_user_post(post_id, current_user, db)
     if post:
         post.name = body.name
         post.content = body.content
@@ -46,8 +52,8 @@ async def update_post(post_id: int, body: PostModel, current_user: User, db: Asy
     return post
 
 
-async def add_tag_to_post(body: TagUpdate, db: AsyncSession) -> Post:
-    post = await db.execute(select(Post).where(Post.name == body.name))
+async def add_tag_to_post(body: TagUpdate, current_user: User, db: AsyncSession) -> Post:
+    post = await db.execute(select(Post).where(Post.name == body.name).filter_by(user=current_user))
     post = post.scalar()
     if not post:
         raise HTTPException(status_code=400, detail="Post with this name doesn't exist")
