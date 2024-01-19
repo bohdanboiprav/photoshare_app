@@ -43,13 +43,13 @@ class Post(Base):
     content: Mapped[str] = mapped_column(String(5000), nullable=True)
     created_at: Mapped[date] = mapped_column('created_at', DateTime, default=func.now())
     updated_at: Mapped[date] = mapped_column('updated_at', DateTime, default=func.now(), onupdate=func.now())
-    image: Mapped[str] = mapped_column(String(255), nullable=True)
+    image_id: Mapped[str] = mapped_column(String(255), nullable=True)
+    image_url: Mapped[str] = mapped_column(String(255), nullable=True)
     user_id: Mapped[uuid] = mapped_column(UUID(as_uuid=True), ForeignKey('users.id'), nullable=True)
     user: Mapped["User"] = relationship("User", backref="posts", lazy="joined")
 
     tags: Mapped[List["Tag"]] = relationship("Tag", secondary="tags_to_posts", back_populates="posts", lazy="joined")
-    tags_to_posts: Mapped[List["TagToPost"]] = relationship("TagToPost", back_populates="post", lazy="joined",
-                                                            overlaps="tags")
+    tags_to_posts: Mapped[List["TagToPost"]] = relationship("TagToPost", back_populates="post", lazy="joined")
 
     @validates('tags')
     def validate_tags(self, key, tags):
@@ -64,7 +64,7 @@ class Tag(Base):
     name: Mapped[str] = mapped_column(String(50), nullable=False)
 
     tags_to_posts: Mapped[List["TagToPost"]] = relationship("TagToPost", back_populates="tag", lazy="joined",
-                                                            overlaps="posts,tags")
+                                                            overlaps="posts,tags", cascade="all, delete-orphan")
     posts: Mapped[List["Post"]] = relationship("Post", secondary="tags_to_posts", back_populates="tags", lazy="joined",
                                                overlaps="tags_to_posts")
 

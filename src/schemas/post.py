@@ -27,8 +27,17 @@ class PostResponse(BaseModel):
     content: str
     created_at: datetime
     updated_at: datetime
-    image: str
+    image_url: str
     user: UserResponse
     tags: List[TagResponse] | None
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class PostDeletedResponse(BaseModel):
+    id: int
+    name: str
+    # content: str
+    # image_url: str
+    # user: UserResponse
+    # tags: List[TagResponse] | None
