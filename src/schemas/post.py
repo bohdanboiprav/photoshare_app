@@ -10,7 +10,7 @@ from src.schemas.user import UserResponse
 
 
 class PostModel(BaseModel):
-    name: str | None = Field(max_length=200)
+    name: str | None = Field(max_length=50)
     content: str | None = Field(max_length=5000)
     tags: Optional[List[str]] = Field(max_length=5, default=None)
 
@@ -19,6 +19,11 @@ class PostModel(BaseModel):
         if len(value) > 5:
             raise ValueError("Number of tags cannot be more than 5.")
         return value
+
+
+class PostDeletedResponse(BaseModel):
+    id: int
+    name: str
 
 
 class PostResponse(BaseModel):
@@ -32,3 +37,4 @@ class PostResponse(BaseModel):
     tags: List[TagResponse] | None
 
     model_config = ConfigDict(from_attributes=True)
+

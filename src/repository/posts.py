@@ -1,4 +1,4 @@
-from fastapi import HTTPException
+from fastapi import HTTPException, UploadFile, File
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -37,27 +37,40 @@ async def create_post(body: PostModel, image_url: str, current_user: User, db: A
 
 async def update_post(post_id: int, body: PostModel, current_user: User, db: AsyncSession):
     post = await get_post(post_id, current_user, db)
-    if post:
-        post.name = body.name
-        post.content = body.content
-        post.image = body.image
+    if not post:
+        raise HTTPException(status_code=400, detail="Post with this name doesn't exist")
+    if post.user_id != current_user.id:
+        raise HTTPException(status_code=403, detail="You can add tags only for self posts")
+    post.name = body.name
+    post.content = body.content
+    post__id=post.id
+    for tag in post.tags:
+        await db.delete(tag)
         await db.commit()
-        await db.refresh(post)
+    await db.refresh(post)
+    for tag in body.tags:
+        tag = await get_or_create_tag_by_name(tag, db)
+        tag_to_post = TagToPost(post_id=post__id, tag_id=tag.id)
+        db.add(tag_to_post)
+    await db.commit()
+    await db.refresh(post)
     return post
 
 
-async def add_tag_to_post(body: TagUpdate, db: AsyncSession) -> Post:
+async def add_tag_to_post(body: TagUpdate, current_user: User, db: AsyncSession) -> Post:
     post = await db.execute(select(Post).where(Post.name == body.name))
     post = post.scalar()
     if not post:
         raise HTTPException(status_code=400, detail="Post with this name doesn't exist")
-    post_names = [tags.name for tags in post.tags]
-    body_names = [bod for bod in body.tags]
+    if post.user_id != current_user.id:
+        raise HTTPException(status_code=403, detail="You can add tags only for self posts")
+    body_tagnames = [bod for bod in body.tags]
+    post_tagnames = [tags.name for tags in post.tags]
     post__id = post.id
     for tag_name in body.tags:
-        if tag_name in post_names:
+        if tag_name in post_tagnames:
             continue
-        if len(set(post_names + body_names)) > 5:
+        if len(set(post_tagnames + body_tagnames)) > 5:
             quantity = 5 - len(post.tags)
             raise HTTPException(status_code=400, detail=f"Post can consists maximum 5 tags. You can add: {quantity}")
         tag = await get_or_create_tag_by_name(tag_name, db)
@@ -70,10 +83,12 @@ async def add_tag_to_post(body: TagUpdate, db: AsyncSession) -> Post:
 
 async def remove_post(post_id: int, current_user: User, db: AsyncSession):
     post = select(Post).filter_by(user=current_user).filter(Post.id == post_id)
-    result = await db.execute(post)
-    post = result.scalar_one_or_none()
-    postreturn = post
+    post = await db.execute(post)
+    post = post.scalars().first()
+    post_to_return = post
     if post:
+        for tag_to_post in post.tags_to_posts:
+            await db.delete(tag_to_post)
         await db.delete(post)
         await db.commit()
-    return postreturn
+    return post_to_return
