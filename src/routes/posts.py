@@ -16,8 +16,6 @@ from src.repository import posts as repository_posts
 from src.schemas.tag import TagUpdate, TagResponse
 from src.services.auth import auth_service
 
-# from src.services.auth import auth_service
-
 router = APIRouter(prefix='/posts', tags=["posts"])
 
 
@@ -61,12 +59,12 @@ async def create_post(body: PostModel = Depends(checker), file: UploadFile = Fil
     return await repository_posts.create_post(body, src_url, current_user, db)
 
 
-# TODO: REVIEW
-@router.post("/add_tags", response_model=TagResponse)
-async def add_tags_to_post(body: TagUpdate, current_user: User = Depends(auth_service.get_current_user),
-                           db: AsyncSession = Depends(get_db)):
-    tag = await repository_posts.add_tag_to_post(body, current_user, db)
-    return tag
+@router.post("/add_tags", response_model=PostResponse)
+async def add_tags_to_post(body: TagUpdate, user: User = Depends(auth_service.get_current_user), db: AsyncSession = Depends(get_db)):
+    if user.user_type_id in [2, 3]:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Tags can be added only by users")
+    post = await repository_posts.add_tag_to_post(body, user, db)
+    return post
 
 
 @router.put("/{post_id}", response_model=PostResponse)

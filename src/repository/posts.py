@@ -1,4 +1,4 @@
-from fastapi import HTTPException
+from fastapi import HTTPException, UploadFile, File
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
