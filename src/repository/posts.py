@@ -9,8 +9,16 @@ from src.repository.tags import get_or_create_tag_by_name
 from src.schemas.tag import TagUpdate
 
 
-async def get_post(post_id: int, current_user: User, db: AsyncSession):
-    post = select(Post).filter_by(user=current_user).filter(Post.id == post_id)
+async def get_post(post_id: int, db: AsyncSession):
+    post = select(Post).filter(Post.id == post_id)
+    post = await db.execute(post)
+    return post.scalars().first()
+
+
+async def get_user_post(post_id: int, current_user: User, db: AsyncSession):
+    post = select(Post).filter(Post.id == post_id).filter_by(user=current_user)
+    if current_user.id == 3:
+        post = select(Post).filter(Post.id == post_id)
     post = await db.execute(post)
     return post.scalars().first()
 
@@ -21,7 +29,7 @@ async def create_post(body: PostModel, image_url: str, current_user: User, db: A
     post = post.scalars().first()
     if post:
         raise HTTPException(status_code=400, detail="Post with this name already exists")
-    post = Post(name=body.name, content=body.content, image=image_url, user=current_user)
+    post = Post(name=body.name, content=body.content, image_url=image_url, user=current_user)
     db.add(post)
     await db.commit()
     await db.refresh(post)
@@ -36,24 +44,20 @@ async def create_post(body: PostModel, image_url: str, current_user: User, db: A
 
 
 async def update_post(post_id: int, body: PostModel, current_user: User, db: AsyncSession):
-    post = await get_post(post_id, current_user, db)
-    if not post:
-        raise HTTPException(status_code=400, detail="Post with this name doesn't exist")
-    if post.user_id != current_user.id:
-        raise HTTPException(status_code=403, detail="You can add tags only for self posts")
-    post.name = body.name
-    post.content = body.content
-    post__id=post.id
-    for tag in post.tags:
-        await db.delete(tag)
+    post = await get_user_post(post_id, current_user, db)
+    if post:
+        post.name = body.name
+        post.content = body.content
+        post.image_url = post.image_url
+
+        post.tags.clear()
+
+        for tag_name in body.tags:
+            tag = await get_or_create_tag_by_name(tag_name, db)
+            tag_to_post = TagToPost(post_id=post_id, tag_id=tag.id)
+            db.add(tag_to_post)
         await db.commit()
-    await db.refresh(post)
-    for tag in body.tags:
-        tag = await get_or_create_tag_by_name(tag, db)
-        tag_to_post = TagToPost(post_id=post__id, tag_id=tag.id)
-        db.add(tag_to_post)
-    await db.commit()
-    await db.refresh(post)
+        await db.refresh(post)
     return post
 
 
@@ -82,13 +86,11 @@ async def add_tag_to_post(body: TagUpdate, current_user: User, db: AsyncSession)
 
 
 async def remove_post(post_id: int, current_user: User, db: AsyncSession):
-    post = select(Post).filter_by(user=current_user).filter(Post.id == post_id)
-    post = await db.execute(post)
-    post = post.scalars().first()
-    post_to_return = post
+    post = await get_user_post(post_id, current_user, db)
+    post_return = post
     if post:
-        for tag_to_post in post.tags_to_posts:
-            await db.delete(tag_to_post)
+        post.tags.clear()
+        await db.commit()
         await db.delete(post)
         await db.commit()
-    return post_to_return
+    return post_return

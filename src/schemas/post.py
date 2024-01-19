@@ -32,7 +32,7 @@ class PostResponse(BaseModel):
     content: str
     created_at: datetime
     updated_at: datetime
-    image: str
+    image_url: str
     user: UserResponse
     tags: List[TagResponse] | None
 

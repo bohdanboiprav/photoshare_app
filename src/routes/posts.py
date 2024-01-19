@@ -22,9 +22,8 @@ router = APIRouter(prefix='/posts', tags=["posts"])
 @router.get("/{post_id}", response_model=PostResponse)
 async def get_post(post_id: int = Path(ge=1),
                    current_user: User = Depends(auth_service.get_current_user),
-                   db: AsyncSession = Depends(get_db),
-                   ):
-    post = await repository_posts.get_post(post_id, current_user, db)
+                   db: AsyncSession = Depends(get_db)):
+    post = await repository_posts.get_post(post_id, db)
     if post is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Post is not found")
     return post
@@ -45,7 +44,8 @@ test = {"name": "string2", "content": "string", "tags": ["string1", "string2"]}
 
 @router.post("/create", response_model=PostResponse)
 async def create_post(body: PostModel = Depends(checker), file: UploadFile = File(),
-                      db: AsyncSession = Depends(get_db), current_user: User = Depends(auth_service.get_current_user)):
+                      current_user: User = Depends(auth_service.get_current_user),
+                      db: AsyncSession = Depends(get_db)):
     cloudinary.config(
         cloud_name=settings.CLOUDINARY_NAME,
         api_key=settings.CLOUDINARY_API_KEY,
@@ -79,8 +79,9 @@ async def update_post(body: PostModel, post_id: int = Path(ge=1),
 
 @router.delete("/{post_id}", response_model=PostDeletedResponse)
 async def remove_post(post_id: int = Path(ge=1),
-                      db: AsyncSession = Depends(get_db), user: User = Depends(auth_service.get_current_user)):
-    post = await repository_posts.remove_post(post_id, user, db)
+                      current_user: User = Depends(auth_service.get_current_user),
+                      db: AsyncSession = Depends(get_db)):
+    post = await repository_posts.remove_post(post_id, current_user, db)
     if post is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Post is not found")
     return post
