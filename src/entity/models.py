@@ -78,4 +78,25 @@ class TagToPost(Base):
     tag: Mapped["Tag"] = relationship("Tag", back_populates="tags_to_posts", lazy="joined", overlaps="posts,tags")
 
 
+class Comment(Base):
+    __tablename__ = 'comments'
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
+    content: Mapped[str] = mapped_column(String(500), nullable=False)
+    created_at: Mapped[date] = mapped_column('created_at', DateTime, default=func.now())
+    updated_at: Mapped[date] = mapped_column('updated_at', DateTime, default=func.now(), onupdate=func.now())
+    user_id: Mapped[uuid] = mapped_column(UUID(as_uuid=True), ForeignKey('users.id', ondelete="CASCADE"), nullable=True)
+    post_id: Mapped[int] = mapped_column(Integer, ForeignKey('posts.id', ondelete="CASCADE"), nullable=False)
+    user: Mapped["User"] = relationship("User", backref="comments", lazy="joined")
+    post: Mapped["Post"] = relationship("Post", backref="comments", lazy="joined")
+
+
+class CommentToPost(Base):
+    __tablename__ = 'comments_to_posts'
+    id: Mapped[int] = mapped_column(primary_key=True)
+    post_id: Mapped[int] = mapped_column(Integer, ForeignKey('posts.id', ondelete="CASCADE"), nullable=False)
+    comment_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey('comments.id', ondelete="CASCADE"), nullable=False)
+    post: Mapped["Post"] = relationship("Post", backref="comments_to_posts", lazy="joined")
+    comment: Mapped["Comment"] = relationship("Comment", backref="comments_to_posts", lazy="joined")
+
+
 mapper_registry.configure()
