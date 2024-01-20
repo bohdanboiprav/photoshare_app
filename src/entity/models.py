@@ -95,7 +95,7 @@ class CommentToPost(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     post_id: Mapped[int] = mapped_column(Integer, ForeignKey('posts.id', ondelete="CASCADE"), nullable=False)
     comment_id: Mapped[uuid] = mapped_column(UUID(as_uuid=True), ForeignKey('comments.id', ondelete="CASCADE"),
-                                             nullable=False)
+                                             nullable=True)
     post: Mapped["Post"] = relationship("Post", backref="comments_to_posts", lazy="joined")
     comment: Mapped["Comment"] = relationship("Comment", backref="comments_to_posts", lazy="joined")
 
