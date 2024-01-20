@@ -51,7 +51,9 @@ class Post(Base):
 
     tags: Mapped[List["Tag"]] = relationship("Tag", secondary="tags_to_posts", back_populates="posts", lazy="joined")
     tags_to_posts: Mapped[List["TagToPost"]] = relationship("TagToPost", back_populates="post", lazy="joined")
-
+    
+    url: Mapped[List["PhotoUrl"]] = relationship("PhotoUrl", back_populates="post", lazy="joined")
+    
     @validates('tags')
     def validate_tags(self, key, tags):
         if len(tags) > 5:
@@ -109,6 +111,15 @@ class CommentToPost(Base):
                                              nullable=False)
     post: Mapped["Post"] = relationship("Post", backref="comments_to_posts", lazy="joined")
     comment: Mapped["Comment"] = relationship("Comment", backref="comments_to_posts", lazy="joined")
+
+class PhotoUrl(Base):
+    __tablename__ = 'photos_url'
+    id: Mapped[int] = mapped_column(primary_key=True)
+    transform_url: Mapped[str] = mapped_column(String(500), nullable=True)
+    transform_url_qr: Mapped[str] = mapped_column(String(500), nullable=True)
+    
+    post_id: Mapped[int] = mapped_column(Integer, ForeignKey('posts.id'), nullable=True)
+    post: Mapped["Post"] = relationship("Post", back_populates="url", lazy="joined")
 
 
 mapper_registry.configure()
