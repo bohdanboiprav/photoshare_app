@@ -1,3 +1,5 @@
+from select import select
+
 from fastapi import HTTPException
 
 from sqlalchemy.orm import selectinload
@@ -41,3 +43,9 @@ async def delete_comment(body: CommentDeleteModel, user: User, db: AsyncSession)
         await db.delete(comment_to_post)
     await db.delete(comment)
     await db.commit()
+
+
+async def get_comment_by_post_id(post_id: int, db: AsyncSession):
+    comment = await db.get(Comment, post_id)
+    comment = await db.execute(comment)
+    return comment.scalars().all()

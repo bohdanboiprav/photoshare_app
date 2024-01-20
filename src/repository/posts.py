@@ -2,8 +2,9 @@ from fastapi import HTTPException, UploadFile, File
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-
 from src.entity.models import Post, User, TagToPost
+from src.repository.comments import get_comment_by_post_id, delete_comment
+from src.schemas.comment import CommentDeleteModel
 from src.schemas.post import PostModel
 from src.repository.tags import get_or_create_tag_by_name
 from src.schemas.tag import TagUpdate
