@@ -78,6 +78,16 @@ class TagToPost(Base):
     tag: Mapped["Tag"] = relationship("Tag", back_populates="tags_to_posts", lazy="joined", overlaps="posts,tags")
 
 
+class Rating(Base):
+    __tablename__ = 'ratings'
+    id: Mapped[int] = mapped_column(primary_key=True)
+    value: Mapped[int] = mapped_column(Integer, nullable=False)
+    user_id: Mapped[uuid] = mapped_column(UUID(as_uuid=True), ForeignKey('users.id'), nullable=False)
+    post_id: Mapped[int] = mapped_column(Integer, ForeignKey('posts.id'), nullable=False)
+
+    post: Mapped["Post"] = relationship("Post", back_populates="ratings", lazy="joined")
+    user: Mapped["User"] = relationship("User", backref="ratings", lazy="joined")
+
 class Comment(Base):
     __tablename__ = 'comments'
     id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
