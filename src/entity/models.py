@@ -26,6 +26,7 @@ class User(Base):
     updated_at: Mapped[date] = mapped_column('updated_at', DateTime(timezone=True),
                                              default=func.now(), onupdate=func.now(), nullable=True)
     confirmed: Mapped[bool] = mapped_column(Boolean, default=False, nullable=True)
+    is_banned: Mapped[bool] = mapped_column(Boolean, default=False, nullable=True)
     user_type_id: Mapped[int] = mapped_column(ForeignKey('user_type.id'))
     user_type: Mapped["UserType"] = relationship("UserType", backref="users", lazy="joined")
 
@@ -50,7 +51,9 @@ class Post(Base):
 
     tags: Mapped[List["Tag"]] = relationship("Tag", secondary="tags_to_posts", back_populates="posts", lazy="joined")
     tags_to_posts: Mapped[List["TagToPost"]] = relationship("TagToPost", back_populates="post", lazy="joined")
-
+    
+    url: Mapped[List["PhotoUrl"]] = relationship("PhotoUrl", back_populates="post", lazy="joined")
+    
     @validates('tags')
     def validate_tags(self, key, tags):
         if len(tags) > 5:
@@ -78,6 +81,16 @@ class TagToPost(Base):
     tag: Mapped["Tag"] = relationship("Tag", back_populates="tags_to_posts", lazy="joined", overlaps="posts,tags")
 
 
+class Rating(Base):
+    __tablename__ = 'ratings'
+    id: Mapped[int] = mapped_column(primary_key=True)
+    value: Mapped[int] = mapped_column(Integer, nullable=False)
+    user_id: Mapped[uuid] = mapped_column(UUID(as_uuid=True), ForeignKey('users.id'), nullable=False)
+    post_id: Mapped[int] = mapped_column(Integer, ForeignKey('posts.id'), nullable=False)
+
+    post: Mapped["Post"] = relationship("Post", back_populates="ratings", lazy="joined")
+    user: Mapped["User"] = relationship("User", backref="ratings", lazy="joined")
+
 class Comment(Base):
     __tablename__ = 'comments'
     id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
@@ -98,6 +111,15 @@ class CommentToPost(Base):
                                              nullable=True)
     post: Mapped["Post"] = relationship("Post", backref="comments_to_posts", lazy="joined")
     comment: Mapped["Comment"] = relationship("Comment", backref="comments_to_posts", lazy="joined")
+
+class PhotoUrl(Base):
+    __tablename__ = 'photos_url'
+    id: Mapped[int] = mapped_column(primary_key=True)
+    transform_url: Mapped[str] = mapped_column(String(500), nullable=True)
+    transform_url_qr: Mapped[str] = mapped_column(String(500), nullable=True)
+    
+    post_id: Mapped[int] = mapped_column(Integer, ForeignKey('posts.id'), nullable=True)
+    post: Mapped["Post"] = relationship("Post", back_populates="url", lazy="joined")
 
 
 mapper_registry.configure()

@@ -8,6 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 import cloudinary
 import cloudinary.uploader
 
+from src.conf import messages
 from src.conf.config import settings
 from src.database.db import get_db
 from src.entity.models import User
@@ -83,7 +84,7 @@ async def update_post(body: PostModel, post_id: int = Path(ge=1),
                       db: AsyncSession = Depends(get_db)):
     post = await repository_posts.update_post(post_id, body, current_user, db)
     if post is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Post is not found")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=messages.POST_NOT_FOUND)
     return post
 
 
@@ -93,5 +94,5 @@ async def remove_post(post_id: int = Path(ge=1),
                       db: AsyncSession = Depends(get_db)):
     post = await repository_posts.remove_post(post_id, current_user, db)
     if post is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Post is not found")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=messages.POST_NOT_FOUND)
     return post
