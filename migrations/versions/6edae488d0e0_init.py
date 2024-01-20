@@ -1,22 +1,23 @@
-"""Fit
+"""Init
 
-Revision ID: 678f36ed4dd0
+Revision ID: 6edae488d0e0
 Revises: 
-Create Date: 2024-01-18 22:42:26.662143
+Create Date: 2024-01-20 00:12:41.729377
 
 """
+from datetime import datetime
 from typing import Sequence, Union
 
+import uuid
 from alembic import op
 import sqlalchemy as sa
-from datetime import datetime
-import uuid
+
 from src.services.auth import auth_service
 from src.conf.config import settings
 
 
 # revision identifiers, used by Alembic.
-revision: str = '678f36ed4dd0'
+revision: str = '6edae488d0e0'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -56,7 +57,8 @@ def upgrade() -> None:
     sa.Column('content', sa.String(length=5000), nullable=True),
     sa.Column('created_at', sa.DateTime(), nullable=False),
     sa.Column('updated_at', sa.DateTime(), nullable=False),
-    sa.Column('image', sa.String(length=255), nullable=True),
+    sa.Column('image_id', sa.String(length=255), nullable=True),
+    sa.Column('image_url', sa.String(length=255), nullable=True),
     sa.Column('user_id', sa.UUID(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
@@ -88,6 +90,7 @@ def upgrade() -> None:
     sa.ForeignKeyConstraint(['post_id'], ['posts.id'], ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('id')
     )
+
     op.bulk_insert(user_type_table, [
         {
             'id': 1,
@@ -107,7 +110,7 @@ def upgrade() -> None:
             'id': uuid.uuid4(),
             'username': "Admin",
             'email': "admin@admin.com",
-            'avatar': "https://asset.cloudinary.com/di5efpq4c/a2755bed968acf16e0f3acacd7f2fe1f",
+            'avatar': "https://asset.cloudinary.com/di5efpq4c/a2755bed968acf16e0f3acacd7f2fe1f",  # avatar
             'password': auth_service.get_password_hash(settings.ADMIN_PASSWORD),
             'user_type_id': 3,
             'confirmed': True,
