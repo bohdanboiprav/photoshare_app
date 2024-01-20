@@ -51,6 +51,8 @@ class Post(Base):
 
     tags: Mapped[List["Tag"]] = relationship("Tag", secondary="tags_to_posts", back_populates="posts", lazy="joined")
     tags_to_posts: Mapped[List["TagToPost"]] = relationship("TagToPost", back_populates="post", lazy="joined")
+    comment: Mapped[List["Comment"]] = relationship("Comment", back_populates="post",
+                                                    lazy="joined", cascade="all, delete")
     url: Mapped[List["PhotoUrl"]] = relationship("PhotoUrl", back_populates="post", lazy="joined")
 
     @validates('tags')
@@ -98,9 +100,13 @@ class Comment(Base):
     created_at: Mapped[date] = mapped_column('created_at', DateTime, default=func.now())
     updated_at: Mapped[date] = mapped_column('updated_at', DateTime, default=func.now(), onupdate=func.now())
     user_id: Mapped[uuid] = mapped_column(UUID(as_uuid=True), ForeignKey('users.id', ondelete="CASCADE"), nullable=True)
-    post_id: Mapped[int] = mapped_column(Integer, ForeignKey('posts.id', ondelete="CASCADE"), nullable=True)
+    post_id: Mapped[int] = mapped_column(Integer, ForeignKey('posts.id'), nullable=True)
     user: Mapped["User"] = relationship("User", backref="comments", lazy="joined")
-    post: Mapped["Post"] = relationship("Post", backref="comments", lazy="joined")
+    # post: Mapped["Post"] = relationship("Post", backref="comments", lazy="joined")
+    post: Mapped[List["Post"]] = relationship("Post", back_populates="comment",
+                                              lazy="joined")
+    comments_to_posts: Mapped[List["CommentToPost"]] = relationship("CommentToPost", back_populates="comments",
+                                                                    lazy="joined", cascade="all, delete")
 
 
 class CommentToPost(Base):
@@ -109,8 +115,8 @@ class CommentToPost(Base):
     post_id: Mapped[int] = mapped_column(Integer, ForeignKey('posts.id', ondelete="CASCADE"), nullable=True)
     comment_id: Mapped[uuid] = mapped_column(UUID(as_uuid=True), ForeignKey('comments.id', ondelete="CASCADE"),
                                              nullable=True)
-    post: Mapped["Post"] = relationship("Post", backref="comments_to_posts", lazy="joined")
-    comment: Mapped["Comment"] = relationship("Comment", backref="comments_to_posts", lazy="joined")
+    comments: Mapped[List["Comment"]] = relationship("Comment", back_populates='comments_to_posts',
+                                                     lazy="joined")
 
 
 class PhotoUrl(Base):
