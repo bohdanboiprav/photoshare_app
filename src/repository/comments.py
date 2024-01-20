@@ -1,6 +1,8 @@
+from select import select
+
 from fastapi import HTTPException
 
-from sqlalchemy import select
+from sqlalchemy.orm import selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.schemas.comment import CreateCommentModel, CommentUpdateModel, CommentDeleteModel
 from src.entity.models import User, Comment, CommentToPost
@@ -34,10 +36,16 @@ async def delete_comment(body: CommentDeleteModel, user: User, db: AsyncSession)
     user_ = await db.get(User, user.id)
     if user_.user_type_id not in (2, 3):
         raise HTTPException(status_code=403, detail="Not enough permissions")
-    comment = await db.get(Comment, body.comment_id)
+    comment = await db.get(Comment, body.comment_id, options=[selectinload(Comment.comments_to_posts)])
     if not comment:
         raise HTTPException(status_code=404, detail="Comment not found")
-    # delComment = comment
+    for comment_to_post in comment.comments_to_posts:
+        await db.delete(comment_to_post)
     await db.delete(comment)
     await db.commit()
-    return "delComment"
+
+
+async def get_comment_by_post_id(post_id: int, db: AsyncSession):
+    comment = await db.get(Comment, post_id)
+    comment = await db.execute(comment)
+    return comment.scalars().all()

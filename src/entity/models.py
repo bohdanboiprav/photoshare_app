@@ -98,7 +98,7 @@ class Comment(Base):
     created_at: Mapped[date] = mapped_column('created_at', DateTime, default=func.now())
     updated_at: Mapped[date] = mapped_column('updated_at', DateTime, default=func.now(), onupdate=func.now())
     user_id: Mapped[uuid] = mapped_column(UUID(as_uuid=True), ForeignKey('users.id', ondelete="CASCADE"), nullable=True)
-    post_id: Mapped[int] = mapped_column(Integer, ForeignKey('posts.id', ondelete="CASCADE"), nullable=False)
+    post_id: Mapped[int] = mapped_column(Integer, ForeignKey('posts.id', ondelete="CASCADE"), nullable=True)
     user: Mapped["User"] = relationship("User", backref="comments", lazy="joined")
     post: Mapped["Post"] = relationship("Post", backref="comments", lazy="joined")
 
@@ -106,9 +106,9 @@ class Comment(Base):
 class CommentToPost(Base):
     __tablename__ = 'comments_to_posts'
     id: Mapped[int] = mapped_column(primary_key=True)
-    post_id: Mapped[int] = mapped_column(Integer, ForeignKey('posts.id', ondelete="CASCADE"), nullable=False)
+    post_id: Mapped[int] = mapped_column(Integer, ForeignKey('posts.id', ondelete="CASCADE"), nullable=True)
     comment_id: Mapped[uuid] = mapped_column(UUID(as_uuid=True), ForeignKey('comments.id', ondelete="CASCADE"),
-                                             nullable=False)
+                                             nullable=True)
     post: Mapped["Post"] = relationship("Post", backref="comments_to_posts", lazy="joined")
     comment: Mapped["Comment"] = relationship("Comment", backref="comments_to_posts", lazy="joined")
 
