@@ -10,9 +10,6 @@ async def get_profile(user: User, db: AsyncSession) -> dict:
         count = await db.execute(stmt)
         posts_count = count.scalar()
 
-        # stmt = select(func.count()).where(Comments.user_id == user.id)
-        # count = await db.execute(stmt)
-        # comments_count = count.scalar()
         result = {
             "username": user.username,
             "email": user.email,
