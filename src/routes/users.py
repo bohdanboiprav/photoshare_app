@@ -11,7 +11,6 @@ from fastapi import (
 )
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi_limiter.depends import RateLimiter
-
 from src.conf import messages
 from src.database.db import get_db
 from src.entity.models import User

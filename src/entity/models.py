@@ -43,13 +43,13 @@ class Post(Base):
     content: Mapped[str] = mapped_column(String(5000), nullable=True)
     created_at: Mapped[date] = mapped_column('created_at', DateTime, default=func.now())
     updated_at: Mapped[date] = mapped_column('updated_at', DateTime, default=func.now(), onupdate=func.now())
-    image: Mapped[str] = mapped_column(String(255), nullable=True)
+    image_id: Mapped[str] = mapped_column(String(255), nullable=True)
+    image_url: Mapped[str] = mapped_column(String(255), nullable=True)
     user_id: Mapped[uuid] = mapped_column(UUID(as_uuid=True), ForeignKey('users.id'), nullable=True)
     user: Mapped["User"] = relationship("User", backref="posts", lazy="joined")
 
     tags: Mapped[List["Tag"]] = relationship("Tag", secondary="tags_to_posts", back_populates="posts", lazy="joined")
-    tags_to_posts: Mapped[List["TagToPost"]] = relationship("TagToPost", back_populates="post", lazy="joined",
-                                                            overlaps="tags")
+    tags_to_posts: Mapped[List["TagToPost"]] = relationship("TagToPost", back_populates="post", lazy="joined")
 
     @validates('tags')
     def validate_tags(self, key, tags):
@@ -64,7 +64,7 @@ class Tag(Base):
     name: Mapped[str] = mapped_column(String(50), nullable=False)
 
     tags_to_posts: Mapped[List["TagToPost"]] = relationship("TagToPost", back_populates="tag", lazy="joined",
-                                                            overlaps="posts,tags")
+                                                            overlaps="posts,tags", cascade="all, delete-orphan")
     posts: Mapped[List["Post"]] = relationship("Post", secondary="tags_to_posts", back_populates="tags", lazy="joined",
                                                overlaps="tags_to_posts")
 
@@ -76,6 +76,28 @@ class TagToPost(Base):
     tag_id: Mapped[int] = mapped_column(Integer, ForeignKey('tags.id'), nullable=False)
     post: Mapped["Post"] = relationship("Post", back_populates="tags_to_posts", lazy="joined", overlaps="posts,tags")
     tag: Mapped["Tag"] = relationship("Tag", back_populates="tags_to_posts", lazy="joined", overlaps="posts,tags")
+
+
+class Comment(Base):
+    __tablename__ = 'comments'
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
+    content: Mapped[str] = mapped_column(String(500), nullable=False)
+    created_at: Mapped[date] = mapped_column('created_at', DateTime, default=func.now())
+    updated_at: Mapped[date] = mapped_column('updated_at', DateTime, default=func.now(), onupdate=func.now())
+    user_id: Mapped[uuid] = mapped_column(UUID(as_uuid=True), ForeignKey('users.id', ondelete="CASCADE"), nullable=True)
+    post_id: Mapped[int] = mapped_column(Integer, ForeignKey('posts.id', ondelete="CASCADE"), nullable=False)
+    user: Mapped["User"] = relationship("User", backref="comments", lazy="joined")
+    post: Mapped["Post"] = relationship("Post", backref="comments", lazy="joined")
+
+
+class CommentToPost(Base):
+    __tablename__ = 'comments_to_posts'
+    id: Mapped[int] = mapped_column(primary_key=True)
+    post_id: Mapped[int] = mapped_column(Integer, ForeignKey('posts.id', ondelete="CASCADE"), nullable=False)
+    comment_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey('comments.id', ondelete="CASCADE"),
+                                                  nullable=False)
+    post: Mapped["Post"] = relationship("Post", backref="comments_to_posts", lazy="joined")
+    comment: Mapped["Comment"] = relationship("Comment", backref="comments_to_posts", lazy="joined")
 
 
 mapper_registry.configure()
