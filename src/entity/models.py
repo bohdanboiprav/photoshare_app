@@ -26,6 +26,7 @@ class User(Base):
     updated_at: Mapped[date] = mapped_column('updated_at', DateTime(timezone=True),
                                              default=func.now(), onupdate=func.now(), nullable=True)
     confirmed: Mapped[bool] = mapped_column(Boolean, default=False, nullable=True)
+    is_banned: Mapped[bool] = mapped_column(Boolean, default=False, nullable=True)
     user_type_id: Mapped[int] = mapped_column(ForeignKey('user_type.id'))
     user_type: Mapped["UserType"] = relationship("UserType", backref="users", lazy="joined")
 

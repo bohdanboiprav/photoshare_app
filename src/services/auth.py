@@ -112,7 +112,7 @@ class Auth:
         if user is None:
             print("User not found in cache, fetching from DB")
             user = await repository_users.get_user_by_email(email, db)
-            if user is None:
+            if user is None or user.is_banned:
                 raise credentials_exception
             self.cache.set(user_hash, pickle.dumps(user))
             self.cache.expire(user_hash, 300)
