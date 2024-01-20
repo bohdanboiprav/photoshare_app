@@ -43,7 +43,6 @@ app.include_router(photo_url_qr.router, prefix='/api')
 app.include_router(comments.router, prefix='/api')
 
 
-
 @app.middleware("http")
 async def ban_ips(request: Request, call_next: Callable):
     """

@@ -24,3 +24,7 @@ class TokenSchema(BaseModel):
 
 class RequestEmail(BaseModel):
     email: EmailStr
+
+
+class UpdateProfile(BaseModel):
+    username: str | None = Field()
