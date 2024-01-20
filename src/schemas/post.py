@@ -10,7 +10,7 @@ from src.schemas.user import UserResponse
 
 
 class PostModel(BaseModel):
-    name: str | None = Field(max_length=50)
+    name: str | None = Field(max_length=200)
     content: str | None = Field(max_length=5000)
     tags: Optional[List[str]] = Field(max_length=5, default=None)
 
@@ -37,4 +37,3 @@ class PostResponse(BaseModel):
     tags: List[TagResponse] | None
 
     model_config = ConfigDict(from_attributes=True)
-

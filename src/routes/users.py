@@ -4,19 +4,21 @@ import cloudinary.uploader
 from fastapi import (
     APIRouter,
     Depends,
+    HTTPException,
     UploadFile,
     File,
+    status, Path
 )
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi_limiter.depends import RateLimiter
-
+from src.conf import messages
 from src.database.db import get_db
 from src.entity.models import User
 from src.schemas.user import UserResponse
 from src.services.auth import auth_service
 from src.conf.config import settings
 from src.repository import users as repository_users
-
+from src.repository import profile as repository_profile
 
 router = APIRouter(prefix="/users", tags=["users"])
 cloudinary.config(
@@ -51,9 +53,9 @@ async def get_current_user(user: User = Depends(auth_service.get_current_user)):
     dependencies=[Depends(RateLimiter(times=2, seconds=5))],
 )
 async def get_current_user(
-    file: UploadFile = File(),
-    user: User = Depends(auth_service.get_current_user),
-    db: AsyncSession = Depends(get_db)):
+        file: UploadFile = File(),
+        user: User = Depends(auth_service.get_current_user),
+        db: AsyncSession = Depends(get_db)):
     """
     The get_current_user function is a dependency that will be injected into the
         get_current_user endpoint. It takes in an UploadFile object, which is a file
@@ -73,3 +75,17 @@ async def get_current_user(
     )
     user = await repository_users.update_avatar_url(user.email, res_url, db)
     return user
+
+
+@router.get("/{username}/profile/", status_code=status.HTTP_200_OK)
+async def get_user_profile(
+        username: str = Path(),
+        db: AsyncSession = Depends(get_db),
+):
+    user = await repository_users.get_user_by_username(username, db)
+    if user:
+        result = await repository_profile.get_profile(user, db)
+        return result
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND, detail=messages.USER_NOT_FOUND
+    )

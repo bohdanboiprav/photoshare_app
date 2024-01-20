@@ -1,4 +1,5 @@
 import uuid
+from typing import List
 
 from fastapi import APIRouter, HTTPException, Depends, status, Path, UploadFile, File, Form
 from fastapi.encoders import jsonable_encoder
@@ -17,6 +18,13 @@ from src.schemas.tag import TagUpdate, TagResponse
 from src.services.auth import auth_service
 
 router = APIRouter(prefix='/posts', tags=["posts"])
+
+
+@router.get("/", response_model=List[PostResponse])
+async def get_posts(current_user: User = Depends(auth_service.get_current_user),
+                    db: AsyncSession = Depends(get_db)):
+    post = await repository_posts.get_posts(db)
+    return post
 
 
 @router.get("/{post_id}", response_model=PostResponse)
@@ -60,7 +68,8 @@ async def create_post(body: PostModel = Depends(checker), file: UploadFile = Fil
 
 
 @router.post("/add_tags", response_model=PostResponse)
-async def add_tags_to_post(body: TagUpdate, user: User = Depends(auth_service.get_current_user), db: AsyncSession = Depends(get_db)):
+async def add_tags_to_post(body: TagUpdate, user: User = Depends(auth_service.get_current_user),
+                           db: AsyncSession = Depends(get_db)):
     if user.user_type_id in [2, 3]:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Tags can be added only by users")
     post = await repository_posts.add_tag_to_post(body, user, db)

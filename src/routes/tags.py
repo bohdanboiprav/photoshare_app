@@ -14,9 +14,7 @@ router = APIRouter(prefix="/tags", tags=["tags"])
 async def create_tag(
         body: TagModel,
         db: AsyncSession = Depends(get_db),
-
 ):
-
     return await repository_tags.create_tag(body, db)
 
 

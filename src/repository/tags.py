@@ -50,6 +50,3 @@ async def remove_tag(tag: Tag, db: AsyncSession):
     await db.delete(tag)
     await db.commit()
     return tag
-
-
-

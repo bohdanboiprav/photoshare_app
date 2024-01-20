@@ -9,6 +9,12 @@ from src.repository.tags import get_or_create_tag_by_name
 from src.schemas.tag import TagUpdate
 
 
+async def get_posts(db: AsyncSession):
+    post = select(Post).order_by(Post.created_at.desc()).limit(20)
+    post = await db.execute(post)
+    return post.scalars().unique().all()
+
+
 async def get_post(post_id: int, db: AsyncSession):
     post = select(Post).filter(Post.id == post_id)
     post = await db.execute(post)
