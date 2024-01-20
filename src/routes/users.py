@@ -95,12 +95,11 @@ async def get_user_profile(
     )
 
 
-@router.put("/{username}/profile/", response_model=UserResponse,
+@router.put("/{username}/profile/update", response_model=UserResponse,
             dependencies=[Depends(RateLimiter(times=1, seconds=30))],
             status_code=status.HTTP_200_OK)
 async def update_user_profile(body: UserSchema, db: AsyncSession = Depends(get_db),
                               current_user: User = Depends(auth_service.get_current_user)):
-
     body.password = auth_service.get_password_hash(body.password)
 
     if (current_user.email == body.email) and (current_user.username != body.username):
@@ -121,3 +120,13 @@ async def update_user_profile(body: UserSchema, db: AsyncSession = Depends(get_d
     if user is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="NOT FOUND")
     return user
+
+
+@router.post("/ban_user/{username}", status_code=status.HTTP_200_OK, response_model=UserResponse)
+async def request_email(username: str = Path(),
+                        current_user: User = Depends(auth_service.get_current_user),
+                        db: AsyncSession = Depends(get_db)):
+    if current_user.user_type_id == 3:
+        banned_user = await repository_users.ban_user(username, db)
+        return banned_user
+    raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Forbidden")
