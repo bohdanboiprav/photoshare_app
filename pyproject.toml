@@ -17,6 +17,7 @@ gravatar = "^0.1"
 libgravatar = "^1.0.4"
 redis = "^5.0.1"
 passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+jose = "^1.0.0"
 python-jose = {extras = ["cryptography"], version = "^3.3.0"}
 fastapi-limiter = "^0.1.6"
 uvicorn = "^0.25.0"
