@@ -62,9 +62,10 @@ async def create_post(body: PostModel = Depends(checker), file: UploadFile = Fil
     )
     unique_path = uuid.uuid4()
     r = cloudinary.uploader.upload(file.file, public_id=f'Photoshare_app/{current_user.username}/{unique_path}')
-    src_url = cloudinary.CloudinaryImage(f'Photoshare_app/{current_user.username}/{unique_path}') \
+    image_url = cloudinary.CloudinaryImage(f'Photoshare_app/{current_user.username}/{unique_path}') \
         .build_url(width=250, height=250, crop='fill', version=r.get('version'))
-    return await repository_posts.create_post(body, src_url, current_user, db)
+    image_id = f'Photoshare_app/{current_user.username}/{unique_path}'
+    return await repository_posts.create_post(body, image_url, image_id, current_user, db)
 
 
 @router.post("/add_tags", response_model=PostResponse)

@@ -29,13 +29,13 @@ async def get_user_post(post_id: int, current_user: User, db: AsyncSession):
     return post.scalars().first()
 
 
-async def create_post(body: PostModel, image_url: str, current_user: User, db: AsyncSession):
+async def create_post(body: PostModel, image_url: str, image_id: str, current_user: User, db: AsyncSession):
     post = select(Post).filter_by(user=current_user).filter(Post.name == body.name)
     post = await db.execute(post)
     post = post.scalars().first()
     if post:
         raise HTTPException(status_code=400, detail="Post with this name already exists")
-    post = Post(name=body.name, content=body.content, image_url=image_url, user=current_user)
+    post = Post(name=body.name, content=body.content, image_url=image_url, image_id=image_id, user=current_user)
     db.add(post)
     await db.commit()
     await db.refresh(post)
