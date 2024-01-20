@@ -1,3 +1,5 @@
+from types import NoneType
+
 import cloudinary
 import cloudinary.uploader
 
@@ -9,12 +11,14 @@ from fastapi import (
     File,
     status, Path
 )
+from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi_limiter.depends import RateLimiter
 from src.conf import messages
 from src.database.db import get_db
 from src.entity.models import User
-from src.schemas.user import UserResponse
+from src.repository.users import get_user_by_username, get_user_by_email
+from src.schemas.user import UserResponse, UserSchema, UserProfileResponse
 from src.services.auth import auth_service
 from src.conf.config import settings
 from src.repository import users as repository_users
@@ -89,6 +93,33 @@ async def get_user_profile(
     raise HTTPException(
         status_code=status.HTTP_404_NOT_FOUND, detail=messages.USER_NOT_FOUND
     )
+
+
+@router.put("/{username}/profile/update", response_model=UserResponse,
+            dependencies=[Depends(RateLimiter(times=1, seconds=30))],
+            status_code=status.HTTP_200_OK)
+async def update_user_profile(body: UserSchema, db: AsyncSession = Depends(get_db),
+                              current_user: User = Depends(auth_service.get_current_user)):
+    body.password = auth_service.get_password_hash(body.password)
+
+    if (current_user.email == body.email) and (current_user.username != body.username):
+        exist_user = await get_user_by_username(body.username, db)
+        if exist_user is not None:
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT, detail=messages.USER_EXIST
+            )
+
+    elif (current_user.username == body.username) and (current_user.email != body.email):
+        exist_user = await get_user_by_email(body.email, db)
+        if exist_user is not None:
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT, detail=messages.EMAIL_EXIST
+            )
+    user = await repository_profile.update_user_profile(body, current_user, db)
+
+    if user is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="NOT FOUND")
+    return user
 
 
 @router.post("/ban_user/{username}", status_code=status.HTTP_200_OK, response_model=UserResponse)

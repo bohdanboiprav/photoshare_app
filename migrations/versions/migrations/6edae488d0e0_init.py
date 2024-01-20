@@ -1,8 +1,8 @@
 """Init
 
-Revision ID: fe41d5026678
-Revises: 
-Create Date: 2024-01-20 12:25:31.075405
+Revision ID: 6edae488d0e0
+Revises:
+Create Date: 2024-01-20 00:12:41.729377
 
 """
 from datetime import datetime
@@ -15,8 +15,9 @@ import sqlalchemy as sa
 from src.services.auth import auth_service
 from src.conf.config import settings
 
+
 # revision identifiers, used by Alembic.
-revision: str = 'fe41d5026678'
+revision: str = '6edae488d0e0'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -44,7 +45,6 @@ def upgrade() -> None:
     sa.Column('created_at', sa.DateTime(timezone=True), nullable=False),
     sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
     sa.Column('confirmed', sa.Boolean(), nullable=True),
-    sa.Column('is_banned', sa.Boolean(), nullable=True),
     sa.Column('user_type_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['user_type_id'], ['user_type.id'], ),
     sa.PrimaryKeyConstraint('id'),

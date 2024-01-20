@@ -17,9 +17,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import text
 
 from src.database.db import get_db
-from src.routes import auth, users, posts, tags, photo_url_qr, comments, transformation 
+from src.routes import auth, users, posts, tags, photo_url_qr, comments, transformation
 from src.conf.config import settings
-
 
 app = FastAPI()
 
@@ -111,5 +110,3 @@ async def healthchecker(db: AsyncSession = Depends(get_db)):
     except Exception as e:
         print(e)
         raise HTTPException(status_code=500, detail=messages.MAIN_DB_ERROR_CONNECTION)
-
-

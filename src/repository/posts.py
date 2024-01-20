@@ -23,7 +23,7 @@ async def get_post(post_id: int, db: AsyncSession):
 
 async def get_user_post(post_id: int, current_user: User, db: AsyncSession):
     post = select(Post).filter(Post.id == post_id).filter_by(user=current_user)
-    if current_user.user_type_id == 3:
+    if current_user.user_type_id != 1:
         post = select(Post).filter(Post.id == post_id)
     post = await db.execute(post)
     return post.scalars().first()
