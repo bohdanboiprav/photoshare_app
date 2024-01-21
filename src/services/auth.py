@@ -107,6 +107,7 @@ class Auth:
             raise credentials_exception
 
         user_hash = str(email)
+
         user = self.cache.get(user_hash)
 
         if user is None:
@@ -119,6 +120,13 @@ class Auth:
         else:
             print("User found in cache")
             user = pickle.loads(user)
+
+        # Get user in blocklist
+        is_blocked = self.cache.get(user_hash + "_blacklist")
+        if is_blocked.decode('utf-8') == token:
+            print("User blocked, credentials not valid")
+            raise credentials_exception
+
         return user
 
     def create_email_token(self, data: dict):
@@ -138,6 +146,20 @@ class Auth:
             raise HTTPException(
                 status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
                 detail="Invalid token for email verification",
+            )
+
+    async def logout(self, token: str):
+        try:
+            payload = jwt.decode(token, self.SECRET_KEY, algorithms=[self.ALGORITHM])
+            if payload["scope"] == "access_token":
+                email = payload["sub"]
+                user_hash = str(email)
+                self.cache.set(user_hash + "_blacklist", token)
+                self.cache.expire(user_hash + "_blacklist", 300)
+        except JWTError:
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail="Invalid token for logout",
             )
 
 

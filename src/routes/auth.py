@@ -253,3 +253,18 @@ async def confirmed_reset_password(
     await repository_users.confirmed_email(email, db)
     return {"message": "Your password changed"}
 
+
+@router.post("/logout", response_model=TokenSchema)
+async def logout(received_token: TokenSchema):
+    """
+    The logout function is used to logout a user. It takes in a TokenSchema object and a database session
+    and returns a TokenSchema object.
+
+    :param received_token: TokenSchema: Get the token from the request
+    :param db: AsyncSession: Pass the database session to the repository
+
+    :return: A TokenSchema object
+    :doc-author: Trelent
+    """
+    await auth_service.logout(received_token.access_token)
+    return received_token
