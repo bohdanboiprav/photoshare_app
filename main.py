@@ -22,7 +22,6 @@ from sqlalchemy import text
 from src.database.db import get_db
 from src.routes import auth, users, posts, tags, photo_url_qr, comments
 from src.conf.config import settings
-from src.schemas import user
 
 app = FastAPI()
 BASE_DIR = Path(__file__).parent
@@ -95,7 +94,7 @@ async def startup():
 @app.get("/", response_class=HTMLResponse, description="Main Page")
 async def read_root(request: Request):
     return templates.TemplateResponse(
-        "index.html", {"request": request, "title": "Killer Instagram App"}
+        "index.html", {"request": request, "title": "PhotoShare App"}
     )
 
 
