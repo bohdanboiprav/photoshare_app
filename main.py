@@ -17,7 +17,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import text
 
 from src.database.db import get_db
-from src.routes import auth, users, posts, tags, photo_url_qr, comments, transformation
+from src.routes import auth, users, posts, tags, comments, transformation, rating
 from src.conf.config import settings
 
 app = FastAPI()

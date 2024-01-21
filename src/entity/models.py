@@ -52,6 +52,7 @@ class Post(Base):
     tags: Mapped[List["Tag"]] = relationship("Tag", secondary="tags_to_posts", back_populates="posts", lazy="joined")
     tags_to_posts: Mapped[List["TagToPost"]] = relationship("TagToPost", back_populates="post", lazy="joined")
     url: Mapped[List["PhotoUrl"]] = relationship("PhotoUrl", back_populates="post", lazy="joined")
+    ratings: Mapped[List["Rating"]] = relationship("Rating", back_populates="post", lazy="joined")
 
     @validates('tags')
     def validate_tags(self, key, tags):
