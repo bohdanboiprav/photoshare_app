@@ -1,7 +1,10 @@
+
 from pathlib import Path
+
 from src.conf import messages
 
 import redis.asyncio as redis
+
 from typing import Callable
 
 from pydantic import ConfigDict
@@ -19,9 +22,12 @@ from sqlalchemy import text
 from src.database.db import get_db
 from src.routes import auth, users, posts, tags, photo_url_qr, comments
 from src.conf.config import settings
-
+from src.schemas import user
 
 app = FastAPI()
+BASE_DIR = Path(__file__).parent
+directory = BASE_DIR / "src" / "static"
+app.mount("/src/static", StaticFiles(directory=directory), name="static")
 
 banned_ips = [ip_address("192.168.255.1"), ip_address("192.168.255.1")]
 
@@ -41,6 +47,8 @@ app.include_router(users.router, prefix='/api')
 app.include_router(tags.router, prefix="/api")
 app.include_router(photo_url_qr.router, prefix='/api')
 app.include_router(comments.router, prefix='/api')
+
+templates = Jinja2Templates(directory=BASE_DIR / "src" / "templates")
 
 
 @app.middleware("http")
@@ -84,7 +92,11 @@ async def startup():
     await FastAPILimiter.init(r)
 
 
-templates = Jinja2Templates(directory="src/templates")
+@app.get("/", response_class=HTMLResponse, description="Main Page")
+async def read_root(request: Request):
+    return templates.TemplateResponse(
+        "index.html", {"request": request, "title": "Killer Instagram App"}
+    )
 
 
 @app.get("/api/healthchecker")
