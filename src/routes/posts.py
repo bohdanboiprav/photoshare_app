@@ -9,13 +9,12 @@ import cloudinary
 import cloudinary.uploader
 
 from src.conf import messages
-from src.conf.config import settings
+from src.conf.cloudinary import configure_cloudinary
 from src.database.db import get_db
 from src.entity.models import User
-from src.repository.users import get_user_by_email
 from src.schemas.post import PostModel, PostResponse, PostDeletedResponse
 from src.repository import posts as repository_posts
-from src.schemas.tag import TagUpdate, TagResponse
+from src.schemas.tag import TagUpdate
 from src.services.auth import auth_service
 
 router = APIRouter(prefix='/posts', tags=["posts"])
@@ -55,12 +54,7 @@ test = {"name": "string2", "content": "string", "tags": ["string1", "string2"]}
 async def create_post(body: PostModel = Depends(checker), file: UploadFile = File(),
                       current_user: User = Depends(auth_service.get_current_user),
                       db: AsyncSession = Depends(get_db)):
-    cloudinary.config(
-        cloud_name=settings.CLOUDINARY_NAME,
-        api_key=settings.CLOUDINARY_API_KEY,
-        api_secret=settings.CLOUDINARY_API_SECRET,
-        secure=True
-    )
+    configure_cloudinary()
     unique_path = uuid.uuid4()
     r = cloudinary.uploader.upload(file.file, public_id=f'Photoshare_app/{current_user.username}/{unique_path}')
     image_url = cloudinary.CloudinaryImage(f'Photoshare_app/{current_user.username}/{unique_path}') \

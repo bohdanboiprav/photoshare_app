@@ -15,22 +15,17 @@ from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi_limiter.depends import RateLimiter
 from src.conf import messages
+from src.conf.cloudinary import configure_cloudinary
 from src.database.db import get_db
 from src.entity.models import User
 from src.repository.users import get_user_by_username, get_user_by_email
 from src.schemas.user import UserResponse, UserSchema, UserProfileResponse
 from src.services.auth import auth_service
-from src.conf.config import settings
 from src.repository import users as repository_users
 from src.repository import profile as repository_profile
 
 router = APIRouter(prefix="/users", tags=["users"])
-cloudinary.config(
-    cloud_name=settings.CLOUDINARY_NAME,
-    api_key=settings.CLOUDINARY_API_KEY,
-    api_secret=settings.CLOUDINARY_API_SECRET,
-    secure=True,
-)
+configure_cloudinary()
 
 
 @router.get(
