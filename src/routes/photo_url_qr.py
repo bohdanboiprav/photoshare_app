@@ -35,6 +35,13 @@ cloudinary.config(
     "/ping_cloudinary",
 )
 async def get_photos_info():
+    """
+    The get_photos_info function returns a dictionary of information about the photos in the Cloudinary account.
+        The function is called by the /photos_info route, which is accessed via an HTTP GET request.
+
+    :return: A dictionary with the following keys:
+    :doc-author: Trelent
+    """
     ping = cloudinary.api.ping()
     return ping
 
@@ -43,6 +50,13 @@ async def get_photos_info():
     "/info_all_photo",
 )
 async def get_photos_info():
+    """
+    The get_photos_info function returns a list of dictionaries containing information about the photos in the Cloudinary account.
+    The function uses the resources() method from Cloudinary's Python SDK to return a dictionary with all of this information.
+
+    :return: A dictionary of all the photos in your cloudinary account
+    :doc-author: Trelent
+    """
     resources = cloudinary.api.resources()
     return resources
 
@@ -52,6 +66,15 @@ async def get_photos_info():
     "/photo_url_qr/{public_id}",
 )
 async def get_url_photo(public_id: str):
+    """
+    The get_url_photo function takes a public_id as an argument and returns the url of the photo with that public_id.
+        Args:
+            public_id (str): The unique identifier for a photo in Cloudinary.
+
+    :param public_id: str: Specify the name of the image in cloudinary
+    :return: A tuple with two values
+    :doc-author: Trelent
+    """
     folder = "test"
     print(public_id)
     result_all_info = cloudinary.api.resource(F"{folder}/{public_id}")

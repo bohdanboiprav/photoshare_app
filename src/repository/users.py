@@ -25,6 +25,15 @@ async def get_user_by_email(email: str, db: AsyncSession = Depends(get_db)):
 
 
 async def get_user_by_username(username: str, db: AsyncSession = Depends(get_db)):
+    """
+    The get_user_by_username function takes a username and returns the user object associated with that username.
+    If no such user exists, it returns None.
+
+    :param username: str: Specify the username of the user we want to retrieve
+    :param db: AsyncSession: Pass the database session into the function
+    :return: A user object or none
+    :doc-author: Trelent
+    """
     stmt = select(User).filter_by(username=username)
     user = await db.execute(stmt)
     user = user.scalar_one_or_none()

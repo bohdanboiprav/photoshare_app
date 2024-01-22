@@ -26,6 +26,19 @@ conf = ConnectionConfig(
 async def send_email(
     email: EmailStr, username: str, host: str, type: str | None = None
 ):
+    """
+    The send_email function sends an email to the user with a link to verify their account.
+        Args:
+            email (str): The user's email address.
+            username (str): The username of the user who is registering for an account.
+
+    :param email: EmailStr: Pass the email address of the user to send an email to
+    :param username: str: Get the username of the user
+    :param host: str: Pass the host name to the template
+    :param type: str | None: Determine which template to use
+    :return: A coroutine object
+    :doc-author: Trelent
+    """
     temp_name = "verify_email.html"
     subj = "Confirm your email "
     if type == "reset_password":

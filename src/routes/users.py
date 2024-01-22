@@ -84,6 +84,17 @@ async def get_user_profile(
         username: str = Path(),
         db: AsyncSession = Depends(get_db),
 ):
+    """
+    The get_user_profile function is a GET request that returns the profile of a user. The username parameter is
+    required and must be unique. The db parameter uses the get_db function to connect to the database.
+
+
+    :param username: str: Get the username from the path
+    :param db: AsyncSession: Pass the database session to the function
+    :param : Get the user id from the path
+    :return: A dict with the user's profile information
+    :doc-author: Trelent
+    """
     user = await repository_users.get_user_by_username(username, db)
     if user:
         result = await repository_profile.get_profile(user, db)
@@ -99,6 +110,19 @@ async def get_user_profile(
 async def update_user_profile(body: UserSchema, db: AsyncSession = Depends(get_db),
                               current_user: User = Depends(auth_service.get_current_user)):
 
+    """
+    The update_user_profile function updates a user's profile.
+        Args:
+            body (UserSchema): The UserSchema object containing the new data for the user.
+            db (AsyncSession, optional): [description]. Defaults to Depends(get_db).
+            current_user (User, optional): [description]. Defaults to Depends(auth_service.get_current_user).
+
+    :param body: UserSchema: Validate the request body
+    :param db: AsyncSession: Get the connection to the database
+    :param current_user: User: Get the current user
+    :return: A user object
+    :doc-author: Trelent
+    """
     body.password = auth_service.get_password_hash(body.password)
 
     if (current_user.email == body.email) and (current_user.username != body.username):
