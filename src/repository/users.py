@@ -68,18 +68,6 @@ async def update_token(user: User, token: str | None, db: AsyncSession):
     await db.commit()
 
 
-async def update_access_token(user: User, token: str | None, db: AsyncSession):
-    """
-    The update_access_token function updates the access token for a user.
-    :param user:
-    :param token:
-    :param db:
-    :return:
-    """
-    user.access_token = token
-    await db.commit()
-
-
 async def confirmed_email(email: str, db: AsyncSession) -> None:
     """
     The confirmed_email function takes in an email and a database session,
