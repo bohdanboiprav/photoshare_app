@@ -25,7 +25,6 @@ from src.services.auth import auth_service
 from src.services.email import send_email
 from src.repository import comments
 
-
 router = APIRouter(prefix="/auth", tags=["auth"])
 get_refresh_token = HTTPBearer()
 get_access_token = HTTPBearer()
@@ -35,10 +34,10 @@ get_access_token = HTTPBearer()
     "/signup", response_model=UserResponse, status_code=status.HTTP_201_CREATED
 )
 async def signup(
-    body: UserSchema,
-    bt: BackgroundTasks,
-    request: Request,
-    db: AsyncSession = Depends(get_db),
+        body: UserSchema,
+        bt: BackgroundTasks,
+        request: Request,
+        db: AsyncSession = Depends(get_db),
 ):
     """
     The signup function creates a new user in the database.
@@ -64,7 +63,7 @@ async def signup(
 
 @router.post("/login", response_model=TokenSchema)
 async def login(
-    body: OAuth2PasswordRequestForm = Depends(), db: AsyncSession = Depends(get_db)
+        body: OAuth2PasswordRequestForm = Depends(), db: AsyncSession = Depends(get_db)
 ):
     """
     The login function is used to authenticate a user.
@@ -84,6 +83,11 @@ async def login(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail=messages.NOT_CONFIRMED_EMAIL,
         )
+    if user.is_banned:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail=messages.USER_BANNED,
+        )
     if not auth_service.verify_password(body.password, user.password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail=messages.AUTH_INVALID_PASSWORD
@@ -101,8 +105,8 @@ async def login(
 
 @router.get("/refresh_token", response_model=TokenSchema)
 async def refresh_token(
-    credentials: HTTPAuthorizationCredentials = Security(get_refresh_token),
-    db: AsyncSession = Depends(get_db),
+        credentials: HTTPAuthorizationCredentials = Security(get_refresh_token),
+        db: AsyncSession = Depends(get_db),
 ):
     """
     The refresh_token function is used to refresh the access token.
@@ -160,10 +164,10 @@ async def confirmed_email(token: str, db: AsyncSession = Depends(get_db)):
 
 @router.post("/request_email")
 async def request_email(
-    body: RequestEmail,
-    background_tasks: BackgroundTasks,
-    request: Request,
-    db: AsyncSession = Depends(get_db),
+        body: RequestEmail,
+        background_tasks: BackgroundTasks,
+        request: Request,
+        db: AsyncSession = Depends(get_db),
 ):
     """
     The request_email function is used to send an email to the user with a link that they can click on
@@ -193,10 +197,10 @@ async def request_email(
 
 @router.post("/reset_password")
 async def reset_password(
-    body: RequestEmail,
-    bt: BackgroundTasks,
-    request: Request,
-    db: AsyncSession = Depends(get_db),
+        body: RequestEmail,
+        bt: BackgroundTasks,
+        request: Request,
+        db: AsyncSession = Depends(get_db),
 ):
     """
     The reset_password function is used to reset a user's password.
@@ -227,7 +231,7 @@ async def reset_password(
 
 @router.get("/confirmed_reset_password/{token}")
 async def confirmed_reset_password(
-    token: str, password1: str, password2: str, db: AsyncSession = Depends(get_db)
+        token: str, password1: str, password2: str, db: AsyncSession = Depends(get_db)
 ):
     """
     The confirmed_reset_password function is used to reset a user's password.

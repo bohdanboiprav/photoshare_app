@@ -1,8 +1,10 @@
+import redis
 from fastapi import Depends
 from libgravatar import Gravatar
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from src.conf.config import settings
 from src.database.db import get_db
 from src.entity.models import User
 from src.schemas.user import UserSchema
@@ -111,3 +113,20 @@ async def update_avatar_url(email: str, url: str | None, db: AsyncSession) -> Us
     await db.commit()
     await db.refresh(user)
     return user
+
+
+async def ban_user(username: str, db: AsyncSession):
+    user = await get_user_by_username(username, db)
+    if user:
+        cache = redis.Redis(
+            host=settings.REDIS_HOST,
+            port=settings.REDIS_PORT,
+            db=0,
+            password=settings.REDIS_PASSWORD,
+        )
+        user.is_banned = True
+        user.refresh_token = None
+        cache.delete(str(user.email))
+        await db.commit()
+        await db.refresh(user)
+        return user
