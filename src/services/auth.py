@@ -130,7 +130,7 @@ class Auth:
         if user is None:
             print(messages.AUTH_USER_NOT_IN_CACHE)
             user = await repository_users.get_user_by_email(email, db)
-            if user is None:
+            if user is None or user.is_banned:
                 raise credentials_exception
 
             # Check if user's refresh token is in the blacklist

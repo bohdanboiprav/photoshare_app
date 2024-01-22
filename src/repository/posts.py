@@ -1,7 +1,11 @@
+import cloudinary
+import cloudinary.uploader
 from fastapi import HTTPException, UploadFile, File
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
+
+from src.conf.cloudinary import configure_cloudinary
 from src.entity.models import Post, User, TagToPost
 
 from src.schemas.post import PostModel
@@ -23,7 +27,7 @@ async def get_post(post_id: int, db: AsyncSession):
 
 async def get_user_post(post_id: int, current_user: User, db: AsyncSession):
     post = select(Post).filter(Post.id == post_id).filter_by(user=current_user)
-    if current_user.user_type_id == 1:
+    if current_user.user_type_id != 1:
         post = select(Post).filter(Post.id == post_id)
     post = await db.execute(post)
     return post.scalars().first()
@@ -95,6 +99,8 @@ async def remove_post(post_id: int, current_user: User, db: AsyncSession):
     post = await get_user_post(post_id, current_user, db)
     post_return = post
     if post:
+        configure_cloudinary()
+        cloudinary.uploader.destroy(str(post.image_id))
         post.tags.clear()
         await db.commit()
         await db.delete(post)

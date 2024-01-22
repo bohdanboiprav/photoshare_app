@@ -16,6 +16,16 @@ class UserResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 
+class UserProfileResponse(BaseModel):
+    id: uuid.UUID
+    username: str
+    email: EmailStr
+    avatar: str
+    created_at: str
+    updated_at: str
+    model_config = ConfigDict(from_attributes=True)
+
+
 class TokenSchema(BaseModel):
     access_token: str
     refresh_token: str
