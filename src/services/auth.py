@@ -12,6 +12,7 @@ from jose import JWTError, jwt
 from src.database.db import get_db
 from src.repository import users as repository_users
 from src.conf.config import settings
+from src.conf import messages
 
 
 class Auth:
@@ -70,7 +71,7 @@ class Auth:
     async def decode_refresh_token(self, refresh_token: str):
         credentials_exception = HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Could not validate credentials",
+            detail=messages.AUTH_NOT_VALID_CREDENTIALS,
             headers={"WWW-Authenticate": "Bearer"},
         )
         try:
@@ -94,7 +95,7 @@ class Auth:
         except JWTError:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Could not validate credentials",
+                detail=messages.AUTH_NOT_VALID_CREDENTIALS,
             )
 
     async def get_current_user(
@@ -102,7 +103,7 @@ class Auth:
     ):
         credentials_exception = HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Could not validate credentials",
+            detail=messages.AUTH_NOT_VALID_CREDENTIALS,
             headers={"WWW-Authenticate": "Bearer"},
         )
         try:
@@ -127,7 +128,7 @@ class Auth:
         user = self.cache.get(user_hash)
 
         if user is None:
-            print("User not found in cache, fetching from DB")
+            print(messages.AUTH_USER_NOT_IN_CACHE)
             user = await repository_users.get_user_by_email(email, db)
             if user is None:
                 raise credentials_exception
@@ -141,7 +142,7 @@ class Auth:
             self.cache.set(user_hash, pickle.dumps(user))
             self.cache.expire(user_hash, 300)
         else:
-            print("User found in cache")
+            print(messages.AUTH_USER_IN_CACHE)
             user = pickle.loads(user)
 
         return user
@@ -162,7 +163,7 @@ class Auth:
             print(e)
             raise HTTPException(
                 status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-                detail="Invalid token for email verification",
+                detail=messages.AUTH_INVALID_TOKEN,
             )
 
 
