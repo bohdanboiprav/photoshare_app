@@ -6,6 +6,7 @@ from sqlalchemy.orm import selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.schemas.comment import CreateCommentModel, CommentUpdateModel, CommentDeleteModel
 from src.entity.models import User, Comment, CommentToPost
+from src.conf import messages
 
 
 async def create_comment(body: CreateCommentModel, current_user: User, db: AsyncSession):
@@ -23,9 +24,9 @@ async def create_comment(body: CreateCommentModel, current_user: User, db: Async
 async def update_comment(body: CommentUpdateModel, current_user: User, db: AsyncSession):
     comment = await db.get(Comment, body.comment_id)
     if not comment:
-        raise HTTPException(status_code=404, detail="Comment not found")
+        raise HTTPException(status_code=404, detail=messages.COMMENT_NOT_FOUND)
     if comment.user_id != current_user.id:
-        raise HTTPException(status_code=403, detail="Not enough permissions")
+        raise HTTPException(status_code=403, detail=messages.COMMENT_NOT_PERMISSION)
     comment.content = body.content
     await db.commit()
     await db.refresh(comment)
@@ -35,9 +36,9 @@ async def update_comment(body: CommentUpdateModel, current_user: User, db: Async
 async def delete_comment(body: CommentDeleteModel, user: User, db: AsyncSession):
     user_ = await db.get(User, user.id)
     if user_.user_type_id not in (2, 3):
-        raise HTTPException(status_code=403, detail="Not enough permissions")
+        raise HTTPException(status_code=403, detail=messages.COMMENT_NOT_PERMISSION)
     comment = await db.get(Comment, body.comment_id, options=[selectinload(Comment.comments_to_posts)])
     if not comment:
-        raise HTTPException(status_code=404, detail="Comment not found")
+        raise HTTPException(status_code=404, detail=messages.COMMENT_NOT_FOUND)
     await db.delete(comment)
     await db.commit()
