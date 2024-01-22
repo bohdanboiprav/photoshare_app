@@ -18,6 +18,7 @@ from fastapi.responses import FileResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.database.db import get_db
+from src.entity.models import User
 from src.repository import users as repository_users
 from src.schemas.user import UserSchema, TokenSchema, UserResponse, RequestEmail
 from src.services.auth import auth_service
@@ -26,6 +27,7 @@ from src.services.email import send_email
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 get_refresh_token = HTTPBearer()
+get_access_token = HTTPBearer()
 
 
 @router.post(
@@ -254,17 +256,32 @@ async def confirmed_reset_password(
     return {"message": "Your password changed"}
 
 
-@router.post("/logout", response_model=TokenSchema)
-async def logout(received_token: TokenSchema):
+@router.post("/logout", response_model=dict, status_code=status.HTTP_200_OK)
+async def logout(
+        credentials: HTTPBearer = Depends(get_access_token),
+        db: AsyncSession = Depends(get_db),
+):
     """
-    The logout function is used to logout a user. It takes in a TokenSchema object and a database session
-    and returns a TokenSchema object.
+    The logout function is used to invalidate the access token and refresh token by adding them to the blacklist.
 
-    :param received_token: TokenSchema: Get the token from the request
-    :param db: AsyncSession: Pass the database session to the repository
-
-    :return: A TokenSchema object
-    :doc-author: Trelent
+    :param credentials: HTTPBearer: Get the access token from the request header
+    :param db: AsyncSession: Get the database session
+    :return: A dictionary with a success message
+    :doc-author: YourName
     """
-    await auth_service.logout(received_token.access_token)
-    return received_token
+    access_token = credentials.credentials
+    email = await auth_service.get_email_from_token(access_token)
+    user_hash = str(email)
+
+    # Add the access token to the blacklist
+    auth_service.cache.set(user_hash + "_blacklist_access", access_token)
+    auth_service.cache.expire(user_hash + "_blacklist", 300)
+
+    # Optionally, add the refresh token to the blacklist if it's present
+    user = await repository_users.get_user_by_email(email, db)
+    if user.refresh_token:
+        auth_service.cache.set(user.email + "_blacklist_refresh", user.refresh_token)
+        auth_service.cache.expire(user.refresh_token + "_blacklist", 300)
+    print(access_token)
+    print(user.refresh_token)
+    return {"message": "Successfully logged out"}

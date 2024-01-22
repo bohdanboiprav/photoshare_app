@@ -68,13 +68,25 @@ class Auth:
         return encoded_refresh_token
 
     async def decode_refresh_token(self, refresh_token: str):
+        credentials_exception = HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
         try:
             payload = jwt.decode(
                 refresh_token, self.SECRET_KEY, algorithms=[self.ALGORITHM]
             )
+            print(payload)
             if payload["scope"] == "refresh_token":
                 email = payload["sub"]
+
+                is_blocked = self.cache.get(str(email) + "_blacklist_refresh")
+                if is_blocked is not None and is_blocked.decode('utf-8') == refresh_token:
+                    raise credentials_exception
+
                 return email
+
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Invalid scope for token",
@@ -86,14 +98,13 @@ class Auth:
             )
 
     async def get_current_user(
-        self, token: str = Depends(oauth2_scheme), db: AsyncSession = Depends(get_db)
+            self, token: str = Depends(oauth2_scheme), db: AsyncSession = Depends(get_db)
     ):
         credentials_exception = HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Could not validate credentials",
             headers={"WWW-Authenticate": "Bearer"},
         )
-
         try:
             # Decode JWT
             payload = jwt.decode(token, self.SECRET_KEY, algorithms=[self.ALGORITHM])
@@ -108,6 +119,11 @@ class Auth:
 
         user_hash = str(email)
 
+        # Check if the user is in the blacklist
+        is_blocked = self.cache.get(user_hash + "_blacklist_access")
+        if is_blocked is not None and is_blocked.decode('utf-8') == token:
+            raise credentials_exception
+
         user = self.cache.get(user_hash)
 
         if user is None:
@@ -115,17 +131,18 @@ class Auth:
             user = await repository_users.get_user_by_email(email, db)
             if user is None:
                 raise credentials_exception
+
+            # Check if user's refresh token is in the blacklist
+            if user.refresh_token is not None:
+                refresh_token_blocked = self.cache.get(user.refresh_token + "_blacklist_refresh")
+                if refresh_token_blocked is not None:
+                    raise credentials_exception
+
             self.cache.set(user_hash, pickle.dumps(user))
             self.cache.expire(user_hash, 300)
         else:
             print("User found in cache")
             user = pickle.loads(user)
-
-        # Get user in blocklist
-        is_blocked = self.cache.get(user_hash + "_blacklist")
-        if is_blocked.decode('utf-8') == token:
-            print("User blocked, credentials not valid")
-            raise credentials_exception
 
         return user
 
@@ -146,20 +163,6 @@ class Auth:
             raise HTTPException(
                 status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
                 detail="Invalid token for email verification",
-            )
-
-    async def logout(self, token: str):
-        try:
-            payload = jwt.decode(token, self.SECRET_KEY, algorithms=[self.ALGORITHM])
-            if payload["scope"] == "access_token":
-                email = payload["sub"]
-                user_hash = str(email)
-                self.cache.set(user_hash + "_blacklist", token)
-                self.cache.expire(user_hash + "_blacklist", 300)
-        except JWTError:
-            raise HTTPException(
-                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-                detail="Invalid token for logout",
             )
 
 
