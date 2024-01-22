@@ -280,13 +280,13 @@ async def logout(
 
     # Add the access token to the blacklist
     auth_service.cache.set(user_hash + "_blacklist_access", access_token)
-    auth_service.cache.expire(user_hash + "_blacklist", 300)
+    auth_service.cache.expire(user_hash + "_blacklist_access", 300)
 
     # Optionally, add the refresh token to the blacklist if it's present
     user = await repository_users.get_user_by_email(email, db)
     if user.refresh_token:
-        auth_service.cache.set(user.email + "_blacklist_refresh", user.refresh_token)
-        auth_service.cache.expire(user.refresh_token + "_blacklist", 604800)
+        auth_service.cache.set(user.email + "_blacklist_access", user.refresh_token)
+        auth_service.cache.expire(user.refresh_token + "_blacklist_access", 604800)
     print(access_token)
     print(user.refresh_token)
     return {"message": comments.AUTH_LOGOUT}
