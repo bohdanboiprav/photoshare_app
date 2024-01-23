@@ -11,6 +11,7 @@ from src.entity.models import Post, User, TagToPost
 from src.schemas.post import PostModel
 from src.repository.tags import get_or_create_tag_by_name
 from src.schemas.tag import TagUpdate
+from src.routes.transformation import remove_qrcode
 
 
 async def get_posts(db: AsyncSession):
@@ -96,6 +97,7 @@ async def add_tag_to_post(body: TagUpdate, current_user: User, db: AsyncSession)
 
 
 async def remove_post(post_id: int, current_user: User, db: AsyncSession):
+    await remove_qrcode (post_id, current_user, db)
     post = await get_user_post(post_id, current_user, db)
     post_return = post
     if post:
