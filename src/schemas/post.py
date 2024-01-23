@@ -21,13 +21,19 @@ class PostModel(BaseModel):
         return value
 
 
+class PostDeletedResponse(BaseModel):
+    id: int
+    name: str
+
+
 class PostResponse(BaseModel):
     id: int
     name: str
     content: str
     created_at: datetime
     updated_at: datetime
-    image: str
+    image_url: str
+    rating: float | None
     user: UserResponse
     tags: List[TagResponse] | None
 
