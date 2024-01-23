@@ -3,7 +3,7 @@ from datetime import date
 from typing import List
 
 from sqlalchemy.orm import Mapped, mapped_column, relationship, validates, registry
-from sqlalchemy import String, Date, func, DateTime, Enum, Integer, ForeignKey, Boolean, UUID, Table, Column
+from sqlalchemy import String, Date, func, DateTime, Enum, Integer, ForeignKey, Boolean, UUID, Table, Column, Float
 from sqlalchemy.orm import DeclarativeBase
 
 mapper_registry = registry()
@@ -26,6 +26,7 @@ class User(Base):
     updated_at: Mapped[date] = mapped_column('updated_at', DateTime(timezone=True),
                                              default=func.now(), onupdate=func.now(), nullable=True)
     confirmed: Mapped[bool] = mapped_column(Boolean, default=False, nullable=True)
+    is_banned: Mapped[bool] = mapped_column(Boolean, default=False, nullable=True)
     user_type_id: Mapped[int] = mapped_column(ForeignKey('user_type.id'))
     user_type: Mapped["UserType"] = relationship("UserType", backref="users", lazy="joined")
 
@@ -46,10 +47,15 @@ class Post(Base):
     image_id: Mapped[str] = mapped_column(String(255), nullable=True)
     image_url: Mapped[str] = mapped_column(String(255), nullable=True)
     user_id: Mapped[uuid] = mapped_column(UUID(as_uuid=True), ForeignKey('users.id'), nullable=True)
+    rating: Mapped[float] = mapped_column(Float(), nullable=True, default=float("0.00"))
     user: Mapped["User"] = relationship("User", backref="posts", lazy="joined")
 
     tags: Mapped[List["Tag"]] = relationship("Tag", secondary="tags_to_posts", back_populates="posts", lazy="joined")
-    tags_to_posts: Mapped[List["TagToPost"]] = relationship("TagToPost", back_populates="post", lazy="joined")
+    tags_to_posts: Mapped[List["TagToPost"]] = relationship("TagToPost", back_populates="post", lazy="joined", overlaps="tags")
+    comment: Mapped[List["Comment"]] = relationship("Comment", back_populates="post",
+                                                    lazy="joined", cascade="all, delete")
+    all_images: Mapped[List["PhotoUrl"]] = relationship("PhotoUrl", back_populates="post", lazy="joined",cascade='save-update, merge, delete')
+    ratings: Mapped[List["Rating"]] = relationship("Rating", back_populates="post", lazy="joined")
 
     @validates('tags')
     def validate_tags(self, key, tags):
@@ -78,6 +84,17 @@ class TagToPost(Base):
     tag: Mapped["Tag"] = relationship("Tag", back_populates="tags_to_posts", lazy="joined", overlaps="posts,tags")
 
 
+class Rating(Base):
+    __tablename__ = 'ratings'
+    id: Mapped[int] = mapped_column(primary_key=True)
+    value: Mapped[int] = mapped_column(Integer, nullable=False)
+    user_id: Mapped[uuid] = mapped_column(UUID(as_uuid=True), ForeignKey('users.id'), nullable=False)
+    post_id: Mapped[int] = mapped_column(Integer, ForeignKey('posts.id'), nullable=False)
+
+    post: Mapped["Post"] = relationship("Post", back_populates="ratings", lazy="joined")
+    user: Mapped["User"] = relationship("User", backref="ratings", lazy="joined")
+
+
 class Comment(Base):
     __tablename__ = 'comments'
     id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
@@ -85,19 +102,34 @@ class Comment(Base):
     created_at: Mapped[date] = mapped_column('created_at', DateTime, default=func.now())
     updated_at: Mapped[date] = mapped_column('updated_at', DateTime, default=func.now(), onupdate=func.now())
     user_id: Mapped[uuid] = mapped_column(UUID(as_uuid=True), ForeignKey('users.id', ondelete="CASCADE"), nullable=True)
-    post_id: Mapped[int] = mapped_column(Integer, ForeignKey('posts.id', ondelete="CASCADE"), nullable=False)
+    post_id: Mapped[int] = mapped_column(Integer, ForeignKey('posts.id'), nullable=True)
     user: Mapped["User"] = relationship("User", backref="comments", lazy="joined")
-    post: Mapped["Post"] = relationship("Post", backref="comments", lazy="joined")
+    # post: Mapped["Post"] = relationship("Post", backref="comments", lazy="joined")
+    post: Mapped[List["Post"]] = relationship("Post", back_populates="comment",
+                                              lazy="joined")
+    comments_to_posts: Mapped[List["CommentToPost"]] = relationship("CommentToPost", back_populates="comments",
+                                                                    lazy="joined", cascade="all, delete")
 
 
 class CommentToPost(Base):
     __tablename__ = 'comments_to_posts'
     id: Mapped[int] = mapped_column(primary_key=True)
-    post_id: Mapped[int] = mapped_column(Integer, ForeignKey('posts.id', ondelete="CASCADE"), nullable=False)
+    post_id: Mapped[int] = mapped_column(Integer, ForeignKey('posts.id', ondelete="CASCADE"), nullable=True)
     comment_id: Mapped[uuid] = mapped_column(UUID(as_uuid=True), ForeignKey('comments.id', ondelete="CASCADE"),
-                                             nullable=False)
-    post: Mapped["Post"] = relationship("Post", backref="comments_to_posts", lazy="joined")
-    comment: Mapped["Comment"] = relationship("Comment", backref="comments_to_posts", lazy="joined")
+                                             nullable=True)
+    comments: Mapped[List["Comment"]] = relationship("Comment", back_populates='comments_to_posts',
+                                                     lazy="joined")
+
+
+class PhotoUrl(Base):
+    __tablename__ = 'photos_url'
+    id: Mapped[int] = mapped_column(primary_key=True)
+    transform_url: Mapped[str] = mapped_column(String(500), nullable=True)
+    transform_url_qr: Mapped[str] = mapped_column(String(500), nullable=True)
+    public_id_qrcode: Mapped[str] = mapped_column(String(500), nullable=True)
+
+    post_id: Mapped[int] = mapped_column(Integer, ForeignKey('posts.id'), nullable=True)
+    post: Mapped["Post"] = relationship("Post", back_populates="all_images", lazy="joined")
 
 
 mapper_registry.configure()

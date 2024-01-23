@@ -46,7 +46,7 @@ async def update_comment(
     return await comments.update_comment(body, current_user, db)
 
 
-@router.delete("/{comment_id}", response_model=CommentResponse)
+@router.delete("/{comment_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_comment(
         body: CommentDeleteModel,
         current_user: User = Depends(auth_service.get_current_user),
@@ -64,4 +64,3 @@ async def delete_comment(
     :doc-author: Trelent
     """
     return await comments.delete_comment(body, current_user, db)
-

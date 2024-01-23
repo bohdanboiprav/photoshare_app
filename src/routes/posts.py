@@ -8,13 +8,13 @@ from sqlalchemy.ext.asyncio import AsyncSession
 import cloudinary
 import cloudinary.uploader
 
-from src.conf.config import settings
+from src.conf import messages
+from src.conf.cloudinary import configure_cloudinary
 from src.database.db import get_db
 from src.entity.models import User
-from src.repository.users import get_user_by_email
 from src.schemas.post import PostModel, PostResponse, PostDeletedResponse
 from src.repository import posts as repository_posts
-from src.schemas.tag import TagUpdate, TagResponse
+from src.schemas.tag import TagUpdate
 from src.services.auth import auth_service
 
 router = APIRouter(prefix='/posts', tags=["posts"])
@@ -84,6 +84,7 @@ test = {"name": "string2", "content": "string", "tags": ["string1", "string2"]}
 async def create_post(body: PostModel = Depends(checker), file: UploadFile = File(),
                       current_user: User = Depends(auth_service.get_current_user),
                       db: AsyncSession = Depends(get_db)):
+    configure_cloudinary()
     """
     The create_post function creates a new post in the database.
         It takes in a PostModel object, an UploadFile object, and the current_user as arguments.
@@ -97,12 +98,6 @@ async def create_post(body: PostModel = Depends(checker), file: UploadFile = Fil
     :return: A postmodel object
     :doc-author: Trelent
     """
-    cloudinary.config(
-        cloud_name=settings.CLOUDINARY_NAME,
-        api_key=settings.CLOUDINARY_API_KEY,
-        api_secret=settings.CLOUDINARY_API_SECRET,
-        secure=True
-    )
     unique_path = uuid.uuid4()
     r = cloudinary.uploader.upload(file.file, public_id=f'Photoshare_app/{current_user.username}/{unique_path}')
     image_url = cloudinary.CloudinaryImage(f'Photoshare_app/{current_user.username}/{unique_path}') \
@@ -149,7 +144,7 @@ async def update_post(body: PostModel, post_id: int = Path(ge=1),
     """
     post = await repository_posts.update_post(post_id, body, current_user, db)
     if post is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Post is not found")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=messages.POST_NOT_FOUND)
     return post
 
 
@@ -168,5 +163,5 @@ async def remove_post(post_id: int = Path(ge=1),
     """
     post = await repository_posts.remove_post(post_id, current_user, db)
     if post is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Post is not found")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=messages.POST_NOT_FOUND)
     return post
