@@ -17,7 +17,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import text
 
 from src.database.db import get_db
-from src.routes import auth, users, posts, tags, comments, transformation, rating
+from src.routes import auth, users, posts, tags, comments, transformation, rating, search
 from src.conf.config import settings
 
 app = FastAPI()
@@ -41,6 +41,7 @@ app.include_router(tags.router, prefix="/api")
 app.include_router(transformation.router, prefix='/api')
 app.include_router(comments.router, prefix='/api')
 app.include_router(rating.router, prefix='/api')
+app.include_router(search.router, prefix='/api')
 
 
 @app.middleware("http")
