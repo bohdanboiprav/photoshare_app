@@ -30,6 +30,11 @@ uuid = "^1.30"
 qrcode = "^7.4.2"
 pillow = "^10.2.0"
 
+
+[tool.poetry.group.dev.dependencies]
+sphinx = "^7.2.6"
+
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
