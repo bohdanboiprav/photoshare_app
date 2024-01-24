@@ -138,7 +138,7 @@ async def add_tag_to_post(body: TagUpdate, current_user: User, db: AsyncSession)
     :param db: AsyncSession: Pass the database session to the function
     :return: A post with a new tag
     """
-    post = await db.execute(select(Post).where(Post.name == body.name))
+    post = await db.execute(select(Post).where(Post.id == body.post_id))
     post = post.scalar()
     if not post:
         raise HTTPException(status_code=400, detail="Post with this name doesn't exist")
