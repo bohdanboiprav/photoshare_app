@@ -5,8 +5,8 @@ from src.entity.models import PhotoUrl
 
 
 class UrlResponse (BaseModel):
-    transform_url: str 
-    transform_url_qr: str
+    transform_url: str | None
+    transform_url_qr: str | None
      
 
 
