@@ -23,7 +23,7 @@ from src.repository import users as repository_users
 from src.schemas.user import UserSchema, TokenSchema, UserResponse, RequestEmail
 from src.services.auth import auth_service
 from src.services.email import send_email
-from src.repository import comments
+from src.conf import messages
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 get_refresh_token = HTTPBearer()
@@ -291,4 +291,4 @@ async def logout(
         auth_service.cache.expire(user.refresh_token + "_blacklist_refresh", 604800)
     print(access_token)
     print(user.refresh_token)
-    return {"message": comments.AUTH_LOGOUT}
+    return {"message": messages.AUTH_LOGOUT}
