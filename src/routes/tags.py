@@ -20,9 +20,7 @@ async def create_tag(
 
     :param body: TagModel: Specify the type of data that is expected in the request body
     :param db: AsyncSession: Pass the database connection to the repository
-    :param : Get the id of the tag to be deleted
     :return: A tagmodel object
-    :doc-author: Trelent
     """
     return await repository_tags.create_tag(body, db)
 
@@ -40,7 +38,6 @@ async def get_all_tags(limit: int = Query(10, ge=10, le=500), offset: int = Quer
     :param ge: Specify a minimum value for the limit parameter
     :param db: AsyncSession: Get the database session
     :return: A list of tags
-    :doc-author: Trelent
     """
     tags = await repository_tags.get_all_tags(limit, offset, db)
     return tags
@@ -56,7 +53,6 @@ async def get_or_create_tag_by_name(name: str, db: AsyncSession = Depends(get_db
     :param name: str: Specify the name of the tag to be created
     :param db: AsyncSession: Pass the database session to the function
     :return: A tuple of the tag object and a boolean value
-    :doc-author: Trelent
     """
     tag = await repository_tags.get_or_create_tag_by_name(name, db)
     return tag
@@ -70,8 +66,7 @@ async def remove_tag(tag_name: str, user: User = Depends(auth_service.get_curren
     :param tag_name: str: Get the tag name from the request
     :param user: User: Get the user object from the token
     :param db: AsyncSession: Get the database connection
-    :return: A tag object (see the repository_tags
-    :doc-author: Trelent
+    :return: A tag object (see the repository_tags)
     """
     if user.user_type_id == 1:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Only admin/moder can remove tags")

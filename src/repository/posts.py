@@ -20,7 +20,6 @@ async def get_posts(db: AsyncSession):
 
     :param db: AsyncSession: Pass the database session to the function
     :return: A list of posts
-    :doc-author: Trelent
     """
     post = select(Post).order_by(Post.created_at.desc()).limit(20)
     post = await db.execute(post)
@@ -35,7 +34,6 @@ async def get_post(post_id: int, db: AsyncSession):
     :param post_id: int: Specify the type of parameter that is expected
     :param db: AsyncSession: Pass in the database session to use
     :return: A single post
-    :doc-author: Trelent
     """
     post = select(Post).filter(Post.id == post_id)
     post = await db.execute(post)
@@ -54,7 +52,6 @@ async def get_user_post(post_id: int, current_user: User, db: AsyncSession):
     :param current_user: User: Check if the user is an admin or not
     :param db: AsyncSession: Pass the database session to the function
     :return: A post object with the given id, if it exists
-    :doc-author: Trelent
     """
     post = select(Post).filter(Post.id == post_id).filter_by(user=current_user)
     if current_user.user_type_id != 1:
@@ -77,7 +74,6 @@ async def create_post(body: PostModel, image_url: str, image_id: str, current_us
     :param current_user: User: Get the user who is currently logged in
     :param db: AsyncSession: Pass the database session to the function
     :return: A post object
-    :doc-author: Trelent
     """
     post = select(Post).filter_by(user=current_user).filter(Post.name == body.name)
     post = await db.execute(post)
@@ -111,7 +107,6 @@ async def update_post(post_id: int, body: PostModel, current_user: User, db: Asy
     :param current_user: User: Check if the user is authorized to update the post
     :param db: AsyncSession: Pass the database session to the function
     :return: A postmodel object
-    :doc-author: Trelent
     """
     post = await get_user_post(post_id, current_user, db)
     if post:
@@ -142,7 +137,6 @@ async def add_tag_to_post(body: TagUpdate, current_user: User, db: AsyncSession)
     :param current_user: User: Check if the user is authorized to add tags to a post
     :param db: AsyncSession: Pass the database session to the function
     :return: A post with a new tag
-    :doc-author: Trelent
     """
     post = await db.execute(select(Post).where(Post.name == body.name))
     post = post.scalar()
@@ -180,7 +174,6 @@ async def remove_post(post_id: int, current_user: User, db: AsyncSession):
     :param current_user: User: Ensure that the user is logged in
     :param db: AsyncSession: Connect to the database
     :return: The post that was removed
-    :doc-author: Trelent
     """
     await remove_qrcode (post_id, current_user, db)
     post = await get_user_post(post_id, current_user, db)

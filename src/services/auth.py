@@ -36,7 +36,6 @@ class Auth:
         :param plain_password: Pass in the password that is entered by the user
         :param hashed_password: Compare the hashed password stored in the database to the plain text password that is entered by a user
         :return: A boolean value
-        :doc-author: Trelent
         """
         return self.pwd_context.verify(plain_password, hashed_password)
 
@@ -48,7 +47,6 @@ class Auth:
         :param self: Represent the instance of the class
         :param password: str: Pass in the password that we want to hash
         :return: A hash of the password
-        :doc-author: Trelent
         """
         return self.pwd_context.hash(password)
 
@@ -61,15 +59,14 @@ class Auth:
         """
         The create_access_token function creates a new access token.
             Args:
-                data (dict): A dictionary containing the claims to be encoded in the JWT.
-                expires_delta (Optional[float]): An optional parameter specifying how long, in seconds,
+                - data (dict): A dictionary containing the claims to be encoded in the JWT.
+                - expires_delta (Optional[float]): An optional parameter specifying how long, in seconds,
                 the access token should last before expiring. If not specified, it defaults to 15 minutes.
 
         :param self: Make the function a method of the class
         :param data: dict: Pass the data that will be encoded into the jwt
         :param expires_delta: Optional[float]: Set the expiration time of the token
         :return: An encoded access token
-        :doc-author: Trelent
         """
         to_encode = data.copy()
         if expires_delta:
@@ -91,14 +88,13 @@ class Auth:
         """
         The create_refresh_token function creates a refresh token for the user.
             Args:
-                data (dict): A dictionary containing the user's id and username.
-                expires_delta (Optional[float]): The time in seconds until the token expires. Defaults to None, which sets it to 7 days from now.
+                - data (dict): A dictionary containing the user's id and username.
+                - expires_delta (Optional[float]): The time in seconds until the token expires. Defaults to None, which sets it to 7 days from now.
 
         :param self: Represent the instance of the class
         :param data: dict: Pass in the data that will be encoded into the token
         :param expires_delta: Optional[float]: Set the expiration time of the refresh token
         :return: A refresh token
-        :doc-author: Trelent
         """
         to_encode = data.copy()
         if expires_delta:
@@ -127,7 +123,6 @@ class Auth:
         :param self: Represent the instance of a class
         :param refresh_token: str: Pass in the refresh token that is being decoded
         :return: The email of the user who is trying to refresh their access token
-        :doc-author: Trelent
         """
         try:
             payload = jwt.decode(
@@ -165,7 +160,6 @@ class Auth:
         :param token: str: Get the token from the authorization header
         :param db: AsyncSession: Pass the database session to the function
         :return: A user object
-        :doc-author: Trelent
         """
         credentials_exception = HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -205,7 +199,6 @@ class Auth:
                 refresh_token_blocked = self.cache.get(user.refresh_token + "_blacklist_refresh")
                 if refresh_token_blocked is not None:
                     raise credentials_exception
-
             self.cache.set(user_hash, pickle.dumps(user))
             self.cache.expire(user_hash, 300)
         else:
@@ -223,7 +216,6 @@ class Auth:
         :param self: Make the function a method of the class
         :param data: dict: Encode the token
         :return: A token
-        :doc-author: Trelent
         """
         to_encode = data.copy()
         expire = datetime.utcnow() + timedelta(days=7)
@@ -239,7 +231,6 @@ class Auth:
         :param self: Represent the instance of the class
         :param token: str: Store the token that is passed in from the route
         :return: The email address of the user who is trying to verify their account
-        :doc-author: Trelent
         """
         try:
             payload = jwt.decode(token, self.SECRET_KEY, algorithms=[self.ALGORITHM])

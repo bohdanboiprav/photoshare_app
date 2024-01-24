@@ -91,7 +91,7 @@ async def ping_cloudinary():
     return ping
 
 
-@router.get("/info_all_transformation",dependencies=[Depends(RateLimiter(times=2, seconds=5))])
+@router.get("/info_all_transformation", dependencies=[Depends(RateLimiter(times=2, seconds=5))])
 async def info_all_transformation():
     """   
     Creates a request to obtain data about available transformations.
@@ -102,7 +102,7 @@ async def info_all_transformation():
     return TRANSFORMATIONS
 
 
-@router.post("/transformation_photo",dependencies=[Depends(RateLimiter(times=2, seconds=5))])
+@router.post("/transformation_photo", dependencies=[Depends(RateLimiter(times=2, seconds=5))])
 async def transformation_photo(
         id: int ,
         create_qrcode: bool ,
@@ -201,6 +201,7 @@ async def show_photo_url(id: int, user: User = Depends(auth_service.get_current_
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Contact not found")
     return result
 
+
 @router.get("/show_all_url",response_model=List[PhotoResponse], dependencies=[Depends(RateLimiter(times=2, seconds=5))])
 async def show_all_url(limit: int = Query(10, ge=10, le=500), offset: int = Query(0, ge=0),
                        user: User = Depends(auth_service.get_current_user), db: AsyncSession = Depends(get_db)):
@@ -223,8 +224,6 @@ async def show_all_url(limit: int = Query(10, ge=10, le=500), offset: int = Quer
     if result is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Contact not found")
     return result
-
-
 
 #@router.delete("/remove_qrcode",dependencies=[Depends(RateLimiter(times=2, seconds=5))])
 async def remove_qrcode(id: int, user: User = Depends(auth_service.get_current_user), db: AsyncSession = Depends(get_db)):

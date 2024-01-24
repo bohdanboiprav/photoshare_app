@@ -18,7 +18,6 @@ async def get_profile(user: User, db: AsyncSession) -> dict:
     :param user: User: Pass the user object to the function
     :param db: AsyncSession: Pass the database session to the function
     :return: A dictionary of user information
-    :doc-author: Trelent
     """
     result = {}
     if user:
@@ -52,7 +51,6 @@ async def update_user_profile(body: UserSchema, user: User, db: AsyncSession) ->
     :param user: User: Get the user object from the database
     :param db: AsyncSession: Pass in the database session
     :return: The updated user object
-    :doc-author: Trelent
     """
     stmt = select(User).filter_by(username=user.username)
     result = await db.execute(stmt)

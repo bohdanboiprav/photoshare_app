@@ -39,16 +39,17 @@ async def signup(
         request: Request,
         db: AsyncSession = Depends(get_db),
 ):
+
     """
     The signup function creates a new user in the database.
+        It takes a UserSchema object as input, and returns the newly created user.
+        If an account with that email already exists, it raises an HTTPException.
 
-    :param body: UserSchema: Validate the request body
-    :param bt: BackgroundTasks: Add a task to the background queue
-    :param request: Request: Get the base_url of the application
-    :param db: AsyncSession: Pass the database session to the repository function
-    :param : Get the user's email and username to send an email
-    :return: A user object
-    :doc-author: Trelent
+    :param body: UserSchema: Validate the request body and convert it to a user object
+    :param bt: BackgroundTasks: Add a task to the background tasks queue
+    :param request: Request: Get the base url of the server
+    :param db: AsyncSession: Get the database session
+    :return: A new user object
     """
     exist_user = await repository_users.get_user_by_email(body.email, db)
     if exist_user:
@@ -71,7 +72,6 @@ async def login(
     :param body: OAuth2PasswordRequestForm: Get the username and password from the request body
     :param db: AsyncSession: Get the database session from the dependency
     :return: A jwt, which is a json object with the following keys:
-    :doc-author: Trelent
     """
     user = await repository_users.get_user_by_email(body.username, db)
     if user is None:
@@ -119,9 +119,7 @@ async def refresh_token(
 
     :param credentials: HTTPAuthorizationCredentials: Get the access token from the request header
     :param db: AsyncSession: Pass the database session to the function
-    :param : Get the user from the database
     :return: A new access token and refresh token
-    :doc-author: Trelent
     """
     token = credentials.credentials
     email = await auth_service.decode_refresh_token(token)
@@ -150,7 +148,6 @@ async def confirmed_email(token: str, db: AsyncSession = Depends(get_db)):
     :param token: str: Get the token from the url
     :param db: AsyncSession: Get the database session
     :return: A message if the email is already confirmed or a different one if it is not
-    :doc-author: Trelent
     """
     email = await auth_service.get_email_from_token(token)
     user = await repository_users.get_user_by_email(email, db)
@@ -182,9 +179,7 @@ async def request_email(
     :param background_tasks: BackgroundTasks: Add a task to the background queue
     :param request: Request: Get the base url of our application
     :param db: AsyncSession: Get the database session
-    :param : Get the user's email from the database
     :return: A message to the user
-    :doc-author: Trelent
     """
     user = await repository_users.get_user_by_email(body.email, db)
 
@@ -211,9 +206,7 @@ async def reset_password(
     :param bt: BackgroundTasks: Add a task to the background tasks queue
     :param request: Request: Get the base url of the application
     :param db: AsyncSession: Get the database session
-    :param : Get the user id from the token
     :return: A message
-    :doc-author: Trelent
     """
     user = await repository_users.get_user_by_email(body.email, db)
 
@@ -249,7 +242,6 @@ async def confirmed_reset_password(
     :param password2: str: Make sure that the user entered the same password twice
     :param db: AsyncSession: Get the database session
     :return: A dictionary with a message
-    :doc-author: Trelent
     """
     if password1 != password2:
         raise HTTPException(
@@ -274,7 +266,6 @@ async def logout(
     :param credentials: HTTPBearer: Get the access token from the request header
     :param db: AsyncSession: Get the database session
     :return: A dictionary with a success message
-    :doc-author: YourName
     """
     access_token = credentials.credentials
     email = await auth_service.get_email_from_token(access_token)
