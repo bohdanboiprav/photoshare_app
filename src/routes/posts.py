@@ -29,7 +29,6 @@ async def get_posts(current_user: User = Depends(auth_service.get_current_user),
     :param current_user: User: Get the current user
     :param db: AsyncSession: Get the database session
     :return: All posts in the database
-    :doc-author: Trelent
     """
     post = await repository_posts.get_posts(db)
     return post
@@ -48,7 +47,6 @@ async def get_post(post_id: int = Path(ge=1),
     :param current_user: User: Get the current user from the auth_service
     :param db: AsyncSession: Get a database connection
     :return: A post object
-    :doc-author: Trelent
     """
     post = await repository_posts.get_post(post_id, db)
     if post is None:
@@ -66,7 +64,6 @@ def checker(data: str = Form(...)):
 
     :param data: str: Get the json data from the request body
     :return: A dict with the validated data
-    :doc-author: Trelent
     """
     try:
         return PostModel.model_validate_json(data)
@@ -96,7 +93,6 @@ async def create_post(body: PostModel = Depends(checker), file: UploadFile = Fil
     :param current_user: User: Get the current user
     :param db: AsyncSession: Get the database session
     :return: A postmodel object
-    :doc-author: Trelent
     """
     unique_path = uuid.uuid4()
     r = cloudinary.uploader.upload(file.file, public_id=f'Photoshare_app/{current_user.username}/{unique_path}')
@@ -118,7 +114,6 @@ async def add_tags_to_post(body: TagUpdate, user: User = Depends(auth_service.ge
     :param user: User: Get the current user
     :param db: AsyncSession: Get the database session
     :return: A post object
-    :doc-author: Trelent
     """
     if user.user_type_id in [2, 3]:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Tags can be added only by users")
@@ -140,7 +135,6 @@ async def update_post(body: PostModel, post_id: int = Path(ge=1),
     :param current_user: User: Get the current user
     :param db: AsyncSession: Get the database session
     :return: A postmodel object
-    :doc-author: Trelent
     """
     post = await repository_posts.update_post(post_id, body, current_user, db)
     if post is None:
@@ -159,7 +153,6 @@ async def remove_post(post_id: int = Path(ge=1),
     :param current_user: User: Get the current user
     :param db: AsyncSession: Get the database session
     :return: The removed post
-    :doc-author: Trelent
     """
     post = await repository_posts.remove_post(post_id, current_user, db)
     if post is None:

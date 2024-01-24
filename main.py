@@ -7,7 +7,6 @@ import redis.asyncio as redis
 
 from typing import Callable
 
-from pydantic import ConfigDict
 
 from ipaddress import ip_address
 from fastapi import FastAPI, Depends, HTTPException, Request, status
@@ -94,6 +93,15 @@ async def startup():
 
 @app.get("/", response_class=HTMLResponse, description="Main Page")
 async def read_root(request: Request):
+    """
+    The read_root function is a coroutine that returns an HTML response.
+    The function uses the templates module to render the index.html template,
+    which is located in the templates directory of our project.
+
+    :param request: Request: Pass the request object to the template
+    :return: A templateresponse object
+    :doc-author: Trelent
+    """
     return templates.TemplateResponse(
         "index.html", {"request": request, "title": "PhotoShare App"}
     )

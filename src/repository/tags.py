@@ -16,7 +16,6 @@ async def create_tag(body: TagModel, db: AsyncSession) -> Tag:
     :param body: TagModel: Get the name of the tag from the request body
     :param db: AsyncSession: Create a database session for the function
     :return: A tag object
-    :doc-author: Trelent
     """
     tag = await db.execute(select(Tag).where(Tag.name == body.name))
     tag = tag.scalar()
@@ -37,7 +36,6 @@ async def get_all_tags(limit, offset, db: AsyncSession) -> List[Tag]:
     :param offset: Skip a certain number of rows
     :param db: AsyncSession: Pass the database session into the function
     :return: A list of tag objects
-    :doc-author: Trelent
     """
     stmt = select(Tag).offset(offset).limit(limit)
     result = await db.execute(stmt)
@@ -52,7 +50,6 @@ async def get_tag(tag_name, db: AsyncSession) -> Tag:
     :param tag_name: Filter the tag table by name
     :param db: AsyncSession: Pass in the database session
     :return: A tag object
-    :doc-author: Trelent
     """
     stmt = select(Tag).filter_by(name=tag_name)
     tag = await db.execute(stmt)
@@ -68,7 +65,6 @@ async def get_or_create_tag_by_name(tag_name: str, db: AsyncSession) -> Tag:
     :param tag_name: str: Specify the name of the tag that is being created
     :param db: AsyncSession: Pass in the database session to the function
     :return: A tag instance
-    :doc-author: Trelent
     """
     tag = await db.execute(select(Tag).where(Tag.name == tag_name))
     tag = tag.scalars().first()
@@ -91,7 +87,6 @@ async def remove_tag(tag: Tag, db: AsyncSession):
     :param tag: Tag: Pass in the tag object that we want to delete
     :param db: AsyncSession: Pass in the database session
     :return: The tag that was removed
-    :doc-author: Trelent
     """
     await db.delete(tag)
     await db.commit()

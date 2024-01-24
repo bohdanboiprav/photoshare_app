@@ -37,7 +37,6 @@ async def get_photos_info():
         The function is called by the /photos_info route, which is accessed via an HTTP GET request.
 
     :return: A dictionary with the following keys:
-    :doc-author: Trelent
     """
     ping = cloudinary.api.ping()
     return ping
@@ -52,7 +51,6 @@ async def get_photos_info():
     The function uses the resources() method from Cloudinary's Python SDK to return a dictionary with all of this information.
 
     :return: A dictionary of all the photos in your cloudinary account
-    :doc-author: Trelent
     """
     resources = cloudinary.api.resources()
     return resources
@@ -70,20 +68,12 @@ async def get_url_photo(public_id: str):
 
     :param public_id: str: Specify the name of the image in cloudinary
     :return: A tuple with two values
-    :doc-author: Trelent
     """
     folder = "test"
     print(public_id)
     result_all_info = cloudinary.api.resource(F"{folder}/{public_id}")
     result_url = result_all_info.get('secure_url')
-    
-
-    qr = qrcode.QRCode(
-    version=None,
-    error_correction=qrcode.constants.ERROR_CORRECT_M,
-    box_size=10,
-    border=4,
-    )
+    qr = qrcode.QRCode(version=None, error_correction=qrcode.constants.ERROR_CORRECT_M, box_size=10, border=4)
     qr.add_data(result_url)
     qr.make(fit=True)
     img = qr.make_image(fill_color="black", back_color="white")

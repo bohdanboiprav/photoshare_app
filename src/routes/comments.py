@@ -21,7 +21,6 @@ async def create_comment(
     :param current_user: User: Get the user who is currently logged in
     :param db: AsyncSession: Pass the database session to the create_comment function
     :return: A comment object
-    :doc-author: Trelent
     """
     return await comments.create_comment(body, current_user, db)
 
@@ -41,7 +40,6 @@ async def update_comment(
     :param current_user: User: Get the user who is making the request
     :param db: AsyncSession: Pass the database session to the
     :return: A commentmodel object
-    :doc-author: Trelent
     """
     return await comments.update_comment(body, current_user, db)
 
@@ -61,6 +59,5 @@ async def delete_comment(
     :param current_user: User: Get the current user
     :param db: AsyncSession: Get the database session
     :return: A dict with the following keys:
-    :doc-author: Trelent
     """
     return await comments.delete_comment(body, current_user, db)
