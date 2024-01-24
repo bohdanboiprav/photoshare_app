@@ -188,6 +188,7 @@ class Auth:
 
         # Check if the user is in the blacklist
         is_blocked = self.cache.get(user_hash + "_blacklist_access")
+
         if is_blocked is not None and is_blocked.decode('utf-8') == token:
             raise credentials_exception
 

@@ -289,6 +289,7 @@ async def logout(
     if user.refresh_token:
         auth_service.cache.set(user.email + "_blacklist_refresh", user.refresh_token)
         auth_service.cache.expire(user.refresh_token + "_blacklist_refresh", 604800)
-    print(access_token)
-    print(user.refresh_token)
+
+    user.refresh_token = None
+    user.access_token = None
     return {"message": messages.AUTH_LOGOUT}
