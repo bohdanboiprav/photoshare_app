@@ -3,7 +3,7 @@ from datetime import date
 from typing import List
 
 from sqlalchemy.orm import Mapped, mapped_column, relationship, validates, registry
-from sqlalchemy import String, Date, func, DateTime, Enum, Integer, ForeignKey, Boolean, UUID, Table, Column
+from sqlalchemy import String, Date, func, DateTime, Enum, Integer, ForeignKey, Boolean, UUID, Table, Column, Float
 from sqlalchemy.orm import DeclarativeBase
 
 mapper_registry = registry()
@@ -47,13 +47,14 @@ class Post(Base):
     image_id: Mapped[str] = mapped_column(String(255), nullable=True)
     image_url: Mapped[str] = mapped_column(String(255), nullable=True)
     user_id: Mapped[uuid] = mapped_column(UUID(as_uuid=True), ForeignKey('users.id'), nullable=True)
+    rating: Mapped[float] = mapped_column(Float(), nullable=True, default=float("0.00"))
     user: Mapped["User"] = relationship("User", backref="posts", lazy="joined")
 
     tags: Mapped[List["Tag"]] = relationship("Tag", secondary="tags_to_posts", back_populates="posts", lazy="joined")
-    tags_to_posts: Mapped[List["TagToPost"]] = relationship("TagToPost", back_populates="post", lazy="joined")
+    tags_to_posts: Mapped[List["TagToPost"]] = relationship("TagToPost", back_populates="post", lazy="joined", overlaps="tags")
     comment: Mapped[List["Comment"]] = relationship("Comment", back_populates="post",
                                                     lazy="joined", cascade="all, delete")
-    url: Mapped[List["PhotoUrl"]] = relationship("PhotoUrl", back_populates="post", lazy="joined")
+    all_images: Mapped[List["PhotoUrl"]] = relationship("PhotoUrl", back_populates="post", lazy="joined",cascade='save-update, merge, delete')
     ratings: Mapped[List["Rating"]] = relationship("Rating", back_populates="post", lazy="joined")
 
     @validates('tags')
@@ -125,9 +126,10 @@ class PhotoUrl(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     transform_url: Mapped[str] = mapped_column(String(500), nullable=True)
     transform_url_qr: Mapped[str] = mapped_column(String(500), nullable=True)
+    public_id_qrcode: Mapped[str] = mapped_column(String(500), nullable=True)
 
     post_id: Mapped[int] = mapped_column(Integer, ForeignKey('posts.id'), nullable=True)
-    post: Mapped["Post"] = relationship("Post", back_populates="url", lazy="joined")
+    post: Mapped["Post"] = relationship("Post", back_populates="all_images", lazy="joined")
 
 
 mapper_registry.configure()

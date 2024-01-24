@@ -33,6 +33,7 @@ class PostResponse(BaseModel):
     created_at: datetime
     updated_at: datetime
     image_url: str
+    rating: float | None
     user: UserResponse
     tags: List[TagResponse] | None
 

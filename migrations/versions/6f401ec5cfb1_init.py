@@ -1,8 +1,8 @@
 """Init
 
-Revision ID: e795905c6e55
+Revision ID: 6f401ec5cfb1
 Revises: 
-Create Date: 2024-01-20 23:01:32.768036
+Create Date: 2024-01-23 19:54:23.585275
 
 """
 from datetime import datetime
@@ -17,7 +17,7 @@ from src.conf.config import settings
 
 
 # revision identifiers, used by Alembic.
-revision: str = 'e795905c6e55'
+revision: str = '6f401ec5cfb1'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -61,6 +61,7 @@ def upgrade() -> None:
     sa.Column('image_id', sa.String(length=255), nullable=True),
     sa.Column('image_url', sa.String(length=255), nullable=True),
     sa.Column('user_id', sa.UUID(), nullable=True),
+    sa.Column('rating', sa.Float(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
@@ -71,7 +72,7 @@ def upgrade() -> None:
     sa.Column('updated_at', sa.DateTime(), nullable=False),
     sa.Column('user_id', sa.UUID(), nullable=True),
     sa.Column('post_id', sa.Integer(), nullable=True),
-    sa.ForeignKeyConstraint(['post_id'], ['posts.id'], ondelete='CASCADE'),
+    sa.ForeignKeyConstraint(['post_id'], ['posts.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('id')
     )
@@ -79,6 +80,7 @@ def upgrade() -> None:
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('transform_url', sa.String(length=500), nullable=True),
     sa.Column('transform_url_qr', sa.String(length=500), nullable=True),
+    sa.Column('public_id_qrcode', sa.String(length=500), nullable=True),
     sa.Column('post_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['post_id'], ['posts.id'], ),
     sa.PrimaryKeyConstraint('id')
@@ -135,7 +137,6 @@ def upgrade() -> None:
 
         }
     ])
-
     # ### end Alembic commands ###
 
 
