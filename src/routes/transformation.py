@@ -173,39 +173,6 @@ async def transformation_photo(
     await ts.update_qr(id , url_transform, url_qr, db)
     return url_origin , url_transform , url_qr
 
-# @router.post("/manual_transformation_photo",dependencies=[Depends(RateLimiter(times=2, seconds=5))])
-# async def manual_transformation_photo(id: str ,create_qrcode: bool ,transformation:str,value: str, user: User = Depends(auth_service.get_current_user), db: AsyncSession = Depends(get_db)):
-#     info_photo = await ts.get_photo_info(id, user, db)
-#     if info_photo is None:
-#         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Photo not found")
-#     public_id = info_photo.image_id
-#     status_cloudinary = await ping_cloudinary()
-#     if status_cloudinary.get("status") != "ok":
-#         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Service Cloudinary is unavailable")
-#     all_info_photo = cloudinary.api.resource(public_id)
-#     url_origin = all_info_photo.get('secure_url')
-#     url_transform = cloudinary.CloudinaryImage(public_id).build_url(transformation=[{transformation:value}])
-#     if url_transform is False:
-#         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Service Cloudinary is unavailable")
-#     print(f"____________________________{url_transform}___________________")
-#     url_qr = None
-#     if create_qrcode == True:
-#         img = await create_qr(url_transform)       
-#         publick_url_qr = f"{public_id}_qr"
-#         result = cloudinary.uploader.upload(img, public_id=publick_url_qr, owerite=True)
-#         url_qr = cloudinary.CloudinaryImage(publick_url_qr).build_url(version=result.get("version"))
-#     await ts.update_qr(id , url_transform, url_qr, db)
-#     return url_origin , url_transform , url_qr
-
-# @router.post("/create_qrcode_url", dependencies=[Depends(RateLimiter(times=2, seconds=5))])
-# async def create_qrcode_url(id, url_transform: str, user: User = Depends(auth_service.get_current_user), db: AsyncSession = Depends(get_db)):
-#     info_photo = await ts.get_photo_info( id, user, db)
-#     if info_photo is None:
-#         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Contact not found")
-#     public_id = info_photo.image
-#     url_qr = f"{public_id}_qr"
-#     await ts.update_qr(id , url_transform, url_qr, db)
-#     return public_id
 
 @router.get("/show_photo_url",response_model=PhotoResponse,dependencies=[Depends(RateLimiter(times=2, seconds=5))])
 async def show_photo_url(id: int, user: User = Depends(auth_service.get_current_user), db: AsyncSession = Depends(get_db)):
