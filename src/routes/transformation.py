@@ -18,6 +18,7 @@ from fastapi import (
 )
 from fastapi_limiter.depends import RateLimiter
 
+from src.conf import messages
 from src.conf.cloudinary import configure_cloudinary
 from src.conf.transformation import TRANSFORMATIONS
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -138,10 +139,32 @@ async def show_photo_url(id: int, user: User = Depends(auth_service.get_current_
     return result
 
 
-@router.post("/show_all_url", dependencies=[Depends(RateLimiter(times=2, seconds=5))])
+@router.get("/show_all_url",response_model=List[PhotoResponse], dependencies=[Depends(RateLimiter(times=2, seconds=5))])
 async def show_all_url(limit: int = Query(10, ge=10, le=500), offset: int = Query(0, ge=0),
                        user: User = Depends(auth_service.get_current_user), db: AsyncSession = Depends(get_db)):
     result = await ts.get_all_url(limit, offset, user, db)
     if result is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Contact not found")
     return result
+
+#@router.delete("/remove_qrcode",dependencies=[Depends(RateLimiter(times=2, seconds=5))])
+async def remove_qrcode(id: int, user: User = Depends(auth_service.get_current_user), db: AsyncSession = Depends(get_db)):
+    """
+    Creates a database query to obtain information about all photo links of a registered user.
+    
+    :param id: Post number with photo for transformation.
+    :type id: int
+    :param user: The user to retrieve post for.
+    :type user: User
+    :param db: The database session.
+    :type db: Session
+    :return: Links to transform photos
+    :rtype: List[PhotoResponse]
+    """
+    post = await ts.info_qrcode_url(id, user, db)
+    for i in post:
+        print(i)
+        cloudinary.uploader.destroy(str(i))
+    if post is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=messages.POST_NOT_FOUND)
+    return post

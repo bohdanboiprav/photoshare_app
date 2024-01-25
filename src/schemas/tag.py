@@ -7,7 +7,11 @@ class TagModel(BaseModel):
     name: str = Field(max_length=25)
 
 
-class TagUpdate(TagModel):
+class TagIdModel(BaseModel):
+    post_id: int
+
+
+class TagUpdate(TagIdModel):
     tags: Optional[List[str]] = Field(max_length=25, default=None)
 
     @field_validator("tags")

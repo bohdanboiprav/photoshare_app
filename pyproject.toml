@@ -15,8 +15,6 @@ asyncpg = "^0.29.0"
 greenlet = "^3.0.3"
 gravatar = "^0.1"
 libgravatar = "^1.0.4"
-redis = "^5.0.1"
-jose = "^1.0.0"
 passlib = {extras = ["bcrypt"], version = "^1.7.4"}
 python-jose = {extras = ["cryptography"], version = "^3.3.0"}
 fastapi-limiter = "^0.1.6"
@@ -29,6 +27,7 @@ bcrypt = "^4.1.2"
 uuid = "^1.30"
 qrcode = "^7.4.2"
 pillow = "^10.2.0"
+redis = "^5.0.1"
 
 [build-system]
 requires = ["poetry-core"]

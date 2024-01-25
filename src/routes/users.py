@@ -41,7 +41,6 @@ async def get_current_user(user: User = Depends(auth_service.get_current_user)):
 
     :param user: User: Specify the type of object that is returned by the auth_service
     :return: The current user, which is stored in the database
-    :doc-author: Trelent
     """
     return user
 
@@ -63,9 +62,7 @@ async def get_current_user(
     :param file: UploadFile: Get the file from the request
     :param user: User: Get the current user
     :param db: AsyncSession: Get the database connection
-    :param : Get the current user
     :return: The current user
-    :doc-author: Trelent
     """
     public_id = f"Photoshare_app/Avatars/{user.id}"
     res = cloudinary.uploader.upload(file.file, public_id=public_id, owerite=True)
@@ -81,6 +78,15 @@ async def get_user_profile(
         username: str = Path(),
         db: AsyncSession = Depends(get_db),
 ):
+    """
+    The get_user_profile function is a GET request that returns the profile of a user. The username parameter is
+    required and must be unique. The db parameter uses the get_db function to connect to the database.
+
+
+    :param username: str: Get the username from the path
+    :param db: AsyncSession: Pass the database session to the function
+    :return: A dict with the user's profile information
+    """
     user = await repository_users.get_user_by_username(username, db)
     if user:
         result = await repository_profile.get_profile(user, db)
@@ -95,6 +101,19 @@ async def get_user_profile(
             status_code=status.HTTP_200_OK)
 async def update_user_profile(body: UserSchema, db: AsyncSession = Depends(get_db),
                               current_user: User = Depends(auth_service.get_current_user)):
+
+    """
+    The update_user_profile function updates a user's profile.
+        Args:
+            - body (UserSchema): The UserSchema object containing the new data for the user.
+            - db (AsyncSession, optional): [description]. Defaults to Depends(get_db).
+            - current_user (User, optional): [description]. Defaults to Depends(auth_service.get_current_user).
+
+    :param body: UserSchema: Validate the request body
+    :param db: AsyncSession: Get the connection to the database
+    :param current_user: User: Get the current user
+    :return: A user object
+    """
     body.password = auth_service.get_password_hash(body.password)
 
     if (current_user.email == body.email) and (current_user.username != body.username):
@@ -121,6 +140,16 @@ async def update_user_profile(body: UserSchema, db: AsyncSession = Depends(get_d
 async def request_email(username: str = Path(),
                         current_user: User = Depends(auth_service.get_current_user),
                         db: AsyncSession = Depends(get_db)):
+    """
+    The request_email function is used to ban a user.
+        The function takes in the username of the user that needs to be banned and returns a boolean value indicating if
+        the operation was successful or not.
+
+    :param username: str: Get the username of the user that is to be banned
+    :param current_user: User: Get the current user
+    :param db: AsyncSession: Create a database session
+    :return: A user object
+    """
     if current_user.user_type_id == 3:
         banned_user = await repository_users.ban_user(username, db)
         return banned_user
