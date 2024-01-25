@@ -25,25 +25,7 @@ async def get_photo_info(id: int, current_user: User,  db: AsyncSession):
     photo = select(Post).filter_by(user=current_user).filter(Post.id == id)
     photo = await db.execute(photo)
     return photo.scalars().first()
-
-# async def get_photo_info_qr(id: int,current_user: User, db: AsyncSession):
-#     """
-#     Creates a database query to obtain information about a photo of a registered user.
-
-#     :param id: Post number with photo for transformation.
-#     :type id: int
-#     :param db: The database session.
-#     :type db: Session
-#     :param user: The user to retrieve post for.
-#     :type user: User
-#     :return: Photo information
-#     :rtype: Post
-#     """
-#     post = await get_photo_info(id, current_user, db)
-#     id = post.id
-#     photo = select(PhotoUrl).filter_by(post_id=id)
-#     photos = await db.execute(photo)
-#     return photos.scalars().first()
+    
 
 async def update_qr(id: int, url: str, url_qr: str , db: AsyncSession):
     """
@@ -83,34 +65,6 @@ async def update_qr(id: int, url: str, url_qr: str , db: AsyncSession):
         await db.commit()
         await db.refresh(update_url)
     return update_url
-    
-    # photo = await get_photo_info_qr(id , db)
-    # if photo:
-    #     photo.transform_url = url
-    #     photo.transform_url_qr = url_qr
-    #     await db.commit()
-    #     await db.refresh(photo)
-    # return photo
-
-# async def create_post(body: PostModel, image_url: str, current_user: User, db: AsyncSession):
-#     post = select(Post).filter_by(user=current_user).filter(Post.name == body.name)
-#     post = await db.execute(post)
-#     post = post.scalars().first()
-#     if post:
-#         raise HTTPException(status_code=400, detail="Post with this name already exists")
-#     post = Post(name=body.name, content=body.content, image=image_url, user=current_user)
-#     db.add(post)
-#     await db.commit()
-#     await db.refresh(post)
-#     post_id = post.id
-#     for tag_name in body.tags:
-#         tag = await get_or_create_tag_by_name(tag_name, db)
-#         tag_to_post = TagToPost(post_id=post_id, tag_id=tag.id)
-#         db.add(tag_to_post)
-#     await db.commit()
-#     await db.refresh(post)
-#     return post
-
 
 
 async def get_photo_url(id, current_user: User, db: AsyncSession) -> List[PhotoUrl]:
