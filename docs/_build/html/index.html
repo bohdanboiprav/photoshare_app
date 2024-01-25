@@ -5,10 +5,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Welcome to PhotoShareApp’s documentation! &#8212; App 1.0.0 documentation</title>
+    <title>Welcome to PhotoShareApp’s documentation! &#8212; Photoshare App  documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/nature.css?v=601dbdee" />
-    <script src="_static/documentation_options.js?v=8d563738"></script>
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -23,7 +23,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">App 1.0.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="#">Photoshare App  documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Welcome to PhotoShareApp’s documentation!</a></li> 
       </ul>
     </div>  
@@ -199,9 +199,11 @@ while db is an instance of AsyncSession that we use for querying our database.</
 <em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.repository.posts.</span></span><span class="sig-name descname"><span class="pre">add_tag_to_post</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">body</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TagUpdate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">User</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AsyncSession</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Post</span></span></span><a class="headerlink" href="#src.repository.posts.add_tag_to_post" title="Link to this definition">¶</a></dt>
 <dd><dl class="simple">
 <dt>The add_tag_to_post function adds a tag to the post.</dt><dd><dl class="simple">
-<dt>Args:</dt><dd><p>body (TagUpdate): The TagUpdate object containing the name of the post and tags to add.
-current_user (User): The User object representing who is making this request.
-db (AsyncSession): A database session for interacting with Postgresql via SQLAlchemy Core.</p>
+<dt>Args:</dt><dd><ul class="simple">
+<li><p>body (TagUpdate): The TagUpdate object containing the name of the post and tags to add.</p></li>
+<li><p>current_user (User): The User object representing who is making this request.</p></li>
+<li><p>db (AsyncSession): A database session for interacting with Postgresql via SQLAlchemy Core.</p></li>
+</ul>
 </dd>
 </dl>
 </dd>
@@ -287,9 +289,11 @@ It then queries the Post table for the row with that id, and returns it.</p>
 <em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.repository.posts.</span></span><span class="sig-name descname"><span class="pre">get_user_post</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">post_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">User</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AsyncSession</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.repository.posts.get_user_post" title="Link to this definition">¶</a></dt>
 <dd><dl class="simple">
 <dt>The get_user_post function is used to get a post by its id.</dt><dd><dl class="simple">
-<dt>Args:</dt><dd><p>post_id (int): The id of the post you want to retrieve.
-current_user (User): The user who is making the request for this function.  This will be used to determine if they are an admin or not, and thus whether or not they can see all posts, or just their own posts.
-db (AsyncSession): An async session object that will be used for querying the database with SQLAlchemy Core syntax.</p>
+<dt>Args:</dt><dd><ul class="simple">
+<li><p>post_id (int): The id of the post you want to retrieve.</p></li>
+<li><p>current_user (User): The user who is making the request for this function.  This will be used to determine if they are an admin or not, and thus whether or not they can see all posts, or just their own posts.</p></li>
+<li><p>db (AsyncSession): An async session object that will be used for querying the database with SQLAlchemy Core syntax.</p></li>
+</ul>
 </dd>
 </dl>
 </dd>
@@ -313,9 +317,11 @@ db (AsyncSession): An async session object that will be used for querying the da
 <em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.repository.posts.</span></span><span class="sig-name descname"><span class="pre">remove_post</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">post_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">User</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AsyncSession</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.repository.posts.remove_post" title="Link to this definition">¶</a></dt>
 <dd><dl class="simple">
 <dt>The remove_post function removes a post from the database.</dt><dd><dl class="simple">
-<dt>Args:</dt><dd><p>post_id (int): The id of the post to be removed.
-current_user (User): The user who is making this request. This is used to ensure that only the owner of a
-particular post can remove it, and not other users.</p>
+<dt>Args:</dt><dd><ul class="simple">
+<li><p>post_id (int): The id of the post to be removed.</p></li>
+<li><p>current_user (User): The user who is making this request. This is used to ensure that only the owner of a</p></li>
+<li><p>particular post can remove it, and not other users.</p></li>
+</ul>
 </dd>
 </dl>
 </dd>
@@ -339,9 +345,11 @@ particular post can remove it, and not other users.</p>
 <em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.repository.posts.</span></span><span class="sig-name descname"><span class="pre">update_post</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">post_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">body</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PostModel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">User</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AsyncSession</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.repository.posts.update_post" title="Link to this definition">¶</a></dt>
 <dd><dl class="simple">
 <dt>The update_post function updates a post in the database.</dt><dd><dl class="simple">
-<dt>Args:</dt><dd><p>post_id (int): The id of the post to update.
-body (PostModel): The new data for the specified Post object.
-current_user (User): The user who is making this request, used to check if they are authorized to make this change.</p>
+<dt>Args:</dt><dd><ul class="simple">
+<li><p>post_id (int): The id of the post to update.</p></li>
+<li><p>body (PostModel): The new data for the specified Post object.</p></li>
+<li><p>current_user (User): The user who is making this request, used to check if they are authorized to make this change.</p></li>
+</ul>
 </dd>
 </dl>
 </dd>
@@ -395,8 +403,10 @@ current_user (User): The user who is making this request, used to check if they 
 <em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.repository.profile.</span></span><span class="sig-name descname"><span class="pre">update_user_profile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">body</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">UserSchema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">User</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AsyncSession</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">User</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#src.repository.profile.update_user_profile" title="Link to this definition">¶</a></dt>
 <dd><dl class="simple">
 <dt>The update_user_profile function updates a user’s profile information.</dt><dd><dl class="simple">
-<dt>Args:</dt><dd><p>body (UserSchema): The UserSchema object containing the new user data.
-user (User): The User object to be updated.</p>
+<dt>Args:</dt><dd><ul class="simple">
+<li><p>body (UserSchema): The UserSchema object containing the new user data.</p></li>
+<li><p>user (User): The User object to be updated.</p></li>
+</ul>
 </dd>
 </dl>
 </dd>
@@ -516,6 +526,75 @@ commits it to the database, and returns a refreshed version of that Post.</p>
 </dd></dl>
 
 </section>
+<section id="module-src.repository.search">
+<span id="photoshareapp-repository-search"></span><h1>PhotoShareApp repository Search<a class="headerlink" href="#module-src.repository.search" title="Link to this heading">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="src.repository.search.get_post_by_keyword">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.repository.search.</span></span><span class="sig-name descname"><span class="pre">get_post_by_keyword</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter_by_date</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_by_rating</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyword</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AsyncSession</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.repository.search.get_post_by_keyword" title="Link to this definition">¶</a></dt>
+<dd><p>The get_post_by_keyword function takes in a keyword, and returns all posts that contain the keyword.
+The function also takes in two optional parameters: filter_by_date and filter_by_rating. If these are set to True,
+the returned posts will be sorted by date or rating respectively.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filter_by_date</strong> – bool: Filter the posts by date</p></li>
+<li><p><strong>filter_by_rating</strong> – bool: Filter the posts by rating</p></li>
+<li><p><strong>keyword</strong> – str: Filter the posts by name</p></li>
+<li><p><strong>db</strong> – AsyncSession: Connect to the database</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of posts that match the keyword</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.repository.search.get_post_by_tag">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.repository.search.</span></span><span class="sig-name descname"><span class="pre">get_post_by_tag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter_by_date</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_by_rating</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AsyncSession</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.repository.search.get_post_by_tag" title="Link to this definition">¶</a></dt>
+<dd><p>The get_post_by_tag function takes in a boolean value for filtering by date,
+a boolean value for filtering by rating, a tag name string and an async database session.
+It returns all posts that have the given tag.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filter_by_date</strong> – bool: Filter the posts by date</p></li>
+<li><p><strong>filter_by_rating</strong> – bool: Filter the posts by rating</p></li>
+<li><p><strong>tag</strong> – str: Filter posts by tag</p></li>
+<li><p><strong>db</strong> – AsyncSession: Pass the database session to the function</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of posts with the given tag</p>
+</dd>
+<dt class="field-odd">Doc-author<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Trelent</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.repository.search.get_post_by_user">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.repository.search.</span></span><span class="sig-name descname"><span class="pre">get_post_by_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter_by_date</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_by_rating</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AsyncSession</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.repository.search.get_post_by_user" title="Link to this definition">¶</a></dt>
+<dd><p>The get_post_by_user function takes in a boolean value for filtering by date,
+a boolean value for filtering by rating, a username string and an async database session.
+It returns all posts made by the user with the given username.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filter_by_date</strong> – bool: Determine if the posts should be filtered by date</p></li>
+<li><p><strong>filter_by_rating</strong> – bool: Filter the posts by rating</p></li>
+<li><p><strong>username</strong> – str: Filter the posts by username</p></li>
+<li><p><strong>db</strong> – AsyncSession: Pass the database connection to the function</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of posts by the user with the given username</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
 <section id="module-src.repository.tags">
 <span id="photoshareapp-repository-tags"></span><h1>PhotoShareApp repository Tags<a class="headerlink" href="#module-src.repository.tags" title="Link to this heading">¶</a></h1>
 <dl class="py function">
@@ -617,21 +696,27 @@ If no such tag exists, it returns None.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="src.repository.transformation.get_all_url">
 <em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.repository.transformation.</span></span><span class="sig-name descname"><span class="pre">get_all_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">User</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AsyncSession</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">PhotoUrl</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#src.repository.transformation.get_all_url" title="Link to this definition">¶</a></dt>
-<dd><p>Retrieves a list of contacts for a specific user with specified pagination parameters.</p>
+<dd><dl class="simple">
+<dt>The get_all_url function returns a list of all the photo urls for a given user.</dt><dd><dl class="simple">
+<dt>Args:</dt><dd><ul class="simple">
+<li><p>limit (int): The number of photos to return.</p></li>
+<li><p>offset (int): The starting point in the database from which to start returning photos.  This is useful for pagination purposes, so that you can get more than one page worth of results at once.  For example, if you want 20 results per page and are on page 3, then your offset would be 40 because you’d skip the first 40 results in order to get the next 20 after that.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>offset</strong> (<em>int</em>) – The number of contacts to skip.</p></li>
-<li><p><strong>limit</strong> (<em>int</em>) – The maximum number of cntacts to return.</p></li>
-<li><p><strong>current_user</strong> (<em>User</em>) – The user to retrieve post for.</p></li>
-<li><p><strong>db</strong> (<em>Session</em>) – The database session.</p></li>
+<li><p><strong>limit</strong> – int: Limit the amount of photos returned</p></li>
+<li><p><strong>offset</strong> – int: Specify how many records to skip</p></li>
+<li><p><strong>current_user</strong> – User: Get the current user’s photo urls</p></li>
+<li><p><strong>db</strong> – AsyncSession: Pass the database session to the function</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A list of URL Post.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[Post URL]</p>
+<dd class="field-even"><p>A list of photourl objects</p>
 </dd>
 </dl>
 </dd></dl>
@@ -639,20 +724,54 @@ If no such tag exists, it returns None.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="src.repository.transformation.get_photo_info">
 <em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.repository.transformation.</span></span><span class="sig-name descname"><span class="pre">get_photo_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">User</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AsyncSession</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.repository.transformation.get_photo_info" title="Link to this definition">¶</a></dt>
-<dd><p>Creates a database query to obtain information about a photo of a registered user.</p>
+<dd><dl class="simple">
+<dt>The get_photo_info function takes in a photo id and returns the photo’s information.</dt><dd><dl class="simple">
+<dt>Args:</dt><dd><ul class="simple">
+<li><p>id (int): The ID of the photo to be retrieved.</p></li>
+<li><p>current_user (User): The user who is currently logged in.  This is used to ensure that only photos belonging to this user are returned.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>id</strong> (<em>int</em>) – Post number with photo for transformation.</p></li>
-<li><p><strong>db</strong> (<em>Session</em>) – The database session.</p></li>
-<li><p><strong>current_user</strong> (<em>User</em>) – The user to retrieve post for.</p></li>
+<li><p><strong>id</strong> – int: Specify the id of the photo that we want to get information about</p></li>
+<li><p><strong>current_user</strong> – User: Get the user that is currently logged in</p></li>
+<li><p><strong>db</strong> – AsyncSession: Pass the database session to the function</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Photo information</p>
+<dd class="field-even"><p>A photo, but what if the user doesn’t have a photo with that id?</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Post</p>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.repository.transformation.get_photo_info_qr">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.repository.transformation.</span></span><span class="sig-name descname"><span class="pre">get_photo_info_qr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">User</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AsyncSession</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.repository.transformation.get_photo_info_qr" title="Link to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>The get_photo_info_qr function is used to get the photo url of a post.</dt><dd><dl class="simple">
+<dt>Args:</dt><dd><ul class="simple">
+<li><p>id (int): The id of the post.</p></li>
+<li><p>current_user (User): The user who is currently logged in and using the app.</p></li>
+<li><p>db (AsyncSession): A database session object that allows us to execute SQL queries on our database tables.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> – int: Get the id of the post</p></li>
+<li><p><strong>current_user</strong> – User: Check if the user is logged in or not</p></li>
+<li><p><strong>db</strong> – AsyncSession: Make a connection to the database</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The photo url of the post</p>
 </dd>
 </dl>
 </dd></dl>
@@ -660,91 +779,54 @@ If no such tag exists, it returns None.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="src.repository.transformation.get_photo_url">
 <em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.repository.transformation.</span></span><span class="sig-name descname"><span class="pre">get_photo_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">User</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AsyncSession</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">PhotoUrl</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#src.repository.transformation.get_photo_url" title="Link to this definition">¶</a></dt>
-<dd><p>Creates a database query to obtain information about a photo of a registered user.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>id</strong> (<em>int</em>) – Post number with photo for transformation.</p></li>
-<li><p><strong>db</strong> (<em>Session</em>) – The database session.</p></li>
-<li><p><strong>current_user</strong> (<em>User</em>) – The user to retrieve post for.</p></li>
+<dd><dl class="simple">
+<dt>The get_photo_url function takes in a photo id and returns the url of that photo.</dt><dd><dl class="simple">
+<dt>Args:</dt><dd><ul class="simple">
+<li><p>id (int): The ID of the photo to be retrieved.</p></li>
+<li><p>current_user (User): The user who is making this request.</p></li>
 </ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Photo information</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Post</p>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="src.repository.transformation.info_qrcode_url">
-<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.repository.transformation.</span></span><span class="sig-name descname"><span class="pre">info_qrcode_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">User</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AsyncSession</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">PhotoUrl</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#src.repository.transformation.info_qrcode_url" title="Link to this definition">¶</a></dt>
-<dd><p>Creates a database query to obtain information about a qrcode public_id of a registered user.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>id</strong> (<em>int</em>) – Post number with qrcode photo .</p></li>
-<li><p><strong>db</strong> (<em>Session</em>) – The database session.</p></li>
-<li><p><strong>current_user</strong> (<em>User</em>) – The user to retrieve post for.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Qrcode information</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="src.repository.transformation.remove_qr">
-<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.repository.transformation.</span></span><span class="sig-name descname"><span class="pre">remove_qr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url_qr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">publick_qr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AsyncSession</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.repository.transformation.remove_qr" title="Link to this definition">¶</a></dt>
-<dd><p>Checks the information about the photo transformation in the database.
-If there is no information about the link to the transformation,
-creates a field with info in the table. Checks for the presence of information
-about the link to the Qrcode, if it is not there, creates a link.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>id</strong> (<em>int</em>) – Post number with photo for transformation.</p></li>
-<li><p><strong>url</strong> (<em>str</em>) – Link to photo transformation.</p></li>
-<li><p><strong>url_qr</strong> (<em>str</em>) – Link to Qrcode</p></li>
-<li><p><strong>db</strong> (<em>Session</em>) – The database session.</p></li>
+<li><p><strong>id</strong> – Identify the photo in the database</p></li>
+<li><p><strong>current_user</strong> – User: Get the current user</p></li>
+<li><p><strong>db</strong> – AsyncSession: Pass the database session to the function</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A list of URL.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>[Note]</p>
+<dd class="field-even"><p>A list of photo urls</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="src.repository.transformation.update_qr">
-<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.repository.transformation.</span></span><span class="sig-name descname"><span class="pre">update_qr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url_qr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">publick_qr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AsyncSession</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.repository.transformation.update_qr" title="Link to this definition">¶</a></dt>
-<dd><p>Checks the information about the photo transformation in the database.
-If there is no information about the link to the transformation,
-creates a field with info in the table. Checks for the presence of information
-about the link to the Qrcode, if it is not there, creates a link.</p>
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.repository.transformation.</span></span><span class="sig-name descname"><span class="pre">update_qr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url_qr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AsyncSession</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.repository.transformation.update_qr" title="Link to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>The update_qr function updates the url and qr_url of a post.</dt><dd><dl class="simple">
+<dt>Args:</dt><dd><ul class="simple">
+<li><p>id (int): The ID of the post to update.</p></li>
+<li><p>url (str): The new URL for this post.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>id</strong> (<em>int</em>) – Post number with photo for transformation.</p></li>
-<li><p><strong>url</strong> (<em>str</em>) – Link to photo transformation.</p></li>
-<li><p><strong>url_qr</strong> (<em>str</em>) – Link to Qrcode</p></li>
-<li><p><strong>db</strong> (<em>Session</em>) – The database session.</p></li>
+<li><p><strong>id</strong> – int: Get the post id from the database</p></li>
+<li><p><strong>url</strong> – str: Update the url in the database</p></li>
+<li><p><strong>url_qr:str</strong> – Update the qrcode url in the database</p></li>
+<li><p><strong>db</strong> – AsyncSession: Pass the database session to the function</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A list of URL.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>list</p>
+<dd class="field-even"><p>A new url and qr code for the post</p>
 </dd>
 </dl>
 </dd></dl>
@@ -959,12 +1041,11 @@ user by email returns a User object). Then we set that User objects password to 
 <dl class="py function">
 <dt class="sig sig-object py" id="src.routes.auth.refresh_token">
 <em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.routes.auth.</span></span><span class="sig-name descname"><span class="pre">refresh_token</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">credentials</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">HTTPAuthorizationCredentials</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Security(HTTPBearer)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AsyncSession</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Depends(get_db)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.routes.auth.refresh_token" title="Link to this definition">¶</a></dt>
-<dd><p>The refresh_token function is used to refresh the access token. It takes a refresh token as input and returns an
-access token. The function first decodes the refresh_token to get the user’s email address, then it gets that
-user from our database, and checks if their stored refresh_token matches what was sent in with this request. If
-not, we raise an error and return a 401 Unauthorized response code (the client will need to log in again). If
-everything checks out, we create new tokens for this user using our auth service module and update their record
-in our database with these new tokens.</p>
+<dd><p>The refresh_token function is used to refresh the access token.
+It takes a refresh token as input and returns an access token.
+The function first decodes the refresh_token to get the user’s email address, then it gets that user from our database,
+and checks if their stored refresh_token matches what was sent in with this request. If not, we raise an error and return a 401 Unauthorized response code (the client will need to log in again).
+If everything checks out, we create new tokens for this user using our auth service module and update their record in our database with these new tokens.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1130,7 +1211,9 @@ The function uses the resources() method from Cloudinary’s Python SDK to retur
 <em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.routes.photo_url_qr.</span></span><span class="sig-name descname"><span class="pre">get_url_photo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">public_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.routes.photo_url_qr.get_url_photo" title="Link to this definition">¶</a></dt>
 <dd><dl class="simple">
 <dt>The get_url_photo function takes a public_id as an argument and returns the url of the photo with that public_id.</dt><dd><dl class="simple">
-<dt>Args:</dt><dd><p>public_id (str): The unique identifier for a photo in Cloudinary.</p>
+<dt>Args:</dt><dd><ul class="simple">
+<li><p>public_id (str): The unique identifier for a photo in Cloudinary.</p></li>
+</ul>
 </dd>
 </dl>
 </dd>
@@ -1191,7 +1274,26 @@ ValidationError if any of the fields fail validation.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="src.routes.posts.create_post">
 <em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.routes.posts.</span></span><span class="sig-name descname"><span class="pre">create_post</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">body</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PostModel</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Depends(checker)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">UploadFile</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">File(PydanticUndefined)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">User</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Depends(get_current_user)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AsyncSession</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Depends(get_db)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.routes.posts.create_post" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><dl class="simple">
+<dt>The create_post function creates a new post in the database.</dt><dd><p>It takes in a PostModel object, an UploadFile object, and the current_user as arguments.
+The function then uploads the file to cloudinary using its unique path (which is generated by uuid4).
+Then it generates an image url for that file and saves it to our database.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>body</strong> – PostModel: Validate the request body</p></li>
+<li><p><strong>file</strong> – UploadFile: Get the file from the request and</p></li>
+<li><p><strong>current_user</strong> – User: Get the user who is currently logged in</p></li>
+<li><p><strong>db</strong> – AsyncSession: Pass the database session to the repository layer</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The created post with the new id</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="src.routes.posts.get_post">
@@ -1341,6 +1443,69 @@ The user must be logged in to use this function.</p>
 </dd></dl>
 
 </section>
+<section id="module-src.routes.search">
+<span id="photoshareapp-routes-search"></span><h1>PhotoShareApp routes Search<a class="headerlink" href="#module-src.routes.search" title="Link to this heading">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="src.routes.search.get_post_by_keyword">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.routes.search.</span></span><span class="sig-name descname"><span class="pre">get_post_by_keyword</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter_by_date</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_by_rating</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Path(PydanticUndefined)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">User</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Depends(get_current_user)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AsyncSession</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Depends(get_db)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.routes.search.get_post_by_keyword" title="Link to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>The get_post_by_keyword function is used to get a post by keyword.</dt><dd><dl class="simple">
+<dt>The function takes in the following parameters:</dt><dd><ul class="simple">
+<li><p>filter_by_date (bool): A boolean value that determines whether or not to filter posts by date.</p></li>
+<li><p>filter_by_rating (bool): A boolean value that determines whether or not to sort posts by rating.</p></li>
+<li><p>username (str): The username of the user whose post you want returned.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filter_by_date</strong> – bool: Filter the posts by date</p></li>
+<li><p><strong>filter_by_rating</strong> – bool: Filter the posts by rating</p></li>
+<li><p><strong>username</strong> – str: Get the username of the user that is being searched for</p></li>
+<li><p><strong>current_user</strong> – User: Get the user that is currently logged in</p></li>
+<li><p><strong>db</strong> – AsyncSession: Get the database session</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of posts that contain the keyword in their title or description</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.routes.search.get_post_by_tag">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.routes.search.</span></span><span class="sig-name descname"><span class="pre">get_post_by_tag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter_by_date</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_by_rating</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Path(PydanticUndefined)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">User</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Depends(get_current_user)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AsyncSession</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Depends(get_db)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.routes.search.get_post_by_tag" title="Link to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>The get_post_by_tag function is used to retrieve a post by tag.</dt><dd><dl class="simple">
+<dt>The function takes in the following parameters:</dt><dd><ul class="simple">
+<li><p>filter_by_date (bool): If true, will return posts sorted by date. Default value is True.</p></li>
+<li><p>filter_by_rating (bool): If true, will return posts sorted by rating. Default value is False.</p></li>
+<li><p>tag (str): The name of the tag that you want to search for a post with.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filter_by_date</strong> – bool: Filter the posts by date</p></li>
+<li><p><strong>filter_by_rating</strong> – bool: Filter the posts by rating</p></li>
+<li><p><strong>tag</strong> – str: Specify the tag that we want to search for</p></li>
+<li><p><strong>current_user</strong> – User: Get the current user</p></li>
+<li><p><strong>db</strong> – AsyncSession: Get the database session</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of posts that match the tag</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
 <section id="module-src.routes.tags">
 <span id="photoshareapp-routes-tags"></span><h1>PhotoShareApp routes Tags<a class="headerlink" href="#module-src.routes.tags" title="Link to this heading">¶</a></h1>
 <dl class="py function">
@@ -1426,16 +1591,17 @@ don’t want to have duplicate tags in the database.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="src.routes.transformation.create_qr">
 <em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.routes.transformation.</span></span><span class="sig-name descname"><span class="pre">create_qr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url_transform</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.routes.transformation.create_qr" title="Link to this definition">¶</a></dt>
-<dd><p>Creates a Qrcode image with a link to a photo.</p>
+<dd><p>The create_qr function takes a url_transform as an argument and returns
+a QR code image. The function uses the qrcode library to create a QR code
+object, add data to it, make it fit the size of the data added, and then
+create an image from that object. The function then saves that image into
+an io BytesIO object which is returned by the function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>url_transform</strong> (<em>str</em>) – Link to photo.</p>
+<dd class="field-odd"><p><strong>url_transform</strong> – Pass the url to be transformed into a qr code</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Byte string Qrcode.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>class ‘bytes’</p>
+<dd class="field-even"><p>A byte array</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1443,13 +1609,16 @@ don’t want to have duplicate tags in the database.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="src.routes.transformation.info_all_transformation">
 <em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.routes.transformation.</span></span><span class="sig-name descname"><span class="pre">info_all_transformation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#src.routes.transformation.info_all_transformation" title="Link to this definition">¶</a></dt>
-<dd><p>Creates a request to obtain data about available transformations.</p>
+<dd><dl class="simple">
+<dt>The info_all_transformation function returns a dictionary of all the transformations that are available in this</dt><dd><p>module. The keys are the names of each transformation, and the values are dictionaries containing information about
+each transformation. Each value dictionary contains three key-value pairs: ‘description’, which is a string
+describing what the function does; ‘parameters’, which is an array of strings listing all parameters for that
+function; and ‘returns’, which describes what type(s) will be returned by that function.</p>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A dict of transformations.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>dict</p>
+<dd class="field-odd"><p>A list of all transformations</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1457,13 +1626,13 @@ don’t want to have duplicate tags in the database.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="src.routes.transformation.ping_cloudinary">
 <em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.routes.transformation.</span></span><span class="sig-name descname"><span class="pre">ping_cloudinary</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#src.routes.transformation.ping_cloudinary" title="Link to this definition">¶</a></dt>
-<dd><p>Checks connection with the Cloudinary service, if successful, returns the status “Ok”.</p>
+<dd><dl class="simple">
+<dt>The ping_cloudinary function is a simple function that pings the Cloudinary API to ensure it’s working properly.</dt><dd><p>It returns a dictionary with information about the ping.</p>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A dict of connection status.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>dict</p>
+<dd class="field-odd"><p>A dictionary</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1492,21 +1661,25 @@ don’t want to have duplicate tags in the database.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="src.routes.transformation.show_all_url">
 <em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.routes.transformation.</span></span><span class="sig-name descname"><span class="pre">show_all_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Query(10)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Query(0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">User</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Depends(get_current_user)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AsyncSession</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Depends(get_db)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.routes.transformation.show_all_url" title="Link to this definition">¶</a></dt>
-<dd><p>Creates a database query to obtain information about all photo links of a registered user.</p>
+<dd><dl class="simple">
+<dt>The show_all_url function returns a list of all the URLs in the database.</dt><dd><p>The limit and offset parameters are used to paginate through results.
+The user parameter is used to ensure that only URLs belonging to the current user are returned.</p>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>offset</strong> (<em>int</em>) – The number of contacts to skip.</p></li>
-<li><p><strong>limit</strong> (<em>int</em>) – The maximum number of cntacts to return.</p></li>
-<li><p><strong>user</strong> (<em>User</em>) – The user to retrieve post for.</p></li>
-<li><p><strong>db</strong> (<em>Session</em>) – The database session.</p></li>
+<li><p><strong>limit</strong> – int: Limit the number of results returned</p></li>
+<li><p><strong>ge</strong> – Set the minimum value of a parameter</p></li>
+<li><p><strong>le</strong> – Limit the number of results returned</p></li>
+<li><p><strong>offset</strong> – int: Specify the number of records to skip before starting to return the results</p></li>
+<li><p><strong>ge</strong> – Specify the minimum value of a parameter</p></li>
+<li><p><strong>user</strong> – User: Get the user from the auth_service</p></li>
+<li><p><strong>db</strong> – AsyncSession: Get the database connection</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Links to transform photos</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[PhotoResponse]</p>
+<dd class="field-even"><p>All the urls of a user</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1514,20 +1687,17 @@ don’t want to have duplicate tags in the database.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="src.routes.transformation.show_photo_url">
 <em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.routes.transformation.</span></span><span class="sig-name descname"><span class="pre">show_photo_url</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">User</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Depends(get_current_user)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AsyncSession</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Depends(get_db)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.routes.transformation.show_photo_url" title="Link to this definition">¶</a></dt>
-<dd><p>Creates a database query to obtain information about a photo links of a registered user.</p>
+<dd><p>The show_photo_url function returns the photo url of a contact.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>id</strong> (<em>int</em>) – Post number with photo for transformation.</p></li>
-<li><p><strong>db</strong> (<em>Session</em>) – The database session.</p></li>
-<li><p><strong>user</strong> (<em>User</em>) – The user to retrieve post for.</p></li>
+<li><p><strong>id</strong> – int: Get the id of the contact</p></li>
+<li><p><strong>user</strong> – User: Get the current user, and the db: asyncsession parameter is used to get a database session</p></li>
+<li><p><strong>db</strong> – AsyncSession: Pass the database connection to the function</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Links to transform photos</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>PhotoResponse</p>
+<dd class="field-even"><p>A string</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1535,30 +1705,24 @@ don’t want to have duplicate tags in the database.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="src.routes.transformation.transformation_photo">
 <em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.routes.transformation.</span></span><span class="sig-name descname"><span class="pre">transformation_photo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">create_qrcode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transformation_1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transformation_2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transformation_3</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transformation_4</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transformation_5</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AsyncSession</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Depends(get_db)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">User</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Depends(get_current_user)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.routes.transformation.transformation_photo" title="Link to this definition">¶</a></dt>
-<dd><p>Creates a link with transformation parameters for the Cloudinary service.
-The id field is used to enter the post id.
-The create_qrcode field is used to create a qrcode for a link; to create a link you must set it to True.
-The transformation availability is entered into the transformation fields.
-For example: crop , rotate , effect , overlays , vignette , face , pixelate_faces , cartoonify, opacity.</p>
+<dd><p>The transformation_photo function takes the id of a photo, and returns the original url,
+the transformed url and qr code for this photo.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>id</strong> (<em>int</em>) – Post number with photo for transformation.</p></li>
-<li><p><strong>create_qrcode</strong> (<em>bool</em>) – Boolean value to create Qrcode.</p></li>
-<li><p><strong>transformation_1</strong> (<em>str</em>) – Transformation parameter.</p></li>
-<li><p><strong>transformation_2</strong> (<em>str</em>) – Transformation parameter.</p></li>
-<li><p><strong>transformation_3</strong> (<em>str</em>) – Transformation parameter.</p></li>
-<li><p><strong>transformation_4</strong> (<em>str</em>) – Transformation parameter.</p></li>
-<li><p><strong>transformation_5</strong> (<em>str</em>) – Transformation parameter.</p></li>
-<li><p><strong>db</strong> (<em>Session</em>) – The database session.</p></li>
-<li><p><strong>user</strong> (<em>User</em>) – The user to retrieve post for.</p></li>
+<li><p><strong>id</strong> – int: Identify the photo in the database</p></li>
+<li><p><strong>create_qrcode</strong> – bool: Create a qr code for the transformed image</p></li>
+<li><p><strong>transformation_1</strong> – str: Specify the first transformation</p></li>
+<li><p><strong>transformation_2</strong> – str | None: Pass the transformation_2 parameter to the function</p></li>
+<li><p><strong>transformation_3</strong> – str | None: Specify that the transformation_3 parameter is optional</p></li>
+<li><p><strong>transformation_4</strong> – str | None: Pass the transformation_4 parameter to the function</p></li>
+<li><p><strong>transformation_5</strong> – str | None: Pass the fifth transformation</p></li>
+<li><p><strong>db</strong> – AsyncSession: Pass the database connection to the function</p></li>
+<li><p><strong>user</strong> – User: Get the current user</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A list of image link sheet</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>list</p>
+<dd class="field-even"><p>The original photo url, the transformed photo url and the qr code url</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1566,16 +1730,16 @@ For example: crop , rotate , effect , overlays , vignette , face , pixelate_face
 <dl class="py function">
 <dt class="sig sig-object py" id="src.routes.transformation.url_qr_prefix">
 <em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.routes.transformation.</span></span><span class="sig-name descname"><span class="pre">url_qr_prefix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list_tr</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.routes.transformation.url_qr_prefix" title="Link to this definition">¶</a></dt>
-<dd><p>Creates a string from the incoming transformation parameter sheet for a Qrcode URL prefix.</p>
+<dd><dl class="simple">
+<dt>The url_qr_prefix function takes a list of strings and returns the concatenation of all non-None elements in that list.</dt><dd><p>This is used to create the prefix for a QR code URL, which will be appended with an ID number.</p>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>list_tr</strong> (<em>str</em>) – Transformation Parameters Sheet.</p>
+<dd class="field-odd"><p><strong>list_tr</strong> – Store the list of parameters that are used in the url_qr_prefix function</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A line of params.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
+<dd class="field-even"><p>The prefix of the url, which is the first part of a url</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1698,13 +1862,12 @@ the operation was successful or not.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="src.services.auth.Auth.create_access_token">
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create_access_token</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expires_delta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.services.auth.Auth.create_access_token" title="Link to this definition">¶</a></dt>
-<dd><dl>
-<dt>The create_access_token function creates a new access token.</dt><dd><dl>
+<dd><dl class="simple">
+<dt>The create_access_token function creates a new access token.</dt><dd><dl class="simple">
 <dt>Args:</dt><dd><ul class="simple">
 <li><p>data (dict): A dictionary containing the claims to be encoded in the JWT.</p></li>
-<li><p>expires_delta (Optional[float]): An optional parameter specifying how long, in seconds,</p></li>
+<li><p>expires_delta (Optional[float]): An optional parameter specifying how long, in seconds, the access token should last before expiring. If not specified, it defaults to 15 minutes.</p></li>
 </ul>
-<p>the access token should last before expiring. If not specified, it defaults to 15 minutes.</p>
 </dd>
 </dl>
 </dd>
@@ -1712,13 +1875,16 @@ the operation was successful or not.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>self</strong> – Make the function a method of the class</p></li>
-<li><p><strong>data</strong> – dict: Pass the data that will be encoded into the jwt</p></li>
-<li><p><strong>expires_delta</strong> – Optional[float]: Set the expiration time of the token</p></li>
+<li><p><strong>self</strong> – Represent the instance of the class</p></li>
+<li><p><strong>data</strong> – dict: Pass the data that you want to encode in the jwt</p></li>
+<li><p><strong>expires_delta</strong> – Optional[float]: Set the expiration time of the access token</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>An encoded access token</p>
+<dd class="field-even"><p>A jwt token</p>
+</dd>
+<dt class="field-odd">Doc-author<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Trelent</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1772,7 +1938,21 @@ and adding an iat (issued at) timestamp and exp (expiration) timestamp to it.</p
 <dl class="py method">
 <dt class="sig sig-object py" id="src.services.auth.Auth.decode_refresh_token">
 <em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">decode_refresh_token</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">refresh_token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.services.auth.Auth.decode_refresh_token" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>The decode_refresh_token function is used to decode the refresh token.
+It will raise an exception if the token is invalid or expired.
+If it’s valid, it will return a user email.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> – Represent the instance of the class</p></li>
+<li><p><strong>refresh_token</strong> – str: Pass the refresh token to the function</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The email of the user</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="src.services.auth.Auth.get_current_user">
@@ -1952,6 +2132,12 @@ plain-text password matches the hashed one.</p>
 <li><a class="reference internal" href="#src.repository.rating.refresh_rating"><code class="docutils literal notranslate"><span class="pre">refresh_rating()</span></code></a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#module-src.repository.search">PhotoShareApp repository Search</a><ul>
+<li><a class="reference internal" href="#src.repository.search.get_post_by_keyword"><code class="docutils literal notranslate"><span class="pre">get_post_by_keyword()</span></code></a></li>
+<li><a class="reference internal" href="#src.repository.search.get_post_by_tag"><code class="docutils literal notranslate"><span class="pre">get_post_by_tag()</span></code></a></li>
+<li><a class="reference internal" href="#src.repository.search.get_post_by_user"><code class="docutils literal notranslate"><span class="pre">get_post_by_user()</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#module-src.repository.tags">PhotoShareApp repository Tags</a><ul>
 <li><a class="reference internal" href="#src.repository.tags.create_tag"><code class="docutils literal notranslate"><span class="pre">create_tag()</span></code></a></li>
 <li><a class="reference internal" href="#src.repository.tags.get_all_tags"><code class="docutils literal notranslate"><span class="pre">get_all_tags()</span></code></a></li>
@@ -1963,9 +2149,8 @@ plain-text password matches the hashed one.</p>
 <li><a class="reference internal" href="#module-src.repository.transformation">PhotoShareApp repository Transformation</a><ul>
 <li><a class="reference internal" href="#src.repository.transformation.get_all_url"><code class="docutils literal notranslate"><span class="pre">get_all_url()</span></code></a></li>
 <li><a class="reference internal" href="#src.repository.transformation.get_photo_info"><code class="docutils literal notranslate"><span class="pre">get_photo_info()</span></code></a></li>
+<li><a class="reference internal" href="#src.repository.transformation.get_photo_info_qr"><code class="docutils literal notranslate"><span class="pre">get_photo_info_qr()</span></code></a></li>
 <li><a class="reference internal" href="#src.repository.transformation.get_photo_url"><code class="docutils literal notranslate"><span class="pre">get_photo_url()</span></code></a></li>
-<li><a class="reference internal" href="#src.repository.transformation.info_qrcode_url"><code class="docutils literal notranslate"><span class="pre">info_qrcode_url()</span></code></a></li>
-<li><a class="reference internal" href="#src.repository.transformation.remove_qr"><code class="docutils literal notranslate"><span class="pre">remove_qr()</span></code></a></li>
 <li><a class="reference internal" href="#src.repository.transformation.update_qr"><code class="docutils literal notranslate"><span class="pre">update_qr()</span></code></a></li>
 </ul>
 </li>
@@ -2015,6 +2200,11 @@ plain-text password matches the hashed one.</p>
 <li><a class="reference internal" href="#src.routes.rating.delete_rate"><code class="docutils literal notranslate"><span class="pre">delete_rate()</span></code></a></li>
 <li><a class="reference internal" href="#src.routes.rating.get_ratings"><code class="docutils literal notranslate"><span class="pre">get_ratings()</span></code></a></li>
 <li><a class="reference internal" href="#src.routes.rating.rate_post"><code class="docutils literal notranslate"><span class="pre">rate_post()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-src.routes.search">PhotoShareApp routes Search</a><ul>
+<li><a class="reference internal" href="#src.routes.search.get_post_by_keyword"><code class="docutils literal notranslate"><span class="pre">get_post_by_keyword()</span></code></a></li>
+<li><a class="reference internal" href="#src.routes.search.get_post_by_tag"><code class="docutils literal notranslate"><span class="pre">get_post_by_tag()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-src.routes.tags">PhotoShareApp routes Tags</a><ul>
@@ -2099,7 +2289,7 @@ plain-text password matches the hashed one.</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">App 1.0.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="#">Photoshare App  documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Welcome to PhotoShareApp’s documentation!</a></li> 
       </ul>
     </div>

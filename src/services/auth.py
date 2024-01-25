@@ -60,13 +60,13 @@ class Auth:
         The create_access_token function creates a new access token.
             Args:
                 - data (dict): A dictionary containing the claims to be encoded in the JWT.
-                - expires_delta (Optional[float]): An optional parameter specifying how long, in seconds,
-                the access token should last before expiring. If not specified, it defaults to 15 minutes.
+                - expires_delta (Optional[float]): An optional parameter specifying how long, in seconds, the access token should last before expiring. If not specified, it defaults to 15 minutes.
 
-        :param self: Make the function a method of the class
-        :param data: dict: Pass the data that will be encoded into the jwt
-        :param expires_delta: Optional[float]: Set the expiration time of the token
-        :return: An encoded access token
+        :param self: Represent the instance of the class
+        :param data: dict: Pass the data that you want to encode in the jwt
+        :param expires_delta: Optional[float]: Set the expiration time of the access token
+        :return: A jwt token
+        :doc-author: Trelent
         """
         to_encode = data.copy()
         if expires_delta:
@@ -110,20 +110,20 @@ class Auth:
         return encoded_refresh_token
 
     async def decode_refresh_token(self, refresh_token: str):
+        """
+        The decode_refresh_token function is used to decode the refresh token.
+        It will raise an exception if the token is invalid or expired.
+        If it's valid, it will return a user email.
+
+        :param self: Represent the instance of the class
+        :param refresh_token: str: Pass the refresh token to the function
+        :return: The email of the user
+        """
         credentials_exception = HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail=messages.AUTH_NOT_VALID_CREDENTIALS,
             headers={"WWW-Authenticate": "Bearer"},
         )
-        """
-        The decode_refresh_token function is used to decode the refresh token.
-        It will raise an exception if the token is invalid or has expired.
-        If it's valid, it returns the email address of the user.
-
-        :param self: Represent the instance of a class
-        :param refresh_token: str: Pass in the refresh token that is being decoded
-        :return: The email of the user who is trying to refresh their access token
-        """
         try:
             payload = jwt.decode(
                 refresh_token, self.SECRET_KEY, algorithms=[self.ALGORITHM]

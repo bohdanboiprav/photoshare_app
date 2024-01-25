@@ -44,8 +44,8 @@ async def update_user_profile(body: UserSchema, user: User, db: AsyncSession) ->
     """
     The update_user_profile function updates a user's profile information.
         Args:
-            body (UserSchema): The UserSchema object containing the new user data.
-            user (User): The User object to be updated.
+            - body (UserSchema): The UserSchema object containing the new user data.
+            - user (User): The User object to be updated.
 
     :param body: UserSchema: Get the data from the request body
     :param user: User: Get the user object from the database
