@@ -7,11 +7,11 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.conf.cloudinary import configure_cloudinary
 from src.entity.models import Post, User, TagToPost
+from src.routes.transformation import remove_qrcode
 
 from src.schemas.post import PostModel
 from src.repository.tags import get_or_create_tag_by_name
 from src.schemas.tag import TagUpdate
-from src.routes.transformation import remove_qrcode
 
 
 async def get_posts(db: AsyncSession):
@@ -175,7 +175,7 @@ async def remove_post(post_id: int, current_user: User, db: AsyncSession):
     :param db: AsyncSession: Connect to the database
     :return: The post that was removed
     """
-    await remove_qrcode (post_id, current_user, db)
+    await remove_qrcode(post_id, current_user, db)
     post = await get_user_post(post_id, current_user, db)
     post_return = post
     if post:

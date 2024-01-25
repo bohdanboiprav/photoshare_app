@@ -1,23 +1,18 @@
 """Init
 
-Revision ID: 6f401ec5cfb1
+Revision ID: ec57c94266a4
 Revises: 
-Create Date: 2024-01-23 19:54:23.585275
+Create Date: 2024-01-23 01:00:57.892053
 
 """
-from datetime import datetime
 from typing import Sequence, Union
 
-import uuid
 from alembic import op
 import sqlalchemy as sa
 
-from src.services.auth import auth_service
-from src.conf.config import settings
-
 
 # revision identifiers, used by Alembic.
-revision: str = '6f401ec5cfb1'
+revision: str = 'ec57c94266a4'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -30,12 +25,12 @@ def upgrade() -> None:
     sa.Column('name', sa.String(length=50), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
-    user_type_table = op.create_table('user_type',
+    op.create_table('user_type',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('type', sa.String(length=50), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
-    users_table = op.create_table('users',
+    op.create_table('users',
     sa.Column('id', sa.Uuid(), nullable=False),
     sa.Column('username', sa.String(length=50), nullable=False),
     sa.Column('email', sa.String(length=150), nullable=False),
@@ -80,7 +75,6 @@ def upgrade() -> None:
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('transform_url', sa.String(length=500), nullable=True),
     sa.Column('transform_url_qr', sa.String(length=500), nullable=True),
-    sa.Column('public_id_qrcode', sa.String(length=500), nullable=True),
     sa.Column('post_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['post_id'], ['posts.id'], ),
     sa.PrimaryKeyConstraint('id')
@@ -110,33 +104,6 @@ def upgrade() -> None:
     sa.ForeignKeyConstraint(['post_id'], ['posts.id'], ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('id')
     )
-    op.bulk_insert(user_type_table, [
-        {
-            'id': 1,
-            'type': "User",
-        },
-        {
-            'id': 2,
-            'type': 'Moderator',
-        },
-        {
-            'id': 3,
-            'type': 'Admin',
-        }
-    ])
-    op.bulk_insert(users_table, [
-        {
-            'id': uuid.uuid4(),
-            'username': "Admin",
-            'email': "admin@admin.com",
-            'avatar': "https://asset.cloudinary.com/di5efpq4c/a2755bed968acf16e0f3acacd7f2fe1f",  # avatar
-            'password': auth_service.get_password_hash(settings.ADMIN_PASSWORD),
-            'user_type_id': 3,
-            'confirmed': True,
-            'created_at': datetime.now()
-
-        }
-    ])
     # ### end Alembic commands ###
 
 

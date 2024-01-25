@@ -1,3 +1,5 @@
+from types import NoneType
+
 import cloudinary
 import cloudinary.uploader
 
@@ -94,8 +96,8 @@ async def get_user_profile(
     )
 
 
-@router.put("/{username}/profile/", response_model=UserResponse,
-            dependencies=[Depends(RateLimiter(times=2, seconds=5))],
+@router.put("/{username}/profile/update", response_model=UserResponse,
+            dependencies=[Depends(RateLimiter(times=1, seconds=30))],
             status_code=status.HTTP_200_OK)
 async def update_user_profile(body: UserSchema, db: AsyncSession = Depends(get_db),
                               current_user: User = Depends(auth_service.get_current_user)):
