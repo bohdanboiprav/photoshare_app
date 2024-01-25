@@ -15,7 +15,9 @@ from fastapi import (
     Depends,
     status,
     Query,
+    Path
 )
+from src.conf import messages
 from fastapi_limiter.depends import RateLimiter
 from src.conf.config import settings
 from src.conf.transformation import TRANSFORMATIONS
@@ -25,6 +27,8 @@ from src.database.db import get_db
 from src.repository import transformation as ts
 from src.entity.models import User
 from src.services.auth import auth_service
+from src.repository import posts as repository_posts
+from src.schemas.post import PostModel, PostResponse, PostDeletedResponse
 
 
 router = APIRouter(prefix="/transformation", tags=["transformation"])
@@ -164,13 +168,14 @@ async def transformation_photo(
 
     prefix = url_qr_prefix(list_tr)
     url_qr = None
+    publick_url_qr = None
     if create_qrcode == True:
         img = await create_qr(url_transform)       
         prefix = await url_qr_prefix(list_tr)
         publick_url_qr = f"{public_id}_{prefix}_qr"
         result = cloudinary.uploader.upload(img, public_id=publick_url_qr, owerite=True)
         url_qr = cloudinary.CloudinaryImage(publick_url_qr).build_url(version=result.get("version"))
-    await ts.update_qr(id , url_transform, url_qr, db)
+    await ts.update_qr(id , url_transform,  url_qr, publick_url_qr, db)
     return url_origin , url_transform , url_qr
 
 
@@ -189,6 +194,9 @@ async def show_photo_url(id: int, user: User = Depends(auth_service.get_current_
     :rtype: PhotoResponse
     """
     result = await ts.get_photo_url( id, user, db)
+    #json_formatted_str = json.dumps(result, indent=2)
+    #print(f"_______________________________{result.all_images}_________________________")
+    #for i in 
     if result is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Contact not found")
     return result
@@ -211,7 +219,31 @@ async def show_all_url(limit: int = Query(10, ge=10, le=500), offset: int = Quer
     :rtype: List[PhotoResponse]
     """
     result = await ts.get_all_url(limit,offset, user, db)
+
     if result is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Contact not found")
     return result
 
+
+
+#@router.delete("/remove_qrcode",dependencies=[Depends(RateLimiter(times=2, seconds=5))])
+async def remove_qrcode(id: int, user: User = Depends(auth_service.get_current_user), db: AsyncSession = Depends(get_db)):
+    """
+    Creates a database query to obtain information about all photo links of a registered user.
+    
+    :param id: Post number with photo for transformation.
+    :type id: int
+    :param user: The user to retrieve post for.
+    :type user: User
+    :param db: The database session.
+    :type db: Session
+    :return: Links to transform photos
+    :rtype: List[PhotoResponse]
+    """
+    post = await ts.info_qrcode_url(id, user, db)
+    for i in post:
+        print(i)
+        cloudinary.uploader.destroy(str(i))
+    if post is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=messages.POST_NOT_FOUND)
+    return post
