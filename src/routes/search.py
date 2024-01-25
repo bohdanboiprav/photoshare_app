@@ -20,8 +20,33 @@ from src.services.auth import auth_service
 router = APIRouter(prefix='/search', tags=["search"])
 
 
-@router.get("/{tag}", response_model=List[PostResponse])
-async def get_post_by_tag(tag: str = Path(), current_user: User = Depends(auth_service.get_current_user),
+@router.get("/by_tag/{tag}", response_model=List[PostResponse])
+async def get_post_by_tag(filter_by_date: bool = True,
+                          filter_by_rating: bool = False,
+                          tag: str = Path(), current_user: User = Depends(auth_service.get_current_user),
                           db: AsyncSession = Depends(get_db)):
-    post = await repository_search.get_post_by_tag(tag, db)
+    post = await repository_search.get_post_by_tag(filter_by_date, filter_by_rating, tag, db)
+    return post
+
+
+@router.get("/by_keyword/{keyword}", response_model=List[PostResponse])
+async def get_post_by_keyword(filter_by_date: bool = True,
+                              filter_by_rating: bool = False,
+                              keyword: str = Path(),
+                              current_user: User = Depends(auth_service.get_current_user),
+                              db: AsyncSession = Depends(get_db)):
+    post = await repository_search.get_post_by_keyword(filter_by_date, filter_by_rating, keyword, db)
+    return post
+
+
+@router.get("/by_user/{username}", response_model=List[PostResponse])
+async def get_post_by_keyword(filter_by_date: bool = True,
+                              filter_by_rating: bool = False,
+                              username: str = Path(),
+                              current_user: User = Depends(auth_service.get_current_user),
+                              db: AsyncSession = Depends(get_db)):
+    if current_user.user_type == 1:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
+                            detail=messages.NO_PERMISSIONS)
+    post = await repository_search.get_post_by_user(filter_by_date, filter_by_rating, username, db)
     return post
