@@ -1,13 +1,8 @@
-
 from pathlib import Path
-
 from src.conf import messages
 
 import redis.asyncio as redis
-
 from typing import Callable
-
-from pydantic import ConfigDict
 
 from ipaddress import ip_address
 from fastapi import FastAPI, Depends, HTTPException, Request, status
@@ -20,13 +15,10 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import text
 
 from src.database.db import get_db
-from src.routes import auth, users, posts, tags, comments, transformation, rating
+from src.routes import auth, users, posts, tags, comments, transformation, rating, search
 from src.conf.config import settings
 
 app = FastAPI()
-BASE_DIR = Path(__file__).parent
-directory = BASE_DIR / "src" / "static"
-app.mount("/src/static", StaticFiles(directory=directory), name="static")
 
 banned_ips = [ip_address("192.168.255.1"), ip_address("192.168.255.1")]
 
@@ -39,6 +31,9 @@ app.add_middleware(
     allow_methods=["GET", "POST", "PUT", "DELETE"],
     allow_headers=["*"],
 )
+BASE_DIR = Path(__file__).parent
+directory = BASE_DIR / "src" / "static"
+app.mount("/src/static", StaticFiles(directory=directory), name="static")
 
 app.include_router(auth.router, prefix='/api')
 app.include_router(posts.router, prefix='/api')
@@ -47,9 +42,9 @@ app.include_router(tags.router, prefix="/api")
 app.include_router(transformation.router, prefix='/api')
 app.include_router(comments.router, prefix='/api')
 app.include_router(rating.router, prefix='/api')
+app.include_router(search.router, prefix='/api')
 
 templates = Jinja2Templates(directory=BASE_DIR / "src" / "templates")
-
 
 @app.middleware("http")
 async def ban_ips(request: Request, call_next: Callable):
@@ -94,6 +89,15 @@ async def startup():
 
 @app.get("/", response_class=HTMLResponse, description="Main Page")
 async def read_root(request: Request):
+    """
+    The read_root function is a coroutine that returns an HTML response.
+    The function uses the templates module to render the index.html template,
+    which is located in the templates directory of our project.
+
+    :param request: Request: Pass the request object to the template
+    :return: A templateresponse object
+    :doc-author: Trelent
+    """
     return templates.TemplateResponse(
         "index.html", {"request": request, "title": "PhotoShare App"}
     )

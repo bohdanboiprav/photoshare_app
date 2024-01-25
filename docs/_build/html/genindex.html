@@ -4,10 +4,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Index &#8212; PhotoShare App 1.0.0 documentation</title>
+    <title>Index &#8212; Photoshare App  documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/nature.css?v=601dbdee" />
-    <script src="_static/documentation_options.js?v=8d563738"></script>
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="#" />
@@ -22,7 +22,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">PhotoShare App 1.0.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Photoshare App  documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Index</a></li> 
       </ul>
     </div>  
@@ -42,12 +42,14 @@
  | <a href="#D"><strong>D</strong></a>
  | <a href="#G"><strong>G</strong></a>
  | <a href="#H"><strong>H</strong></a>
+ | <a href="#I"><strong>I</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
  | <a href="#U"><strong>U</strong></a>
  | <a href="#V"><strong>V</strong></a>
  
@@ -72,6 +74,10 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="index.html#main.ban_ips">ban_ips() (in module main)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="index.html#src.repository.users.ban_user">ban_user() (in module src.repository.users)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -109,6 +115,10 @@
         <li><a href="index.html#src.routes.posts.create_post">(in module src.routes.posts)</a>
 </li>
       </ul></li>
+      <li><a href="index.html#src.routes.transformation.create_qr">create_qr() (in module src.routes.transformation)</a>
+</li>
+      <li><a href="index.html#src.repository.rating.create_rating">create_rating() (in module src.repository.rating)</a>
+</li>
       <li><a href="index.html#src.services.auth.Auth.create_refresh_token">create_refresh_token() (src.services.auth.Auth method)</a>
 </li>
       <li><a href="index.html#src.repository.tags.create_tag">create_tag() (in module src.repository.tags)</a>
@@ -127,14 +137,18 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="index.html#src.services.auth.Auth.decode_refresh_token">decode_refresh_token() (src.services.auth.Auth method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="index.html#src.repository.comments.delete_comment">delete_comment() (in module src.repository.comments)</a>
 
       <ul>
         <li><a href="index.html#src.routes.comments.delete_comment">(in module src.routes.comments)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="index.html#src.routes.rating.delete_rate">delete_rate() (in module src.routes.rating)</a>
+</li>
+      <li><a href="index.html#src.repository.rating.delete_rating">delete_rating() (in module src.repository.rating)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -147,6 +161,8 @@
         <li><a href="index.html#src.routes.tags.get_all_tags">(in module src.routes.tags)</a>
 </li>
       </ul></li>
+      <li><a href="index.html#src.repository.transformation.get_all_url">get_all_url() (in module src.repository.transformation)</a>
+</li>
       <li><a href="index.html#src.routes.users.get_current_user">get_current_user() (in module src.routes.users)</a>
 
       <ul>
@@ -163,6 +179,12 @@
       </ul></li>
       <li><a href="index.html#src.services.auth.Auth.get_password_hash">get_password_hash() (src.services.auth.Auth method)</a>
 </li>
+      <li><a href="index.html#src.repository.transformation.get_photo_info">get_photo_info() (in module src.repository.transformation)</a>
+</li>
+      <li><a href="index.html#src.repository.transformation.get_photo_info_qr">get_photo_info_qr() (in module src.repository.transformation)</a>
+</li>
+      <li><a href="index.html#src.repository.transformation.get_photo_url">get_photo_url() (in module src.repository.transformation)</a>
+</li>
       <li><a href="index.html#src.routes.photo_url_qr.get_photos_info">get_photos_info() (in module src.routes.photo_url_qr)</a>
 </li>
       <li><a href="index.html#src.repository.posts.get_post">get_post() (in module src.repository.posts)</a>
@@ -171,15 +193,35 @@
         <li><a href="index.html#src.routes.posts.get_post">(in module src.routes.posts)</a>
 </li>
       </ul></li>
+      <li><a href="index.html#src.repository.search.get_post_by_keyword">get_post_by_keyword() (in module src.repository.search)</a>
+
+      <ul>
+        <li><a href="index.html#src.routes.search.get_post_by_keyword">(in module src.routes.search)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="index.html#src.repository.search.get_post_by_tag">get_post_by_tag() (in module src.repository.search)</a>
+
+      <ul>
+        <li><a href="index.html#src.routes.search.get_post_by_tag">(in module src.routes.search)</a>
+</li>
+      </ul></li>
+      <li><a href="index.html#src.repository.search.get_post_by_user">get_post_by_user() (in module src.repository.search)</a>
+</li>
       <li><a href="index.html#src.repository.posts.get_posts">get_posts() (in module src.repository.posts)</a>
 
       <ul>
         <li><a href="index.html#src.routes.posts.get_posts">(in module src.routes.posts)</a>
 </li>
       </ul></li>
+      <li><a href="index.html#src.repository.rating.get_postsratings">get_postsratings() (in module src.repository.rating)</a>
+</li>
       <li><a href="index.html#src.repository.profile.get_profile">get_profile() (in module src.repository.profile)</a>
+</li>
+      <li><a href="index.html#src.repository.rating.get_rating">get_rating() (in module src.repository.rating)</a>
+</li>
+      <li><a href="index.html#src.routes.rating.get_ratings">get_ratings() (in module src.routes.rating)</a>
 </li>
       <li><a href="index.html#src.repository.tags.get_tag">get_tag() (in module src.repository.tags)</a>
 </li>
@@ -204,10 +246,22 @@
   </ul></td>
 </tr></table>
 
+<h2 id="I">I</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="index.html#src.routes.transformation.info_all_transformation">info_all_transformation() (in module src.routes.transformation)</a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="index.html#src.routes.auth.login">login() (in module src.routes.auth)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="index.html#src.routes.auth.logout">logout() (in module src.routes.auth)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -234,7 +288,13 @@
 </li>
         <li><a href="index.html#module-src.repository.profile">src.repository.profile</a>
 </li>
+        <li><a href="index.html#module-src.repository.rating">src.repository.rating</a>
+</li>
+        <li><a href="index.html#module-src.repository.search">src.repository.search</a>
+</li>
         <li><a href="index.html#module-src.repository.tags">src.repository.tags</a>
+</li>
+        <li><a href="index.html#module-src.repository.transformation">src.repository.transformation</a>
 </li>
         <li><a href="index.html#module-src.repository.users">src.repository.users</a>
 </li>
@@ -246,7 +306,13 @@
 </li>
         <li><a href="index.html#module-src.routes.posts">src.routes.posts</a>
 </li>
+        <li><a href="index.html#module-src.routes.rating">src.routes.rating</a>
+</li>
+        <li><a href="index.html#module-src.routes.search">src.routes.search</a>
+</li>
         <li><a href="index.html#module-src.routes.tags">src.routes.tags</a>
+</li>
+        <li><a href="index.html#module-src.routes.transformation">src.routes.transformation</a>
 </li>
         <li><a href="index.html#module-src.routes.users">src.routes.users</a>
 </li>
@@ -269,6 +335,10 @@
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="index.html#src.routes.transformation.ping_cloudinary">ping_cloudinary() (in module src.routes.transformation)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="index.html#src.services.auth.Auth.pwd_context">pwd_context (src.services.auth.Auth attribute)</a>
 </li>
   </ul></td>
@@ -277,7 +347,11 @@
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="index.html#src.routes.rating.rate_post">rate_post() (in module src.routes.rating)</a>
+</li>
       <li><a href="index.html#main.read_root">read_root() (in module main)</a>
+</li>
+      <li><a href="index.html#src.repository.rating.refresh_rating">refresh_rating() (in module src.repository.rating)</a>
 </li>
       <li><a href="index.html#src.routes.auth.refresh_token">refresh_token() (in module src.routes.auth)</a>
 </li>
@@ -289,6 +363,8 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="index.html#src.routes.transformation.remove_qrcode">remove_qrcode() (in module src.routes.transformation)</a>
+</li>
       <li><a href="index.html#src.repository.tags.remove_tag">remove_tag() (in module src.repository.tags)</a>
 
       <ul>
@@ -296,7 +372,11 @@
 </li>
       </ul></li>
       <li><a href="index.html#src.routes.auth.request_email">request_email() (in module src.routes.auth)</a>
+
+      <ul>
+        <li><a href="index.html#src.routes.users.request_email">(in module src.routes.users)</a>
 </li>
+      </ul></li>
       <li><a href="index.html#src.routes.auth.reset_password">reset_password() (in module src.routes.auth)</a>
 </li>
   </ul></td>
@@ -308,6 +388,10 @@
       <li><a href="index.html#src.services.auth.Auth.SECRET_KEY">SECRET_KEY (src.services.auth.Auth attribute)</a>
 </li>
       <li><a href="index.html#src.services.email.send_email">send_email() (in module src.services.email)</a>
+</li>
+      <li><a href="index.html#src.routes.transformation.show_all_url">show_all_url() (in module src.routes.transformation)</a>
+</li>
+      <li><a href="index.html#src.routes.transformation.show_photo_url">show_photo_url() (in module src.routes.transformation)</a>
 </li>
       <li><a href="index.html#src.routes.auth.signup">signup() (in module src.routes.auth)</a>
 </li>
@@ -333,10 +417,31 @@
 </li>
       </ul></li>
       <li>
+    src.repository.rating
+
+      <ul>
+        <li><a href="index.html#module-src.repository.rating">module</a>
+</li>
+      </ul></li>
+      <li>
+    src.repository.search
+
+      <ul>
+        <li><a href="index.html#module-src.repository.search">module</a>
+</li>
+      </ul></li>
+      <li>
     src.repository.tags
 
       <ul>
         <li><a href="index.html#module-src.repository.tags">module</a>
+</li>
+      </ul></li>
+      <li>
+    src.repository.transformation
+
+      <ul>
+        <li><a href="index.html#module-src.repository.transformation">module</a>
 </li>
       </ul></li>
       <li>
@@ -377,10 +482,31 @@
 </li>
       </ul></li>
       <li>
+    src.routes.rating
+
+      <ul>
+        <li><a href="index.html#module-src.routes.rating">module</a>
+</li>
+      </ul></li>
+      <li>
+    src.routes.search
+
+      <ul>
+        <li><a href="index.html#module-src.routes.search">module</a>
+</li>
+      </ul></li>
+      <li>
     src.routes.tags
 
       <ul>
         <li><a href="index.html#module-src.routes.tags">module</a>
+</li>
+      </ul></li>
+      <li>
+    src.routes.transformation
+
+      <ul>
+        <li><a href="index.html#module-src.routes.transformation">module</a>
 </li>
       </ul></li>
       <li>
@@ -409,6 +535,14 @@
   </ul></td>
 </tr></table>
 
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="index.html#src.routes.transformation.transformation_photo">transformation_photo() (in module src.routes.transformation)</a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="U">U</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -428,6 +562,8 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="index.html#src.repository.transformation.update_qr">update_qr() (in module src.repository.transformation)</a>
+</li>
       <li><a href="index.html#src.repository.users.update_token">update_token() (in module src.repository.users)</a>
 </li>
       <li><a href="index.html#src.repository.profile.update_user_profile">update_user_profile() (in module src.repository.profile)</a>
@@ -436,6 +572,8 @@
         <li><a href="index.html#src.routes.users.update_user_profile">(in module src.routes.users)</a>
 </li>
       </ul></li>
+      <li><a href="index.html#src.routes.transformation.url_qr_prefix">url_qr_prefix() (in module src.routes.transformation)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -478,12 +616,12 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">PhotoShare App 1.0.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Photoshare App  documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Index</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2024, Oleksandr.
+    &#169; Copyright 2024, Team.
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>

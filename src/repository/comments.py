@@ -10,6 +10,16 @@ from src.conf import messages
 
 
 async def create_comment(body: CreateCommentModel, current_user: User, db: AsyncSession):
+    """
+    The create_comment function creates a comment for the post with the id specified in body.post_id
+        and returns that comment.
+
+    :param body: CreateCommentModel: Get the content and post_id from the request body
+    :param current_user: User: Get the user_id of the current user
+    :param db: AsyncSession: Access the database
+    :return: An instance of the comment class
+    :doc-author: Trelent
+    """
     comment = Comment(content=body.content, post_id=int(body.post_id), user_id=current_user.id)
     db.add(comment)
     await db.commit()
@@ -33,7 +43,6 @@ async def update_comment(body: CommentUpdateModel, current_user: User, db: Async
     :param current_user: User: Get the user id of the current user
     :param db: AsyncSession: Access the database
     :return: The updated comment
-    :doc-author: Trelent
     """
     comment = await db.get(Comment, body.comment_id)
     if not comment:
@@ -58,7 +67,6 @@ async def delete_comment(body: CommentDeleteModel, user: User, db: AsyncSession)
     :param user: User: Check if the user is an admin or moderator
     :param db: AsyncSession: Get the database session
     :return: The deleted comment
-    :doc-author: Trelent
     """
     user_ = await db.get(User, user.id)
     if user_.user_type_id not in (2, 3):

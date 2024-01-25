@@ -18,7 +18,6 @@ async def get_profile(user: User, db: AsyncSession) -> dict:
     :param user: User: Pass the user object to the function
     :param db: AsyncSession: Pass the database session to the function
     :return: A dictionary of user information
-    :doc-author: Trelent
     """
     result = {}
     if user:
@@ -45,14 +44,13 @@ async def update_user_profile(body: UserSchema, user: User, db: AsyncSession) ->
     """
     The update_user_profile function updates a user's profile information.
         Args:
-            body (UserSchema): The UserSchema object containing the new user data.
-            user (User): The User object to be updated.
+            - body (UserSchema): The UserSchema object containing the new user data.
+            - user (User): The User object to be updated.
 
     :param body: UserSchema: Get the data from the request body
     :param user: User: Get the user object from the database
     :param db: AsyncSession: Pass in the database session
     :return: The updated user object
-    :doc-author: Trelent
     """
     stmt = select(User).filter_by(username=user.username)
     result = await db.execute(stmt)
