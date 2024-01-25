@@ -80,7 +80,6 @@ async def confirmed_email(email: str, db: AsyncSession) -> None:
     The confirmed_email function takes in an email and a database session,
     and sets the confirmed field of the user with that email to True.
 
-
     :param email: str: Get the email of the user that is being confirmed
     :param db: AsyncSession: Pass in the database session
     :return: None

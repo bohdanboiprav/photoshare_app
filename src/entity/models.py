@@ -54,7 +54,7 @@ class Post(Base):
     tags_to_posts: Mapped[List["TagToPost"]] = relationship("TagToPost", back_populates="post", lazy="joined", overlaps="tags")
     comment: Mapped[List["Comment"]] = relationship("Comment", back_populates="post",
                                                     lazy="joined", cascade="all, delete")
-    all_images: Mapped[List["PhotoUrl"]] = relationship("PhotoUrl", back_populates="post", lazy="joined",cascade='save-update, merge, delete')
+    url: Mapped[List["PhotoUrl"]] = relationship("PhotoUrl", back_populates="post", lazy="joined")
     ratings: Mapped[List["Rating"]] = relationship("Rating", back_populates="post", lazy="joined")
 
     @validates('tags')
@@ -126,10 +126,9 @@ class PhotoUrl(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     transform_url: Mapped[str] = mapped_column(String(500), nullable=True)
     transform_url_qr: Mapped[str] = mapped_column(String(500), nullable=True)
-    public_id_qrcode: Mapped[str] = mapped_column(String(500), nullable=True)
 
     post_id: Mapped[int] = mapped_column(Integer, ForeignKey('posts.id'), nullable=True)
-    post: Mapped["Post"] = relationship("Post", back_populates="all_images", lazy="joined")
+    post: Mapped["Post"] = relationship("Post", back_populates="url", lazy="joined")
 
 
 mapper_registry.configure()

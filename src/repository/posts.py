@@ -7,11 +7,11 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.conf.cloudinary import configure_cloudinary
 from src.entity.models import Post, User, TagToPost
+from src.routes.transformation import remove_qrcode
 
 from src.schemas.post import PostModel
 from src.repository.tags import get_or_create_tag_by_name
 from src.schemas.tag import TagUpdate
-from src.routes.transformation import remove_qrcode
 
 
 async def get_posts(db: AsyncSession):
@@ -44,9 +44,9 @@ async def get_user_post(post_id: int, current_user: User, db: AsyncSession):
     """
     The get_user_post function is used to get a post by its id.
         Args:
-            post_id (int): The id of the post you want to retrieve.
-            current_user (User): The user who is making the request for this function.  This will be used to determine if they are an admin or not, and thus whether or not they can see all posts, or just their own posts.
-            db (AsyncSession): An async session object that will be used for querying the database with SQLAlchemy Core syntax.
+            - post_id (int): The id of the post you want to retrieve.
+            - current_user (User): The user who is making the request for this function.  This will be used to determine if they are an admin or not, and thus whether or not they can see all posts, or just their own posts.
+            - db (AsyncSession): An async session object that will be used for querying the database with SQLAlchemy Core syntax.
 
     :param post_id: int: Filter the posts by id
     :param current_user: User: Check if the user is an admin or not
@@ -98,9 +98,9 @@ async def update_post(post_id: int, body: PostModel, current_user: User, db: Asy
     """
     The update_post function updates a post in the database.
         Args:
-            post_id (int): The id of the post to update.
-            body (PostModel): The new data for the specified Post object.
-            current_user (User): The user who is making this request, used to check if they are authorized to make this change.
+            - post_id (int): The id of the post to update.
+            - body (PostModel): The new data for the specified Post object.
+            - current_user (User): The user who is making this request, used to check if they are authorized to make this change.
 
     :param post_id: int: Identify the post we want to delete
     :param body: PostModel: Get the new values for the post
@@ -129,9 +129,9 @@ async def add_tag_to_post(body: TagUpdate, current_user: User, db: AsyncSession)
     """
     The add_tag_to_post function adds a tag to the post.
         Args:
-            body (TagUpdate): The TagUpdate object containing the name of the post and tags to add.
-            current_user (User): The User object representing who is making this request.
-            db (AsyncSession): A database session for interacting with Postgresql via SQLAlchemy Core.
+            - body (TagUpdate): The TagUpdate object containing the name of the post and tags to add.
+            - current_user (User): The User object representing who is making this request.
+            - db (AsyncSession): A database session for interacting with Postgresql via SQLAlchemy Core.
 
     :param body: TagUpdate: Get the name of the post and tags to add
     :param current_user: User: Check if the user is authorized to add tags to a post
@@ -165,9 +165,9 @@ async def remove_post(post_id: int, current_user: User, db: AsyncSession):
     """
     The remove_post function removes a post from the database.
         Args:
-            post_id (int): The id of the post to be removed.
-            current_user (User): The user who is making this request. This is used to ensure that only the owner of a
-            particular post can remove it, and not other users.
+            - post_id (int): The id of the post to be removed.
+            - current_user (User): The user who is making this request. This is used to ensure that only the owner of a
+            - particular post can remove it, and not other users.
 
 
     :param post_id: int: Get the post from the database
@@ -175,7 +175,7 @@ async def remove_post(post_id: int, current_user: User, db: AsyncSession):
     :param db: AsyncSession: Connect to the database
     :return: The post that was removed
     """
-    await remove_qrcode (post_id, current_user, db)
+    await remove_qrcode(post_id, current_user, db)
     post = await get_user_post(post_id, current_user, db)
     post_return = post
     if post:

@@ -109,13 +109,11 @@ async def refresh_token(
         db: AsyncSession = Depends(get_db),
 ):
     """
-    The refresh_token function is used to refresh the access token. It takes a refresh token as input and returns an
-    access token. The function first decodes the refresh_token to get the user's email address, then it gets that
-    user from our database, and checks if their stored refresh_token matches what was sent in with this request. If
-    not, we raise an error and return a 401 Unauthorized response code (the client will need to log in again). If
-    everything checks out, we create new tokens for this user using our auth service module and update their record
-    in our database with these new tokens.
-
+    The refresh_token function is used to refresh the access token.
+    It takes a refresh token as input and returns an access token.
+    The function first decodes the refresh_token to get the user's email address, then it gets that user from our database,
+    and checks if their stored refresh_token matches what was sent in with this request. If not, we raise an error and return a 401 Unauthorized response code (the client will need to log in again).
+    If everything checks out, we create new tokens for this user using our auth service module and update their record in our database with these new tokens.
 
     :param credentials: HTTPAuthorizationCredentials: Get the access token from the request header
     :param db: AsyncSession: Pass the database session to the function

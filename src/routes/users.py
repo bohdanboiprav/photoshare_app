@@ -1,3 +1,5 @@
+from types import NoneType
+
 import cloudinary
 import cloudinary.uploader
 
@@ -80,7 +82,6 @@ async def get_user_profile(
     The get_user_profile function is a GET request that returns the profile of a user. The username parameter is
     required and must be unique. The db parameter uses the get_db function to connect to the database.
 
-
     :param username: str: Get the username from the path
     :param db: AsyncSession: Pass the database session to the function
     :return: A dict with the user's profile information
@@ -94,8 +95,8 @@ async def get_user_profile(
     )
 
 
-@router.put("/{username}/profile/", response_model=UserResponse,
-            dependencies=[Depends(RateLimiter(times=2, seconds=5))],
+@router.put("/{username}/profile/update", response_model=UserResponse,
+            dependencies=[Depends(RateLimiter(times=1, seconds=30))],
             status_code=status.HTTP_200_OK)
 async def update_user_profile(body: UserSchema, db: AsyncSession = Depends(get_db),
                               current_user: User = Depends(auth_service.get_current_user)):

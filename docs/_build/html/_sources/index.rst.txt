@@ -5,7 +5,6 @@
 
 Welcome to PhotoShareApp's documentation!
 =========================================
-
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
@@ -42,6 +41,13 @@ PhotoShareApp repository Profile
 PhotoShareApp repository Rating
 ============================================
 .. automodule:: src.repository.rating
+  :members:
+  :undoc-members:
+  :show-inheritance:
+
+PhotoShareApp repository Search
+============================================
+.. automodule:: src.repository.search
   :members:
   :undoc-members:
   :show-inheritance:
@@ -102,6 +108,13 @@ PhotoShareApp routes Rating
   :undoc-members:
   :show-inheritance:
 
+PhotoShareApp routes Search
+==============================================
+.. automodule:: src.routes.search
+  :members:
+  :undoc-members:
+  :show-inheritance:
+
 PhotoShareApp routes Tags
 ==============================================
 .. automodule:: src.routes.tags
@@ -136,7 +149,6 @@ PhotoShareApp services Email
   :members:
   :undoc-members:
   :show-inheritance:
-
 
 Indices and tables
 ==================
