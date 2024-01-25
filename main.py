@@ -31,6 +31,9 @@ app.add_middleware(
     allow_methods=["GET", "POST", "PUT", "DELETE"],
     allow_headers=["*"],
 )
+BASE_DIR = Path(__file__).parent
+directory = BASE_DIR / "src" / "static"
+app.mount("/src/static", StaticFiles(directory=directory), name="static")
 
 app.include_router(auth.router, prefix='/api')
 app.include_router(posts.router, prefix='/api')
@@ -41,6 +44,7 @@ app.include_router(comments.router, prefix='/api')
 app.include_router(rating.router, prefix='/api')
 app.include_router(search.router, prefix='/api')
 
+templates = Jinja2Templates(directory=BASE_DIR / "src" / "templates")
 
 @app.middleware("http")
 async def ban_ips(request: Request, call_next: Callable):

@@ -64,7 +64,7 @@ async def get_url_photo(public_id: str):
     """
     The get_url_photo function takes a public_id as an argument and returns the url of the photo with that public_id.
         Args:
-            public_id (str): The unique identifier for a photo in Cloudinary.
+            - public_id (str): The unique identifier for a photo in Cloudinary.
 
     :param public_id: str: Specify the name of the image in cloudinary
     :return: A tuple with two values

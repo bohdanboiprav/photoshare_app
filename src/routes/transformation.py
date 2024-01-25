@@ -33,6 +33,13 @@ configure_cloudinary()
 
 
 async def url_qr_prefix(list_tr):
+    """
+    The url_qr_prefix function takes a list of strings and returns the concatenation of all non-None elements in that list.
+        This is used to create the prefix for a QR code URL, which will be appended with an ID number.
+
+    :param list_tr: Store the list of parameters that are used in the url_qr_prefix function
+    :return: The prefix of the url, which is the first part of a url
+    """
     prefix = ""
     for i in list_tr:
         if i != None:
@@ -41,6 +48,16 @@ async def url_qr_prefix(list_tr):
 
 
 async def create_qr(url_transform):
+    """
+    The create_qr function takes a url_transform as an argument and returns
+    a QR code image. The function uses the qrcode library to create a QR code
+    object, add data to it, make it fit the size of the data added, and then
+    create an image from that object. The function then saves that image into
+    an io BytesIO object which is returned by the function.
+
+    :param url_transform: Pass the url to be transformed into a qr code
+    :return: A byte array
+    """
     qr = qrcode.QRCode(
         version=None,
         error_correction=qrcode.constants.ERROR_CORRECT_M,
@@ -58,6 +75,12 @@ async def create_qr(url_transform):
 
 @router.get("/ping_cloudinary", dependencies=[Depends(RateLimiter(times=2, seconds=5))])
 async def ping_cloudinary():
+    """
+    The ping_cloudinary function is a simple function that pings the Cloudinary API to ensure it's working properly.
+        It returns a dictionary with information about the ping.
+
+    :return: A dictionary
+    """
     ping = cloudinary.api.ping()
     print(ping)
     return ping
@@ -65,6 +88,15 @@ async def ping_cloudinary():
 
 @router.get("/info_all_transformation", dependencies=[Depends(RateLimiter(times=2, seconds=5))])
 async def info_all_transformation():
+    """
+    The info_all_transformation function returns a dictionary of all the transformations that are available in this
+        module. The keys are the names of each transformation, and the values are dictionaries containing information about
+        each transformation. Each value dictionary contains three key-value pairs: 'description', which is a string
+        describing what the function does; 'parameters', which is an array of strings listing all parameters for that
+        function; and 'returns', which describes what type(s) will be returned by that function.
+
+    :return: A list of all transformations
+    """
     return TRANSFORMATIONS
 
 
@@ -79,6 +111,22 @@ async def transformation_photo(
         transformation_5: str | None = None,
         db: AsyncSession = Depends(get_db),
         user: User = Depends(auth_service.get_current_user)):
+    """
+    The transformation_photo function takes the id of a photo, and returns the original url,
+    the transformed url and qr code for this photo.
+
+
+    :param id: int: Identify the photo in the database
+    :param create_qrcode: bool: Create a qr code for the transformed image
+    :param transformation_1: str: Specify the first transformation
+    :param transformation_2: str | None: Pass the transformation_2 parameter to the function
+    :param transformation_3: str | None: Specify that the transformation_3 parameter is optional
+    :param transformation_4: str | None: Pass the transformation_4 parameter to the function
+    :param transformation_5: str | None: Pass the fifth transformation
+    :param db: AsyncSession: Pass the database connection to the function
+    :param user: User: Get the current user
+    :return: The original photo url, the transformed photo url and the qr code url
+    """
     info_photo = await ts.get_photo_info(id, user, db)
     if info_photo is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Photo not found")
@@ -133,6 +181,14 @@ async def transformation_photo(
 @router.post("/show_photo_url", dependencies=[Depends(RateLimiter(times=2, seconds=5))])
 async def show_photo_url(id: int, user: User = Depends(auth_service.get_current_user),
                          db: AsyncSession = Depends(get_db)):
+    """
+    The show_photo_url function returns the photo url of a contact.
+
+    :param id: int: Get the id of the contact
+    :param user: User: Get the current user, and the db: asyncsession parameter is used to get a database session
+    :param db: AsyncSession: Pass the database connection to the function
+    :return: A string
+    """
     result = await ts.get_photo_url(id, user, db)
     if result is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Contact not found")
@@ -142,10 +198,25 @@ async def show_photo_url(id: int, user: User = Depends(auth_service.get_current_
 @router.get("/show_all_url",response_model=List[PhotoResponse], dependencies=[Depends(RateLimiter(times=2, seconds=5))])
 async def show_all_url(limit: int = Query(10, ge=10, le=500), offset: int = Query(0, ge=0),
                        user: User = Depends(auth_service.get_current_user), db: AsyncSession = Depends(get_db)):
+    """
+    The show_all_url function returns a list of all the URLs in the database.
+        The limit and offset parameters are used to paginate through results.
+        The user parameter is used to ensure that only URLs belonging to the current user are returned.
+
+    :param limit: int: Limit the number of results returned
+    :param ge: Set the minimum value of a parameter
+    :param le: Limit the number of results returned
+    :param offset: int: Specify the number of records to skip before starting to return the results
+    :param ge: Specify the minimum value of a parameter
+    :param user: User: Get the user from the auth_service
+    :param db: AsyncSession: Get the database connection
+    :return: All the urls of a user
+    """
     result = await ts.get_all_url(limit, offset, user, db)
     if result is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Contact not found")
     return result
+
 
 #@router.delete("/remove_qrcode",dependencies=[Depends(RateLimiter(times=2, seconds=5))])
 async def remove_qrcode(id: int, user: User = Depends(auth_service.get_current_user), db: AsyncSession = Depends(get_db)):

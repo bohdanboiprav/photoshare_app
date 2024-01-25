@@ -82,7 +82,6 @@ async def get_user_profile(
     The get_user_profile function is a GET request that returns the profile of a user. The username parameter is
     required and must be unique. The db parameter uses the get_db function to connect to the database.
 
-
     :param username: str: Get the username from the path
     :param db: AsyncSession: Pass the database session to the function
     :return: A dict with the user's profile information
