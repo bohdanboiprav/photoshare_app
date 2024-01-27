@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.conf.config import settings
 from src.database.db import get_db
-from src.entity.models import User
+from src.entity.models import User, UserType
 from src.schemas.user import UserSchema
 
 
@@ -116,7 +116,7 @@ async def ban_user(username: str, db: AsyncSession):
     :return: The user object
     """
     user = await get_user_by_username(username, db)
-    if user:
+    if user and not user.is_banned:
         cache = redis.Redis(
             host=settings.REDIS_HOST,
             port=settings.REDIS_PORT,
@@ -128,4 +128,64 @@ async def ban_user(username: str, db: AsyncSession):
         cache.delete(str(user.email))
         await db.commit()
         await db.refresh(user)
+        return user
+
+
+async def unban_user(username: str, db: AsyncSession):
+    """
+    The unban_user function takes a username and an AsyncSession object as arguments.
+    It then queries the database for the user with that username, and if it finds one,
+    it sets its is_banned attribute to False. It then commits this change to the database
+    and returns the updated user.
+
+    :param username: str: Specify the username of the user to be unbanned
+    :param db: AsyncSession: Pass in the database session,
+    :return: The user object after the is_banned property has been set to false
+    """
+    user = await get_user_by_username(username, db)
+    if user and user.is_banned:
+        user.is_banned = False
+        await db.commit()
+        await db.refresh(user)
+        return user
+
+
+async def get_user_type_by_name(role_type, db):
+
+    """
+    The get_user_type_by_name function takes in a role_type and db as parameters.
+    It then creates a statement that selects the UserType table and filters it by type.
+    The user_type is then set to the result of executing the statement on db, which returns an object of type ResultProxy.
+    The scalar_one_or_none method is called on this object, which returns either one row or None if no rows are returned.
+
+    :param role_type: Filter the user_type table by type
+    :param db: Connect to the database
+    :return: The user type of a given role
+    :doc-author: Trelent
+    """
+    stmt = select(UserType).filter_by(type=role_type)
+    user_type = await db.execute(stmt)
+    user_type = user_type.scalar_one_or_none()
+    return user_type
+
+
+async def assign_role(username: str, role_type: str, db: AsyncSession):
+    """
+    The assign_role function takes in a username and role_type,
+        then assigns the user with that username to the role type.
+        The function returns the updated user object.
+
+    :param username: str: Specify the username of the user to be updated
+    :param role_type: str: Specify the role type that you want to assign to a user
+    :param db: AsyncSession: Pass the database session to the function
+    :return: The user object with the updated role
+    :doc-author: Trelent
+    """
+    user = await get_user_by_username(username, db)
+    if user and user.user_type_id != 3:
+        new_user_type = await get_user_type_by_name(role_type, db)
+        user.user_type = new_user_type
+        await db.commit()
+        await db.refresh(user)
+        print(user.id, user.user_type_id, user.username, user.email)
         return user

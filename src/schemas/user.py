@@ -38,3 +38,8 @@ class RequestEmail(BaseModel):
 
 class UpdateProfile(BaseModel):
     username: str | None = Field()
+
+
+class UserRight(UserResponse):
+    user_type_id: int
+    model_config = ConfigDict(from_attributes=True)
