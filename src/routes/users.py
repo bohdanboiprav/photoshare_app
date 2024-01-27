@@ -19,7 +19,7 @@ from src.conf.cloudinary import configure_cloudinary
 from src.database.db import get_db
 from src.entity.models import User
 from src.repository.users import get_user_by_username, get_user_by_email
-from src.schemas.user import UserResponse, UserSchema, UserProfileResponse
+from src.schemas.user import UserResponse, UserSchema, UserProfileResponse, UserRight
 from src.services.auth import auth_service
 from src.repository import users as repository_users
 from src.repository import profile as repository_profile
@@ -100,7 +100,6 @@ async def get_user_profile(
             status_code=status.HTTP_200_OK)
 async def update_user_profile(body: UserSchema, db: AsyncSession = Depends(get_db),
                               current_user: User = Depends(auth_service.get_current_user)):
-
     """
     The update_user_profile function updates a user's profile.
         Args:
@@ -136,11 +135,11 @@ async def update_user_profile(body: UserSchema, db: AsyncSession = Depends(get_d
 
 
 @router.post("/ban_user/{username}", status_code=status.HTTP_200_OK, response_model=UserResponse)
-async def request_email(username: str = Path(),
-                        current_user: User = Depends(auth_service.get_current_user),
-                        db: AsyncSession = Depends(get_db)):
+async def ban_user(username: str = Path(),
+                   current_user: User = Depends(auth_service.get_current_user),
+                   db: AsyncSession = Depends(get_db)):
     """
-    The request_email function is used to ban a user.
+    The ban_user function is used to ban a user.
         The function takes in the username of the user that needs to be banned and returns a boolean value indicating if
         the operation was successful or not.
 
@@ -151,5 +150,59 @@ async def request_email(username: str = Path(),
     """
     if current_user.user_type_id == 3:
         banned_user = await repository_users.ban_user(username, db)
+        if banned_user is None:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=messages.USER_NOT_FOUND)
         return banned_user
+    raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Forbidden")
+
+
+@router.post("/unban_user/{username}", status_code=status.HTTP_200_OK, response_model=UserResponse)
+async def unban_user(username: str = Path(),
+                     current_user: User = Depends(auth_service.get_current_user),
+                     db: AsyncSession = Depends(get_db)):
+    """
+    The unban_user function is used to unban a user.
+        The function takes in the username of the user that needs to be unbanned, and returns a message confirming that
+        the user has been unbanned.
+
+    :param username: str: Get the username of the user that is to be banned
+    :param current_user: User: Get the current user
+    :param db: AsyncSession: Get the database session
+    :return: The unbanned user object
+    :doc-author: Trelent
+    """
+    if current_user.user_type_id == 3:
+        unbanned_user = await repository_users.unban_user(username, db)
+        if unbanned_user is None:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=messages.USER_NOT_FOUND)
+        return unbanned_user
+    raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Forbidden")
+
+
+@router.post("/assign_role/{username}", status_code=status.HTTP_200_OK, response_model=UserRight)
+async def assign_role(role_type: str,
+                      username: str = Path(),
+                      current_user: User = Depends(auth_service.get_current_user),
+                      db: AsyncSession = Depends(get_db)):
+
+    """
+    The assign_role function is used to assign a role to a user.
+        The function takes in the following parameters:
+            - role_type: A string representing the type of role that will be assigned.
+                This can either be &quot;User&quot;, &quot;Moderator&quot; or &quot;Admin&quot;. If any other value is passed, an error will be raised.
+
+    :param role_type: str: Specify the role type to be assigned
+    :param username: str: Get the username of the user to be deleted
+    :param current_user: User: Get the current user's information
+    :param db: AsyncSession: Get the database session
+    :return: A user object
+    :doc-author: Trelent
+    """
+    if role_type not in ("User", "Moderator", "Admin"):
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=messages.INVALID_ROLE_TYPE)
+    if current_user.user_type_id == 3:
+        user = await repository_users.assign_role(username, role_type, db)
+        if user is None:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=messages.USER_NOT_FOUND)
+        return user
     raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Forbidden")

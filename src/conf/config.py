@@ -21,5 +21,7 @@ class Settings(BaseSettings):
     APP_ENV: str = "dev"
     ADMIN_PASSWORD: str = "password"
 
+    model_config = ConfigDict(extra='ignore', env_file=".env", env_file_encoding="utf-8")  # noqa
+
 
 settings = Settings()
