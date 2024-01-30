@@ -22,13 +22,12 @@ class CommentDeleteModel(BaseModel):
     comment_id: uuid.UUID
 
 
-class CommentResponse(BaseModel):
-    id: uuid.UUID
+class CommentResponseAll(BaseModel):
+    id: Optional[uuid.UUID]
     content: str
     created_at: datetime
     updated_at: datetime
     user: UserResponse
-    post: PostResponse
 
 
 class CommentResponse(BaseModel):
@@ -40,10 +39,3 @@ class CommentResponse(BaseModel):
     post: PostResponse
 
     model_config = ConfigDict(from_attributes=True)
-
-
-# user@example.com
-# string1
-#
-# admin@admin.com
-# admin123

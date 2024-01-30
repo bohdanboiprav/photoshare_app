@@ -1,3 +1,4 @@
+from typing import List
 from fastapi import APIRouter, HTTPException, Depends, status, Query, Path
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.database.db import get_db
@@ -7,6 +8,17 @@ from src.repository import comments
 from src.services.auth import auth_service
 
 router = APIRouter(prefix="/comments", tags=["comments"])
+
+
+@router.get("/{post_id}", status_code=200)
+async def get_comments(post_id: int,
+                       current_user: User = Depends(auth_service.get_current_user),
+                       db: AsyncSession = Depends(get_db)):
+    """
+    Get all comments for a specific post by post_id.
+    """
+    comments_list = await comments.get_comments_by_post_id(post_id, current_user, db)
+    return comments_list
 
 
 @router.post("/", response_model=CommentResponse, status_code=status.HTTP_201_CREATED)
