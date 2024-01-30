@@ -1,12 +1,27 @@
-from select import select
-
+from typing import List
 from fastapi import HTTPException
-
+from sqlalchemy import select
 from sqlalchemy.orm import selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
-from src.schemas.comment import CreateCommentModel, CommentUpdateModel, CommentDeleteModel
-from src.entity.models import User, Comment, CommentToPost
+from src.schemas.comment import CreateCommentModel, CommentUpdateModel, CommentDeleteModel, CommentResponse, \
+    CommentResponseAll
+from src.entity.models import User, Comment, CommentToPost, Post
 from src.conf import messages
+from src.schemas.user import UserResponse
+
+
+async def get_comments_by_post_id(post_id: int, current_user: User, db: AsyncSession) -> List[CommentResponse]:
+    find_type_user = await db.get(User, current_user.id)
+    query = select(Comment).filter(Comment.post_id == post_id)
+    comments_result = await db.execute(query)
+    comments_list = comments_result.unique().scalars().all()
+    comment_responses = [CommentResponseAll(id=comment.id, content=comment.content, created_at=comment.created_at,
+                                            updated_at=comment.updated_at,
+                                            user=UserResponse(id=find_type_user.id, username=find_type_user.username,
+                                                              email=find_type_user.email, avatar=find_type_user.avatar))
+                         for comment in comments_list]
+
+    return comment_responses
 
 
 async def create_comment(body: CreateCommentModel, current_user: User, db: AsyncSession):
@@ -76,3 +91,4 @@ async def delete_comment(body: CommentDeleteModel, user: User, db: AsyncSession)
         raise HTTPException(status_code=404, detail=messages.COMMENT_NOT_FOUND)
     await db.delete(comment)
     await db.commit()
+    return f"Comment ID# {body.comment_id} was deleted"

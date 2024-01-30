@@ -13,13 +13,15 @@ class Settings(BaseSettings):
     MAIL_SERVER: str = "example.meta.ua"
     MAIL_USE_SSL: bool = True
     REDIS_HOST: str = "localhost"
-    REDIS_PORT: int = 23131
+    REDIS_PORT: int = 6379
     REDIS_PASSWORD: str | None = None
     CLOUDINARY_NAME: str = "admin"
     CLOUDINARY_API_KEY: str = "a1221d111d1"
     CLOUDINARY_API_SECRET: str = "secret"
     APP_ENV: str = "dev"
     ADMIN_PASSWORD: str = "password"
+
+    model_config = ConfigDict(extra='ignore', env_file=".env", env_file_encoding="utf-8") # noqa
 
 
 settings = Settings()
